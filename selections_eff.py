@@ -35,7 +35,7 @@ def load_data(input_list):
 	datasets = []
 	j = 1
 	for entry in input_list:
-		print(j, "/",len(input_list), end='\r')
+		#print(j, "/",len(input_list), end='\r')
 		j=j+1
 		files = subprocess.check_output("find %s -type f -name '*root'" % entry, shell=True)
 		for f in files.splitlines():
