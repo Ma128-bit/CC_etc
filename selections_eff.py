@@ -13,14 +13,20 @@ import random
 import ROOT
 from ROOT import *
 
-def load_histo(obj_name, file_name):
+histonames_CC= ["InitialPlots/hEvtCount", "PlotsAfterTrigger/hEvtCount", "PlotsAfterOnePFCand/hEvtCount", "PlotsAfterLooseMuon/hEvtCount", "PlotsAfterDiMuonCand/hEvtCount", "PlotsAfter2Mu1Track/hEvtCount", "PlotsAfterPhiPiCandSel/hEvtCount"]
+
+def load_histo(file_name):
 	"""Load ROOT data and turn tree into a pd dataframe"""
 	print("Loading data from", file_name)
 	f = uproot.open(file_name)
-	obj = f[obj_name]
-	num_entries = obj.values()
-	num_entries = sum(num_entries)
-	return num_entries
+	sum_out = []
+	for k in len(histonames_CC):
+		obj = f[histonames_CC[k]]
+		num_entries = obj.values()
+		num_entries = sum(num_entries)
+		sum_out.append(num_entries)
+	df = pd.DataFrame(sum_out, columns=histonames_CC)
+	return df
 
         
 def load_data(obj_name, input_list):
@@ -34,8 +40,8 @@ def load_data(obj_name, input_list):
 		for f in files.splitlines():
 			datasets.append(load_histo(obj_name, f.decode()))
 	print("Done!")
-	sum_ = sum(datasets)
-	return sum_
+	df_all = pd.concat(datasets, ignore_index=True)
+	return df_all
 
 if __name__ == "__main__":
 	data_path = "/lustre/cms/store/user/mbuonsan/"
@@ -105,7 +111,6 @@ if __name__ == "__main__":
 	
 	files_Run2022C = [data_path + i for i in files_2022C]
 
-	histonames_CC= ["InitialPlots/hEvtCount", "PlotsAfterTrigger/hEvtCount", "PlotsAfterOnePFCand/hEvtCount", "PlotsAfterLooseMuon/hEvtCount", "PlotsAfterDiMuonCand/hEvtCount", "PlotsAfter2Mu1Track/hEvtCount", "PlotsAfterPhiPiCandSel/hEvtCount"]
 
 	n = load_data(histonames_CC[0], files_Run2022C)
 
