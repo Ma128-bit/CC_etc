@@ -9,6 +9,7 @@ import uproot
 
 histoname= "CutEff_NEvents"
 cut_names = ["BeforeCuts","L1_fired","HLT_fired","MuonID","DiMu_mass","TriMu_mass","mu1_TrMatch","mu12_TrMatch","mu123_TrMatch"]
+data = False
 
 def load_histo(file_name):
 	"""Load ROOT data and turn tree into a pd dataframe"""
@@ -47,26 +48,34 @@ def make_sum(print_lable, files, csv = False): #NOT USED
 	return Run_sum
 
 if __name__ == "__main__":
-	data_path = "/lustrehome/mbuonsante/Tau_3mu/CMSSW_12_4_11_patch3/src/Analysis/JobAdd_perEra/"
+	data_path = "/lustrehome/mbuonsante/Tau_3mu/CMSSW_12_4_11_patch3/src/Analysis/"
 
 	files_2022C = [
-		"Era_C_control.root"
+		"JobAdd_perEra/Era_C_control.root"
 	]
 
 	files_2022D = [
-		"Era_D_control.root"
+		"JobAdd_perEra/Era_D_control.root"
 	]
 
 	files_2022E = [
-		"Era_E_control.root"
+		"JobAdd_perEra/Era_E_control.root"
 	]
 
 	files_2022F = [
-		"Era_F_control.root"
+		"JobAdd_perEra/Era_F_control.root"
 	]
 
 	files_2022G = [
-		"Era_G_control.root"
+		"JobAdd_perEra/Era_G_control.root"
+	]
+
+	files_2022_MC_pre = [
+		"DsPhiPi_preE_tau3mu_ReReco/AnalysedTree_MC_DsPhiPi_preE_tau3mu_merged_ReReco.root"
+	]
+
+	files_2022_MC_post = [
+		"DsPhiPi_postE_tau3mu_ReReco/AnalysedTree_MC_DsPhiPi_postE_tau3mu_merged_ReReco.root"
 	]
 	
 	files_Run2022C = [data_path + i for i in files_2022C]
@@ -75,18 +84,32 @@ if __name__ == "__main__":
 	files_Run2022F = [data_path + i for i in files_2022F]
 	files_Run2022G = [data_path + i for i in files_2022G]
 
-	R22C_sum = load_histo(files_Run2022C[0])
-	R22D_sum = load_histo(files_Run2022D[0])
-	R22E_sum = load_histo(files_Run2022E[0])
-	R22F_sum = load_histo(files_Run2022F[0])
-	R22G_sum = load_histo(files_Run2022G[0])
+	files_Run2022_MC_pre = [data_path + i for i in files_2022_MC_pre]
+	files_Run2022_MC_post = [data_path + i for i in files_2022_MC_post]
 
-	list = [R22C_sum, R22D_sum, R22E_sum, R22F_sum, R22G_sum]
-	df_out = pd.DataFrame(list, columns=cut_names)
-	df_out['Index'] = ["Run_22C", "Run_22D", "Run_22E", "Run_22F", "Run_22G"]
-	column_order = ['Index'] + [col for col in df_out if col != 'Index']
-	df_out = df_out[column_order]
-	df_out.to_csv('Post_analysis.csv', index=False)
+	if data == True:
+		R22C_sum = load_histo(files_Run2022C[0])
+		R22D_sum = load_histo(files_Run2022D[0])
+		R22E_sum = load_histo(files_Run2022E[0])
+		R22F_sum = load_histo(files_Run2022F[0])
+		R22G_sum = load_histo(files_Run2022G[0])
+
+		list = [R22C_sum, R22D_sum, R22E_sum, R22F_sum, R22G_sum]
+		df_out = pd.DataFrame(list, columns=cut_names)
+		df_out['Index'] = ["Run_22C", "Run_22D", "Run_22E", "Run_22F", "Run_22G"]
+		column_order = ['Index'] + [col for col in df_out if col != 'Index']
+		df_out = df_out[column_order]
+		df_out.to_csv('Post_analysis_Data.csv', index=False)
+	else:
+		R22MC_pre_sum = load_histo(files_Run2022_MC_pre[0])
+		R22MC_post_sum = load_histo(files_Run2022_MC_post[0])
+		list = [R22MC_pre_sum, R22MC_post_sum]
+		df_out = pd.DataFrame(list, columns=cut_names)
+		df_out['Index'] = ["MC_2022_preE", "MC_2022_postE"]
+		column_order = ['Index'] + [col for col in df_out if col != 'Index']
+		df_out = df_out[column_order]
+		df_out.to_csv('Post_analysis_MC.csv', index=False)
+		
 	
 
 
