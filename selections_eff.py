@@ -19,18 +19,17 @@ def load_histo(obj_name, file_name):
 	f = uproot.open(file_name)
 	obj = f[obj_name]
 	num_entries = obj.values()
-	print(num_entries)
 	num_entries = sum(num_entries)
-	print(num_entries)
-	#num_entries = obj.num_entries
-	#return num_entries
-	return 0
+	return num_entries
 
         
 def load_data(obj_name, input_list):
 	"""Load and merge ROOT trees with MVA data into a single dataset."""
-	datasets = []        
+	datasets = []
+	j = 1
 	for entry in input_list:
+		print(j, "/",len(input_list), end='\r')
+		j=j+1
 		files = subprocess.check_output("find %s -type f -name '*root'" % entry, shell=True)
 		for f in files.splitlines():
 			datasets.append(load_histo(obj_name, f.decode()))
