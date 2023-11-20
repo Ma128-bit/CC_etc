@@ -29,7 +29,7 @@ def load_histo(file_name):
 	return df
 
         
-def load_data(obj_name, input_list):
+def load_data(input_list):
 	"""Load and merge ROOT trees with MVA data into a single dataset."""
 	datasets = []
 	j = 1
@@ -112,7 +112,7 @@ if __name__ == "__main__":
 	files_Run2022C = [data_path + i for i in files_2022C]
 
 
-	n = load_data(histonames_CC[0], files_Run2022C)
+	n = load_data(files_Run2022C)
 
 	print(n)
 
