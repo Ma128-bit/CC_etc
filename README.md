@@ -17,8 +17,8 @@ scram b -j20
   * Out: .csv file with number of events per era and per cut
   * Description: It is used to obtain the selection efficiencies starting from data after Ntuplizer
 
-* `selections_eff.py`
-  * Run as: `python3 selections_eff.py`
+* `selections_eff_after_analysis.py`
+  * Run as: `selections_eff_after_analysis.py`
   * Out: .csv file with number of events per era and per cut
   * Description: It is used to obtain the selection efficiencies starting from data after Analysis 
 
