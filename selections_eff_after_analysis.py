@@ -47,7 +47,7 @@ def make_sum(print_lable, files, csv = False): #NOT USED
 	return Run_sum
 
 if __name__ == "__main__":
-	data_path = "/lustrehome/mbuonsante/Tau_3mu/CMSSW_12_4_11_patch3/src/Analysis/JobAdd_perEra"
+	data_path = "/lustrehome/mbuonsante/Tau_3mu/CMSSW_12_4_11_patch3/src/Analysis/JobAdd_perEra/"
 
 	files_2022C = [
 		"Era_C_control.root"
