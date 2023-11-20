@@ -3,15 +3,6 @@ from datetime import datetime
 import numpy as np
 import pandas as pd
 import uproot
-import pickle
-import xgboost as xgb
-from sklearn.metrics import roc_curve, roc_auc_score
-from pprint import pprint
-import matplotlib as mpl
-import matplotlib.pyplot as plt
-import random
-import ROOT
-from ROOT import *
 
 histonames_CC= ["InitialPlots/hEvtCount", "PlotsAfterTrigger/hEvtCount", "PlotsAfterOnePFCand/hEvtCount", "PlotsAfterLooseMuon/hEvtCount", "PlotsAfterDiMuonCand/hEvtCount", "PlotsAfter2Mu1Track/hEvtCount", "PlotsAfterPhiPiCandSel/hEvtCount"]
 
