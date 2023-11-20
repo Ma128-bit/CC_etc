@@ -117,23 +117,12 @@ if __name__ == "__main__":
 		"ParkingDoubleMuonLowMass7/SkimDsPhiPi_2022eraG_stream7_Mini_v3/230507_111424/0000"
 	]
 
-	files_2023C_v4 = [
-		"ParkingDoubleMuonLowMass0/SkimDsPhiPi_2023eraC-v4_stream5_Mini_v3/230817_130607/0000",
-		"ParkingDoubleMuonLowMass1/SkimDsPhiPi_2023eraC-v4_stream7_Mini_v3/230817_130707/0000",
-		"ParkingDoubleMuonLowMass2/SkimDsPhiPi_2023eraC-v4_stream2_Mini_v3/230817_130434/0000",
-		"ParkingDoubleMuonLowMass3/SkimDsPhiPi_2023eraC-v4_stream3_Mini_v3/230817_130505/0000",
-		"ParkingDoubleMuonLowMass4/SkimDsPhiPi_2023eraC-v4_stream4_Mini_v3/230817_130535/0000",
-		"ParkingDoubleMuonLowMass5/SkimDsPhiPi_2023eraC-v4_stream0_Mini_v3/230817_130336/0000",
-		"ParkingDoubleMuonLowMass6/SkimDsPhiPi_2023eraC-v4_stream1_Mini_v3/230817_130406/0000",
-		"ParkingDoubleMuonLowMass7/SkimDsPhiPi_2023eraC-v4_stream6_Mini_v3/230817_130639/0000"
-	]
 	
 	files_Run2022C = [data_path + i for i in files_2022C]
 	files_Run2022D = [data_path + i for i in files_2022D]
 	files_Run2022E = [data_path + i for i in files_2022E]
 	files_Run2022F = [data_path + i for i in files_2022F]
 	files_Run2022G = [data_path + i for i in files_2022G]
-	files_Run2023C_v4 = [data_path + i for i in files_2023C_v4]
 
 	files_2022_MC = [
 		"DstoPhiPi_Phito2Mu_MuFilter_TuneCP5_13p6TeV_pythia8-evtgen/SkimPhiPi_MCRun3_Mini_postE/230507_103348/0000",
