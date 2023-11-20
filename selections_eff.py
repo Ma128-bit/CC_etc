@@ -20,7 +20,8 @@ def load_histo(obj_name, file_name):
 	obj = f[obj_name]
 	num_entries = obj.values()
 	print(num_entries)
-	print(len(num_entries[0]))
+	num_entries = sum(num_entries)
+	print(num_entries)
 	#num_entries = obj.num_entries
 	#return num_entries
 	return 0
