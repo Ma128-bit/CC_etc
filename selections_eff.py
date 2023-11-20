@@ -122,11 +122,54 @@ if __name__ == "__main__":
 	]
 	
 	files_Run2022C = [data_path + i for i in files_2022C]
-
-	n = load_data(files_Run2022C)
-
+	
+	R22C = load_data(files_Run2022C)
+	#R22C.to_csv('Sel_Eff_Out/Run_22C.csv', index=False)
+	R22C_sum = []
 	for k in histonames_CC:
-		print(k, ": ", n[k].sum(), end = '  ')
+		R22C_sum.append(R22C[k].sum())
+		print(R22C_sum[k])
+	
+	R22D = load_data(files_Run2022D)
+	#R22D.to_csv('Sel_Eff_Out/Run_22D.csv', index=False)
+	R22D_sum = []
+	for k in histonames_CC:
+		R22D_sum.append(R22D[k].sum())
+		print(R22D_sum[k])
+
+	R22E = load_data(files_Run2022E)
+	#R22E.to_csv('Sel_Eff_Out/Run_22E.csv', index=False)
+	R22E_sum = []
+	for k in histonames_CC:
+		R22E_sum.append(R22E[k].sum())
+		print(R22E_sum[k])
+		
+	R22F = load_data(files_Run2022D)
+	#R22F.to_csv('Sel_Eff_Out/Run_22F.csv', index=False)
+	R22F_sum = []
+	for k in histonames_CC:
+		R22F_sum.append(R22F[k].sum())
+		print(R22F_sum[k])
+		
+	R22G = load_data(files_Run2022E)
+	#R22G.to_csv('Sel_Eff_Out/Run_22G.csv', index=False)
+	R22G_sum = []
+	for k in histonames_CC:
+		R22G_sum.append(R22G[k].sum())
+		print(R22G_sum[k])
+	
+	R23C_v4 = load_data(files_2023C_v4)
+	#R23C_v4.to_csv('Sel_Eff_Out/Run_23C_v4.csv', index=False)
+	R23C_v4_sum = []
+	for k in histonames_CC:
+		R23C_v4_sum.append(R23C_v4[k].sum())
+		print(R23C_v4_sum[k])
+
+	list = [R22C_sum, R22D_sum, R22E_sum, R22F_sum, R22G_sum, R23C_v4_sum]
+	df_out = pd.DataFrame(list, columns=histonames_CC)
+	df_out['Index'] = ["Run_22C", "Run_22D", "Run_22E", "Run_22F", "Run_22G", "Run_23C_v4"]
+	df_out.to_csv('Finla.csv', index=False)
+	
 
 
 
