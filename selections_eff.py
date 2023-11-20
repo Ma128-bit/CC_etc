@@ -38,6 +38,16 @@ def load_data(print_lable, input_list):
 	df_all = pd.concat(datasets, ignore_index=True)
 	return df_all
 
+def make_sum(print_lable, files, csv = False)
+	Run = load_data(print_lable, files)
+	if csv == True:
+		Run.to_csv(print_lable + ".csv", index=False)
+	Run_sum = []
+	for k in histonames_CC:
+		Run_sum.append(Run[k].sum())
+	print(Run_sum)
+	return Run_sum
+
 if __name__ == "__main__":
 	data_path = "/lustre/cms/store/user/mbuonsan/"
 
@@ -116,48 +126,18 @@ if __name__ == "__main__":
 	]
 	
 	files_Run2022C = [data_path + i for i in files_2022C]
-	
-	R22C = load_data("Run_22C", files_Run2022C)
-	#R22C.to_csv('Sel_Eff_Out/Run_22C.csv', index=False)
-	R22C_sum = []
-	for k in histonames_CC:
-		R22C_sum.append(R22C[k].sum())
-		print(R22C_sum[k])
-	
-	R22D = load_data("Run_22D", files_Run2022D)
-	#R22D.to_csv('Sel_Eff_Out/Run_22D.csv', index=False)
-	R22D_sum = []
-	for k in histonames_CC:
-		R22D_sum.append(R22D[k].sum())
-		print(R22D_sum[k])
+	files_Run2022D = [data_path + i for i in files_2022D]
+	files_Run2022E = [data_path + i for i in files_2022E]
+	files_Run2022F = [data_path + i for i in files_2022F]
+	files_Run2022G = [data_path + i for i in files_2022G]
+	files_Run2023C_v4 = [data_path + i for i in files_2023C_v4]
 
-	R22E = load_data("Run_22E", files_Run2022E)
-	#R22E.to_csv('Sel_Eff_Out/Run_22E.csv', index=False)
-	R22E_sum = []
-	for k in histonames_CC:
-		R22E_sum.append(R22E[k].sum())
-		print(R22E_sum[k])
-		
-	R22F = load_data("Run_22F", files_Run2022D)
-	#R22F.to_csv('Sel_Eff_Out/Run_22F.csv', index=False)
-	R22F_sum = []
-	for k in histonames_CC:
-		R22F_sum.append(R22F[k].sum())
-		print(R22F_sum[k])
-		
-	R22G = load_data("Run_22G", files_Run2022E)
-	#R22G.to_csv('Sel_Eff_Out/Run_22G.csv', index=False)
-	R22G_sum = []
-	for k in histonames_CC:
-		R22G_sum.append(R22G[k].sum())
-		print(R22G_sum[k])
-	
-	R23C_v4 = load_data("Run_23C_v4", files_2023C_v4)
-	#R23C_v4.to_csv('Sel_Eff_Out/Run_23C_v4.csv', index=False)
-	R23C_v4_sum = []
-	for k in histonames_CC:
-		R23C_v4_sum.append(R23C_v4[k].sum())
-		print(R23C_v4_sum[k])
+	R22C_sum = make_sum("Run_22C", files_Run2022C, csv = False)
+	R22D_sum = make_sum("Run_22D", files_Run2022D, csv = False)
+	R22E_sum = make_sum("Run_22E", files_Run2022E, csv = False)
+	R22F_sum = make_sum("Run_22F", files_Run2022F, csv = False)
+	R22G_sum = make_sum("Run_22F", files_Run2022G, csv = False)
+	R23C_v4_sum = make_sum("Run_23C_v4", files_Run2023C_v4, csv = False)
 
 	list = [R22C_sum, R22D_sum, R22E_sum, R22F_sum, R22G_sum, R23C_v4_sum]
 	df_out = pd.DataFrame(list, columns=histonames_CC)
