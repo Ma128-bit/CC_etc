@@ -10,3 +10,9 @@ cmsenv
 git clone https://github.com/Ma128-bit/CC_etc/ .
 scram b -j20
 ```
+
+## Description of scripts
+* `selections_eff.py`
+  * Run as: `python3 selections_eff.py`
+  * Out: .csv file with number ov events per era and per cut
+  * Description: It is used to obtain the selection efficiencies starting from data after Ntuplizer
