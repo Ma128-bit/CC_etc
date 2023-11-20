@@ -26,9 +26,9 @@ def load_data(obj_name, input_list):
     	"""Load and merge ROOT trees with MVA data into a single dataset."""
     	datasets = []        
     	for entry in input_list:
-     	   files = subprocess.check_output("find %s -type f -name '*root'" % entry, shell=True)
-     	   for f in files.splitlines():
-		   datasets.append(self.load_histo(obj_name, f.decode()))
+		files = subprocess.check_output("find %s -type f -name '*root'" % entry, shell=True)
+		for f in files.splitlines():
+			datasets.append(self.load_histo(obj_name, f.decode()))
    	print("Done!")
 	sum = sum(datasets)
 	return sum
