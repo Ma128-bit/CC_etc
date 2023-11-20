@@ -1,6 +1,9 @@
 import sys, os, subprocess, json
+import warnings
 from datetime import datetime
+warnings.filterwarnings("ignore", category=UserWarning, module="numpy")
 import numpy as np
+warnings.filterwarnings("default", category=UserWarning, module="numpy")
 import pandas as pd
 import uproot
 
@@ -26,7 +29,7 @@ def load_data(print_lable, input_list):
 	datasets = []
 	j = 1
 	for entry in input_list:
-		print(print_lable, "   ", j, "/",len(input_list), end='\r')
+		print(" ", print_lable, "   ", j, "/",len(input_list), end='\r')
 		j=j+1
 		files = subprocess.check_output("find %s -type f -name '*root'" % entry, shell=True)
 		for f in files.splitlines():
