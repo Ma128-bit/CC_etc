@@ -30,12 +30,12 @@ def load_histo(file_name):
 	return df
 
         
-def load_data(input_list):
+def load_data(print_lable, input_list):
 	"""Load and merge ROOT trees with MVA data into a single dataset."""
 	datasets = []
 	j = 1
 	for entry in input_list:
-		print(j, "/",len(input_list), end='\r')
+		print(print_lable, "   ", j, "/",len(input_list), end='\r')
 		j=j+1
 		files = subprocess.check_output("find %s -type f -name '*root'" % entry, shell=True)
 		for f in files.splitlines():
@@ -123,42 +123,42 @@ if __name__ == "__main__":
 	
 	files_Run2022C = [data_path + i for i in files_2022C]
 	
-	R22C = load_data(files_Run2022C)
+	R22C = load_data("Run_22C", files_Run2022C)
 	#R22C.to_csv('Sel_Eff_Out/Run_22C.csv', index=False)
 	R22C_sum = []
 	for k in histonames_CC:
 		R22C_sum.append(R22C[k].sum())
 		print(R22C_sum[k])
 	
-	R22D = load_data(files_Run2022D)
+	R22D = load_data("Run_22D", files_Run2022D)
 	#R22D.to_csv('Sel_Eff_Out/Run_22D.csv', index=False)
 	R22D_sum = []
 	for k in histonames_CC:
 		R22D_sum.append(R22D[k].sum())
 		print(R22D_sum[k])
 
-	R22E = load_data(files_Run2022E)
+	R22E = load_data("Run_22E", files_Run2022E)
 	#R22E.to_csv('Sel_Eff_Out/Run_22E.csv', index=False)
 	R22E_sum = []
 	for k in histonames_CC:
 		R22E_sum.append(R22E[k].sum())
 		print(R22E_sum[k])
 		
-	R22F = load_data(files_Run2022D)
+	R22F = load_data("Run_22F", files_Run2022D)
 	#R22F.to_csv('Sel_Eff_Out/Run_22F.csv', index=False)
 	R22F_sum = []
 	for k in histonames_CC:
 		R22F_sum.append(R22F[k].sum())
 		print(R22F_sum[k])
 		
-	R22G = load_data(files_Run2022E)
+	R22G = load_data("Run_22G", files_Run2022E)
 	#R22G.to_csv('Sel_Eff_Out/Run_22G.csv', index=False)
 	R22G_sum = []
 	for k in histonames_CC:
 		R22G_sum.append(R22G[k].sum())
 		print(R22G_sum[k])
 	
-	R23C_v4 = load_data(files_2023C_v4)
+	R23C_v4 = load_data("Run_23C_v4", files_2023C_v4)
 	#R23C_v4.to_csv('Sel_Eff_Out/Run_23C_v4.csv', index=False)
 	R23C_v4_sum = []
 	for k in histonames_CC:
