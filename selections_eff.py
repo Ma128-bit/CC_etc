@@ -8,9 +8,12 @@ import pandas as pd
 import uproot
 
 histonames_CC= ["InitialPlots/hEvtCount", "PlotsAfterTrigger/hEvtCount", "PlotsAfterOnePFCand/hEvtCount", "PlotsAfterLooseMuon/hEvtCount", "PlotsAfterDiMuonCand/hEvtCount", "PlotsAfter2Mu1Track/hEvtCount", "PlotsAfterPhiPiCandSel/hEvtCount"]
-C_names = [s.replace("/hEvtCount", "") for s in histonames_CC]
 data = False
+is_Tau3mu = True
+if is_Tau3mu == True:
+	histonames_CC= ["InitialPlots/hEvtCount", "PlotsAfterTrigger/hEvtCount", "PlotsAfterLooseMuon/hEvtCount", "PlotsAfter3Muons/hEvtCount", "PlotsAfterTauCand/hEvtCount"]
 
+C_names = [s.replace("/hEvtCount", "") for s in histonames_CC]
 def load_histo(file_name):
 	"""Load ROOT data and turn tree into a pd dataframe"""
 	#print("Loading data from", file_name)
@@ -130,6 +133,17 @@ if __name__ == "__main__":
 	]
 
 	files_Run2022_MC = [data_path + i for i in files_2022_MC]
+
+	files_2022_MC_tau3mu = [
+		"DstoTau_Tauto3Mu_3MuFilter_TuneCP5_13p6TeV_pythia8-evtgen/SkimTau3mu_MCRun3_Ds_new_Mini_postE/230504_170127/0000",
+		"ButoTau_Tauto3Mu_3MuFilter_TuneCP5_13p6TeV_pythia8-evtgen/SkimTau3mu_MCRun3_Bu_Mini_postE/230504_170114/0000",
+		"BdtoTau_Tauto3Mu_3MuFilter_TuneCP5_13p6TeV_pythia8-evtgen/SkimTau3mu_MCRun3_Bd_Mini_postE/230504_170014/0000",
+		"DstoTau_Tauto3Mu_3MuFilter_TuneCP5_13p6TeV_pythia8-evtgen/SkimTau3mu_MCRun3_Ds_new_Mini_preE/230504_170059/0000",
+		"ButoTau_Tauto3Mu_3MuFilter_TuneCP5_13p6TeV_pythia8-evtgen/SkimTau3mu_MCRun3_Bu_Mini_preE/230504_170043/0000",
+		"BdtoTau_Tauto3Mu_3MuFilter_TuneCP5_13p6TeV_pythia8-evtgen/SkimTau3mu_MCRun3_Bd_Mini_preE/230504_170029/0000",
+	]
+
+	files_Run2022_MC_tau3mu = [data_path + i for i in files_2022_MC_tau3mu]
 	
 	
 	if data == True:
@@ -145,13 +159,19 @@ if __name__ == "__main__":
 		df_out['Index'] = ["Run_22C", "Run_22D", "Run_22E", "Run_22F", "Run_22G"]
 		column_order = ['Index'] + [col for col in df_out if col != 'Index']
 		df_out = df_out[column_order]
-		df_out.to_csv('Post_Ntuple_Data.csv', index=False)
+		df_out.to_csv('Post_Ntuple_Data_COntrol.csv', index=False)
 	else:
-		Run_2022_MC = make_sum("MC_2022", files_Run2022_MC, csv = False)
-		list = [Run_2022_MC]
-		print("********")
-		df_out = pd.DataFrame(list, columns=C_names)
-		df_out.to_csv('Post_Ntuple_MC.csv', index=False)
+		if is_Tau3mu == False:
+			Run_2022_MC = make_sum("MC_2022", files_Run2022_MC, csv = False)
+			list = [Run_2022_MC]
+			df_out = pd.DataFrame(list, columns=C_names)
+			df_out.to_csv('Post_Ntuple_MC_Control.csv', index=False)
+		else:
+			Run_2022_MC = make_sum("MC_2022", files_2022_MC_tau3mu, csv = False)
+			list = [Run_2022_MC]
+			df_out = pd.DataFrame(list, columns=C_names)
+			df_out.to_csv('Post_Ntuple_MC_tau3mu.csv', index=False)
+
 
 
 
