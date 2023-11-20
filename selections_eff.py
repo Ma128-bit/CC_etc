@@ -123,10 +123,11 @@ if __name__ == "__main__":
 	
 	files_Run2022C = [data_path + i for i in files_2022C]
 
-
 	n = load_data(files_Run2022C)
 
-	print(n)
+	for k in histonames_CC:
+		print(k, ": ", n[k].sum(), end = '  ')
+
 
 
 
