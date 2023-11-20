@@ -18,10 +18,12 @@ def load_histo(obj_name, file_name):
 	print("Loading data from", file_name)
 	f = uproot.open(file_name)
 	obj = f[obj_name]
-	num_entries = len(obj.values())
+	num_entries = obj.values()
 	print(num_entries)
+	print(len(num_entries[0]))
 	#num_entries = obj.num_entries
-	return num_entries
+	#return num_entries
+	return 0
 
         
 def load_data(obj_name, input_list):
