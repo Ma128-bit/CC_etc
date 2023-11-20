@@ -36,7 +36,7 @@ def load_data(print_lable, input_list):
 			datasets.append(load_histo(f.decode()))
 		print(" ", print_lable, "   ", j, "/",len(input_list), end='\r')
 		j=j+1
-	print("Done!")
+	print("\nDone!")
 	df_all = pd.concat(datasets, ignore_index=True)
 	return df_all
 
