@@ -38,7 +38,7 @@ def load_data(input_list):
 		j=j+1
 		files = subprocess.check_output("find %s -type f -name '*root'" % entry, shell=True)
 		for f in files.splitlines():
-			datasets.append(load_histo(obj_name, f.decode()))
+			datasets.append(load_histo(f.decode()))
 	print("Done!")
 	df_all = pd.concat(datasets, ignore_index=True)
 	return df_all
