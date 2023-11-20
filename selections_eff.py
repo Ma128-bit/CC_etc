@@ -38,7 +38,7 @@ def load_data(print_lable, input_list):
 	df_all = pd.concat(datasets, ignore_index=True)
 	return df_all
 
-def make_sum(print_lable, files, csv = False)
+def make_sum(print_lable, files, csv == False)
 	Run = load_data(print_lable, files)
 	if csv == True:
 		Run.to_csv(print_lable + ".csv", index=False)
@@ -132,12 +132,12 @@ if __name__ == "__main__":
 	files_Run2022G = [data_path + i for i in files_2022G]
 	files_Run2023C_v4 = [data_path + i for i in files_2023C_v4]
 
-	R22C_sum = make_sum("Run_22C", files_Run2022C, csv = False)
-	R22D_sum = make_sum("Run_22D", files_Run2022D, csv = False)
-	R22E_sum = make_sum("Run_22E", files_Run2022E, csv = False)
-	R22F_sum = make_sum("Run_22F", files_Run2022F, csv = False)
-	R22G_sum = make_sum("Run_22F", files_Run2022G, csv = False)
-	R23C_v4_sum = make_sum("Run_23C_v4", files_Run2023C_v4, csv = False)
+	R22C_sum = make_sum("Run_22C", files_Run2022C, csv == False)
+	R22D_sum = make_sum("Run_22D", files_Run2022D, csv == False)
+	R22E_sum = make_sum("Run_22E", files_Run2022E, csv == False)
+	R22F_sum = make_sum("Run_22F", files_Run2022F, csv == False)
+	R22G_sum = make_sum("Run_22F", files_Run2022G, csv == False)
+	R23C_v4_sum = make_sum("Run_23C_v4", files_Run2023C_v4, csv == False)
 
 	list = [R22C_sum, R22D_sum, R22E_sum, R22F_sum, R22G_sum, R23C_v4_sum]
 	df_out = pd.DataFrame(list, columns=histonames_CC)
