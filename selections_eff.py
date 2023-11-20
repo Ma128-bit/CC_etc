@@ -20,12 +20,13 @@ def load_histo(file_name):
 	print("Loading data from", file_name)
 	f = uproot.open(file_name)
 	sum_out = []
+	list = [sum_out]
 	for k in range(len(histonames_CC)):
 		obj = f[histonames_CC[k]]
 		num_entries = obj.values()
 		num_entries = sum(num_entries)
 		sum_out.append(num_entries)
-	df = pd.DataFrame(sum_out, columns=histonames_CC)
+	df = pd.DataFrame(list, columns=histonames_CC)
 	return df
 
         
@@ -107,6 +108,17 @@ if __name__ == "__main__":
 		"ParkingDoubleMuonLowMass5/SkimDsPhiPi_2022eraG_stream5_Mini_v3/230507_111319/0000",
 		"ParkingDoubleMuonLowMass6/SkimDsPhiPi_2022eraG_stream6_Mini_v3/230507_111352/0000",
 		"ParkingDoubleMuonLowMass7/SkimDsPhiPi_2022eraG_stream7_Mini_v3/230507_111424/0000"
+	]
+
+	files_2023C-v4 = [
+		"ParkingDoubleMuonLowMass0/SkimDsPhiPi_2023eraC-v4_stream5_Mini_v3/230817_130607/0000",
+		"ParkingDoubleMuonLowMass1/SkimDsPhiPi_2023eraC-v4_stream7_Mini_v3/230817_130707/0000",
+		"ParkingDoubleMuonLowMass2/SkimDsPhiPi_2023eraC-v4_stream2_Mini_v3/230817_130434/0000",
+		"ParkingDoubleMuonLowMass3/SkimDsPhiPi_2023eraC-v4_stream3_Mini_v3/230817_130505/0000",
+		"ParkingDoubleMuonLowMass4/SkimDsPhiPi_2023eraC-v4_stream4_Mini_v3/230817_130535/0000",
+		"ParkingDoubleMuonLowMass5/SkimDsPhiPi_2023eraC-v4_stream0_Mini_v3/230817_130336/0000",
+		"ParkingDoubleMuonLowMass6/SkimDsPhiPi_2023eraC-v4_stream1_Mini_v3/230817_130406/0000",
+		"ParkingDoubleMuonLowMass7/SkimDsPhiPi_2023eraC-v4_stream6_Mini_v3/230817_130639/0000"
 	]
 	
 	files_Run2022C = [data_path + i for i in files_2022C]
