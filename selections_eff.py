@@ -9,6 +9,7 @@ import uproot
 
 histonames_CC= ["InitialPlots/hEvtCount", "PlotsAfterTrigger/hEvtCount", "PlotsAfterOnePFCand/hEvtCount", "PlotsAfterLooseMuon/hEvtCount", "PlotsAfterDiMuonCand/hEvtCount", "PlotsAfter2Mu1Track/hEvtCount", "PlotsAfterPhiPiCandSel/hEvtCount"]
 C_names = [s.replace("/hEvtCount", "") for s in histonames_CC]
+data = False
 
 def load_histo(file_name):
 	"""Load ROOT data and turn tree into a pd dataframe"""
@@ -52,7 +53,7 @@ def make_sum(print_lable, files, csv = False):
 
 if __name__ == "__main__":
 	data_path = "/lustre/cms/store/user/mbuonsan/"
-
+	
 	files_2022C = [
 		"ParkingDoubleMuonLowMass0/SkimDsPhiPi_2022eraC_stream0_Mini_v3/230507_105546/0000",
 		"ParkingDoubleMuonLowMass1/SkimDsPhiPi_2022eraC_stream1_Mini_v3/230507_105617/0000",
@@ -134,20 +135,33 @@ if __name__ == "__main__":
 	files_Run2022G = [data_path + i for i in files_2022G]
 	files_Run2023C_v4 = [data_path + i for i in files_2023C_v4]
 
-	R22C_sum = make_sum("Run_22C", files_Run2022C, csv = False)
-	R22D_sum = make_sum("Run_22D", files_Run2022D, csv = False)
-	R22E_sum = make_sum("Run_22E", files_Run2022E, csv = False)
-	R22F_sum = make_sum("Run_22F", files_Run2022F, csv = False)
-	R22G_sum = make_sum("Run_22G", files_Run2022G, csv = False)
-	R23C_v4_sum = make_sum("Run_23C_v4", files_Run2023C_v4, csv = False)
+	files_2022_MC = [
+		"DstoPhiPi_Phito2Mu_MuFilter_TuneCP5_13p6TeV_pythia8-evtgen/SkimPhiPi_MCRun3_Mini_postE/230507_103348/0000",
+		"DstoPhiPi_Phito2Mu_MuFilter_TuneCP5_13p6TeV_pythia8-evtgen/SkimPhiPi_MCRun3_Mini_preE/230507_103411/0000",
+	]
 
-	list = [R22C_sum, R22D_sum, R22E_sum, R22F_sum, R22G_sum, R23C_v4_sum]
-	df_out = pd.DataFrame(list, columns=C_names)
-	df_out['Index'] = ["Run_22C", "Run_22D", "Run_22E", "Run_22F", "Run_22G", "Run_23C_v4"]
-	column_order = ['Index'] + [col for col in df_out if col != 'Index']
-	df_out = df_out[column_order]
-	df_out.to_csv('Finla.csv', index=False)
+	files_Run2022_MC = [data_path + i for i in files_2022_MC]
 	
+	
+	if data == True:
+		R22C_sum = make_sum("Run_22C", files_Run2022C, csv = False)
+		R22D_sum = make_sum("Run_22D", files_Run2022D, csv = False)
+		R22E_sum = make_sum("Run_22E", files_Run2022E, csv = False)
+		R22F_sum = make_sum("Run_22F", files_Run2022F, csv = False)
+		R22G_sum = make_sum("Run_22G", files_Run2022G, csv = False)
+		#R23C_v4_sum = make_sum("Run_23C_v4", files_Run2023C_v4, csv = False)
+
+		list = [R22C_sum, R22D_sum, R22E_sum, R22F_sum, R22G_sum]
+		df_out = pd.DataFrame(list, columns=C_names)
+		df_out['Index'] = ["Run_22C", "Run_22D", "Run_22E", "Run_22F", "Run_22G"]
+		column_order = ['Index'] + [col for col in df_out if col != 'Index']
+		df_out = df_out[column_order]
+		df_out.to_csv('Post_Ntuple_Data.csv', index=False)
+	else:
+		Run_2022_MC = make_sum("MC_2022", files_Run2022_MC, csv = False)
+		list = [Run_2022_MC]
+		df_out = pd.DataFrame(list, columns=C_names)
+		df_out.to_csv('Post_Ntuple_MC.csv', index=False)
 
 
 
