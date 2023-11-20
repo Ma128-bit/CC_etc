@@ -167,7 +167,7 @@ if __name__ == "__main__":
 			df_out = pd.DataFrame(list, columns=C_names)
 			df_out.to_csv('Post_Ntuple_MC_Control.csv', index=False)
 		else:
-			Run_2022_MC = make_sum("MC_2022", files_2022_MC_tau3mu, csv = False)
+			Run_2022_MC = make_sum("MC_2022", files_Run2022_MC_tau3mu, csv = False)
 			list = [Run_2022_MC]
 			df_out = pd.DataFrame(list, columns=C_names)
 			df_out.to_csv('Post_Ntuple_MC_tau3mu.csv', index=False)
