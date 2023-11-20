@@ -84,6 +84,8 @@ if __name__ == "__main__":
 	list = [R22C_sum, R22D_sum, R22E_sum, R22F_sum, R22G_sum]
 	df_out = pd.DataFrame(list, columns=cut_names)
 	df_out['Index'] = ["Run_22C", "Run_22D", "Run_22E", "Run_22F", "Run_22G"]
+	column_order = ['Index'] + [col for col in df_out if col != 'Index']
+	df_out = df_out[column_order]
 	df_out.to_csv('Post_analysis.csv', index=False)
 	
 
