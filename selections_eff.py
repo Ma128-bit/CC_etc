@@ -17,7 +17,7 @@ histonames_CC= ["InitialPlots/hEvtCount", "PlotsAfterTrigger/hEvtCount", "PlotsA
 
 def load_histo(file_name):
 	"""Load ROOT data and turn tree into a pd dataframe"""
-	print("Loading data from", file_name)
+	#print("Loading data from", file_name)
 	f = uproot.open(file_name)
 	sum_out = []
 	list = [sum_out]
@@ -35,7 +35,7 @@ def load_data(input_list):
 	datasets = []
 	j = 1
 	for entry in input_list:
-		#print(j, "/",len(input_list), end='\r')
+		print(j, "/",len(input_list), end='\r')
 		j=j+1
 		files = subprocess.check_output("find %s -type f -name '*root'" % entry, shell=True)
 		for f in files.splitlines():
