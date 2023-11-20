@@ -20,7 +20,7 @@ def load_histo(file_name):
 	print("Loading data from", file_name)
 	f = uproot.open(file_name)
 	sum_out = []
-	for k in len(histonames_CC):
+	for k in range(len(histonames_CC)):
 		obj = f[histonames_CC[k]]
 		num_entries = obj.values()
 		num_entries = sum(num_entries)
