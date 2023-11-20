@@ -46,7 +46,7 @@ def make_sum(print_lable, files, csv = False):
 	if csv == True:
 		Run.to_csv(print_lable + ".csv", index=False)
 	Run_sum = []
-	for k in histonames_CC:
+	for k in C_names:
 		Run_sum.append(Run[k].sum())
 	print(Run_sum)
 	return Run_sum
