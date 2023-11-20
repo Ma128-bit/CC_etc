@@ -27,7 +27,6 @@ def load_histo(file_name):
 		num_entries = sum(num_entries)
 		sum_out.append(num_entries)
 	df = pd.DataFrame(list, columns=histonames_CC)
-	print(df)
 	return df
 
         
