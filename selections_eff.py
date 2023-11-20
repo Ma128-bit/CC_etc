@@ -29,12 +29,13 @@ def load_data(print_lable, input_list):
 	"""Load and merge ROOT trees with MVA data into a single dataset."""
 	datasets = []
 	j = 1
+	print(" ", print_lable, "   ", 0, "/",len(input_list), end='\r')
 	for entry in input_list:
-		print(" ", print_lable, "   ", j, "/",len(input_list), end='\r')
-		j=j+1
 		files = subprocess.check_output("find %s -type f -name '*root'" % entry, shell=True)
 		for f in files.splitlines():
 			datasets.append(load_histo(f.decode()))
+		print(" ", print_lable, "   ", j, "/",len(input_list), end='\r')
+		j=j+1
 	print("Done!")
 	df_all = pd.concat(datasets, ignore_index=True)
 	return df_all
