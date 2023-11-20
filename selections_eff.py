@@ -8,6 +8,7 @@ import pandas as pd
 import uproot
 
 histonames_CC= ["InitialPlots/hEvtCount", "PlotsAfterTrigger/hEvtCount", "PlotsAfterOnePFCand/hEvtCount", "PlotsAfterLooseMuon/hEvtCount", "PlotsAfterDiMuonCand/hEvtCount", "PlotsAfter2Mu1Track/hEvtCount", "PlotsAfterPhiPiCandSel/hEvtCount"]
+C_names = [s.replace("/hEvtCount", "") for s in histonames_CC]
 
 def load_histo(file_name):
 	"""Load ROOT data and turn tree into a pd dataframe"""
@@ -20,7 +21,7 @@ def load_histo(file_name):
 		num_entries = obj.values()
 		num_entries = sum(num_entries)
 		sum_out.append(num_entries)
-	df = pd.DataFrame(list, columns=histonames_CC)
+	df = pd.DataFrame(list, columns=C_names)
 	return df
 
         
@@ -136,11 +137,11 @@ if __name__ == "__main__":
 	R22D_sum = make_sum("Run_22D", files_Run2022D, csv = False)
 	R22E_sum = make_sum("Run_22E", files_Run2022E, csv = False)
 	R22F_sum = make_sum("Run_22F", files_Run2022F, csv = False)
-	R22G_sum = make_sum("Run_22F", files_Run2022G, csv = False)
+	R22G_sum = make_sum("Run_22G", files_Run2022G, csv = False)
 	R23C_v4_sum = make_sum("Run_23C_v4", files_Run2023C_v4, csv = False)
 
 	list = [R22C_sum, R22D_sum, R22E_sum, R22F_sum, R22G_sum, R23C_v4_sum]
-	df_out = pd.DataFrame(list, columns=histonames_CC)
+	df_out = pd.DataFrame(list, columns=C_names)
 	df_out['Index'] = ["Run_22C", "Run_22D", "Run_22E", "Run_22F", "Run_22G", "Run_23C_v4"]
 	df_out.to_csv('Finla.csv', index=False)
 	
