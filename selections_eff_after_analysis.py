@@ -9,7 +9,12 @@ import uproot
 
 histoname= "CutEff_NEvents"
 cut_names = ["BeforeCuts","L1_fired","HLT_fired","MuonID","DiMu_mass","TriMu_mass","mu1_TrMatch","mu12_TrMatch","mu123_TrMatch"]
+
+is_tau3mu= True
 data = False
+
+if is_tau3mu == True:
+	cut_names[4]="BS-SV_sign_deltaR-Z"
 
 def load_histo(file_name):
 	"""Load ROOT data and turn tree into a pd dataframe"""
@@ -71,11 +76,17 @@ if __name__ == "__main__":
 	]
 
 	files_2022_MC_pre = [
-		"DsPhiPi_preE_tau3mu_ReReco/AnalysedTree_MC_DsPhiPi_preE_tau3mu_merged_ReReco.root"
+		"DsPhiPi_preE_tau3mu_ReReco/AnalysedTree_MC_DsPhiPi_preE_tau3mu_merged_ReReco.root",
+		"Ds_preE_tau3mu_ReReco/AnalysedTree_MC_Ds_preE_tau3mu_merged_ReReco.root",
+		"B0_preE_tau3mu_ReReco/AnalysedTree_MC_B0_preE_tau3mu_merged_ReReco.root",
+		"Bp_preE_tau3mu_ReReco/AnalysedTree_MC_Bp_preE_tau3mu_merged_ReReco.root"
 	]
 
 	files_2022_MC_post = [
-		"DsPhiPi_postE_tau3mu_ReReco/AnalysedTree_MC_DsPhiPi_postE_tau3mu_merged_ReReco.root"
+		"DsPhiPi_postE_tau3mu_ReReco/AnalysedTree_MC_DsPhiPi_postE_tau3mu_merged_ReReco.root",
+		"Ds_postE_tau3mu_ReReco/AnalysedTree_MC_Ds_postE_tau3mu_merged_ReReco.root",
+		"B0_postE_tau3mu_ReReco/AnalysedTree_MC_B0_postE_tau3mu_merged_ReReco.root",
+		"Bp_postE_tau3mu_ReReco/AnalysedTree_MC_Bp_postE_tau3mu_merged_ReReco.root"
 	]
 	
 	files_Run2022C = [data_path + i for i in files_2022C]
@@ -101,14 +112,28 @@ if __name__ == "__main__":
 		df_out = df_out[column_order]
 		df_out.to_csv('Post_analysis_Data.csv', index=False)
 	else:
-		R22MC_pre_sum = load_histo(files_Run2022_MC_pre[0])
-		R22MC_post_sum = load_histo(files_Run2022_MC_post[0])
-		list = [R22MC_pre_sum, R22MC_post_sum]
-		df_out = pd.DataFrame(list, columns=cut_names)
-		df_out['Index'] = ["MC_2022_preE", "MC_2022_postE"]
-		column_order = ['Index'] + [col for col in df_out if col != 'Index']
-		df_out = df_out[column_order]
-		df_out.to_csv('Post_analysis_MC.csv', index=False)
+		if is_tau3mu==False:
+			R22MC_pre_sum = load_histo(files_Run2022_MC_pre[0])
+			R22MC_post_sum = load_histo(files_Run2022_MC_post[0])
+			list = [R22MC_pre_sum, R22MC_post_sum]
+			df_out = pd.DataFrame(list, columns=cut_names)
+			df_out['Index'] = ["MC_2022_preE", "MC_2022_postE"]
+			column_order = ['Index'] + [col for col in df_out if col != 'Index']
+			df_out = df_out[column_order]
+			df_out.to_csv('Post_analysis_MC_control.csv', index=False)
+		else:
+			MC1_p = load_histo(files_Run2022_MC_pre[1])
+			MC2_p = load_histo(files_Run2022_MC_pre[2])
+			MC3_p = load_histo(files_Run2022_MC_pre[3])
+			MC1_d = load_histo(files_Run2022_MC_post[1])
+			MC2_d = load_histo(files_Run2022_MC_post[2])
+			MC3_d = load_histo(files_Run2022_MC_post[3])
+			list = [MC1_p, MC2_p, MC3_p, MC1_d, MC2_d, MC3_d]
+			df_out = pd.DataFrame(list, columns=cut_names)
+			df_out['Index'] = ["Ds_pre", "B0_pre", "Bp_pre", "Ds_post", "B0_post", "Bp_post"]
+			column_order = ['Index'] + [col for col in df_out if col != 'Index']
+			df_out = df_out[column_order]
+			df_out.to_csv('Post_analysis_MC_tau3mu.csv', index=False)
 		
 	
 
