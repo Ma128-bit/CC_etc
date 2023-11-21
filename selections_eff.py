@@ -128,8 +128,8 @@ if __name__ == "__main__":
 	files_Run2022G = [data_path + i for i in files_2022G]
 
 	files_2022_MC = [
-		#"DstoPhiPi_Phito2Mu_MuFilter_TuneCP5_13p6TeV_pythia8-evtgen/SkimPhiPi_MCRun3_Mini_postE/230507_103348/0000",
-		"DstoPhiPi_Phito2Mu_MuFilter_TuneCP5_13p6TeV_pythia8-evtgen/SkimPhiPi_MCRun3_Mini_preE/230507_103411/0000",
+		"DstoPhiPi_Phito2Mu_MuFilter_TuneCP5_13p6TeV_pythia8-evtgen/SkimPhiPi_MCRun3_Mini_postE/230507_103348/0000",
+		#"DstoPhiPi_Phito2Mu_MuFilter_TuneCP5_13p6TeV_pythia8-evtgen/SkimPhiPi_MCRun3_Mini_preE/230507_103411/0000",
 	]
 
 	files_Run2022_MC = [data_path + i for i in files_2022_MC]
