@@ -6,12 +6,18 @@ import numpy as np
 warnings.filterwarnings("default", category=UserWarning, module="numpy")
 import pandas as pd
 import uproot
+import argparse
+from file_locations import *
 
 histoname= "CutEff_NEvents"
 cut_names = ["BeforeCuts","L1_fired","HLT_fired","MuonID","DiMu_mass","TriMu_mass","mu1_TrMatch","mu12_TrMatch","mu123_TrMatch"]
 
-is_tau3mu= True
-data = False
+parser = argparse.ArgumentParser(description="--tau3mu and --data. Default: control and MC")
+parser.add_argument("--tau3mu", action="store_true", help="Tau3mu")
+parser.add_argument("--data", action="store_true", help="Enable verbose mode")
+args = parser.parse_args()
+is_tau3mu = args.tau3mu
+data = args.data
 
 if is_tau3mu == True:
 	cut_names[4]="BS-SV_sign_deltaR-Z"
