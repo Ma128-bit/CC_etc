@@ -210,7 +210,7 @@ def Control_inv_mass():
     for era, data in Eras.items():
         file = ROOT.TFile(data, "READ")
         tree = file.Get("FinalTree")
-        fit(tree, df, Lumi_values[era], era)
+        fit(tree, df, year, Lumi_values[era], era)
         ch_data.Add(data)
         del tree
         
