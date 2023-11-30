@@ -84,19 +84,19 @@ def fit(tree, lumi, era="all"):
     sig_right = RooCBShape("sig_right", "sig_right", x, meanCB, sigmaCB1, alpha1, nSigma1)
     #sig_right.fitTo(data, RooFit.Range("R2"))
 
-    meanCB2 = RooRealVar("mean2", "meanCB2", 1.87, 1.85, 1.90)
-    sigma2CB = RooRealVar("#sigma2_{CB}", "sigma2CB", 0.05, 0.001, 0.1)
+    meanCB2 = RooRealVar("mean2", "meanCB2", 1.87, 1.84, 1.90)
+    sigmaCB2 = RooRealVar("#sigma2_{CB}", "sigmaCB2", 0.05, 0.001, 0.1)
     alpha2 = RooRealVar("#alpha2", "alpha2", 1.0, 0.5, 10.0)
     nSigma2 = RooRealVar("n2", "n2", 1.0, 0.1, 25.0)
-    sig_left = RooCBShape("sig_left", "sig_left", x, meanCB2, sigma2CB, alpha2, nSigma2)
+    sig_left = RooCBShape("sig_left", "sig_left", x, meanCB2, sigmaCB2, alpha2, nSigma2)
     #sig_left.fitTo(data, RooFit.Range("R1"))
 
     gamma = RooRealVar("#Gamma", "Gamma", -1, -2.0, -1e-2)
     exp_bkg = RooExponential("exp_bkg", "exp_bkg", x, gamma)
     exp_bkg.fitTo(data, RooFit.Range("R3,R4,R5"))
 
-    nSig_right = RooRealVar("nSig", "Number of signal candidates", yields[0], 1.0, 1e+6)
-    nSig_left = RooRealVar("nSigp", "Number of signal 2 candidates", yields[1], 1.0, 1e+6)
+    nSig_right = RooRealVar("nSig_R", "Number of signal candidates", yields[0], 1.0, 1e+6)
+    nSig_left = RooRealVar("nSig_L", "Number of signal 2 candidates", yields[1], 1.0, 1e+6)
     nBkg = RooRealVar("nBkg", "Bkg component", yields[2], 1.0, 1e+6)
 
     totalPDF = RooAddPdf("totalPDF", "totalPDF", RooArgList(sig_right, sig_left, exp_bkg),
@@ -107,7 +107,7 @@ def fit(tree, lumi, era="all"):
     xframe = x.frame()
     xframe.SetTitle("")
     xframe.SetXTitle("2mu +1trk inv. mass (GeV)")
-    totalPDF.paramOn(xframe, RooFit.Parameters(RooArgSet(alpha1, nSigma1, nSig_left, nSig_right, nBkg)), RooFit.Layout(0.6, 0.9, 0.9))
+    totalPDF.paramOn(xframe, RooFit.Parameters(RooArgSet(alpha2, nSigma2, sigmaCB2, meanCB2, nSig_left, nSig_right, nBkg)), RooFit.Layout(0.6, 0.9, 0.9))
     data.plotOn(xframe)
     totalPDF.plotOn(xframe, RooFit.Components(RooArgSet(sig_right, sig_left)), RooFit.LineColor(ROOT.kRed), RooFit.LineStyle(ROOT.kDashed))
     totalPDF.plotOn(xframe, RooFit.Components(RooArgSet(exp_bkg)), RooFit.LineColor(ROOT.kGreen), RooFit.LineStyle(ROOT.kDashed))
