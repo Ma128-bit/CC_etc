@@ -23,3 +23,7 @@ scram b -j20
   * Out: .csv file with number of events per era and per cut
   * Description: It is used to obtain the selection efficiencies starting from data after Analysis 
 
+* `Control.py`
+  * Run as: `python3 Control.py`
+  * Out: Control_Plots directory and Mass_Fits
+  * Description: It is used to create Control plots and invariant mass fits
