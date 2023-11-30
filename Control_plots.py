@@ -44,7 +44,7 @@ def fit(ch, par, yield_vals, lumi, era="all"):
     ch.Draw("tripletMass>>h_tripletmass"+binning_mass, selez)
     h_tripletmass = ROOT.gDirectory.Get("h_tripletmass")
     c3 = ROOT.TCanvas("c3", "", 150, 10, 800, 800)
-    h_tripletmass->Draw()
+    h_tripletmass.Draw()
     ch.Draw("tripletMass>>h_tripletmass_bkg"+binning_mass, invmass_SB + "&&" + selez)
     h_tripletmass_bkg = ROOT.gDirectory.Get("h_tripletmass_bkg")
     ch.Draw("tripletMass>>h_tripletmass_sign"+binning_mass, invmass_peak + "&&" + selez)
