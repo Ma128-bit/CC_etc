@@ -199,7 +199,7 @@ def fit(tree, year, df, lumi, era):
     c1.Clear()
 
 def Control_inv_mass():
-    subprocess.run(["mkdir Mass_Fits"])
+    subprocess.run(["mkdir", "Mass_Fits"])
     df = pd.DataFrame(columns=['Era', 'Yeald', 'Error'])
     ch_data = TChain("FinalTree")
     
