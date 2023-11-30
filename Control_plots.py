@@ -256,13 +256,12 @@ def control_plots():
     for era, data in Eras.items():
         ch_data.Add(data)
 
-    treeMC = [ROOT.TTree(), ROOT.TTree()]
+    treeMC = []
     n_evtMC = []
     j = 0
     for MC, data in MC2022.items():
-        file = ROOT.TFile(data, "READ")
-        treeMC[j] = file.Get("FinalTree")
-        print(treeMC[j].GetEntries())
+        treeMC.append(TChain("FinalTree"))
+        treeMC[j].Add(data)
         j=j+1
 
     #for MC in treeMC:
