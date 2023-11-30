@@ -177,7 +177,7 @@ def fit(tree, df, year, lumi, era):
     fsig = nsigevents / (fsigregion_model.getVal() * (nSig_right.getVal() + nSig_left.getVal() + nBkg.getVal()))
     # Save in pd dataframe
     new_line = {'Era': era, 'Yeald': nsigevents, 'Error': nsig_err}
-    df = df.append(new_line, ignore_index=True)
+    df = pd.concat([df, new_line], ignore_index=True)
     
     chi2 = totalPDF.createChi2(data).getVal()
     ndof = int(binning_mass.split(',')[0][1:]) - 7
@@ -215,7 +215,7 @@ def Control_inv_mass():
         del tree
         
     fit(ch_data, df, year, Lumi_values["ToT"], year)
-    df.to_csv('Mass_Fits/Post_Ntuple_Data_COntrol.csv', index=False)
+    df.to_csv('Mass_Fits/Yeald.csv', index=False)
     del ch_data
 
 def control_plot_2022():
