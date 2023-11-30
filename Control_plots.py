@@ -6,7 +6,7 @@ from file_locations import *
 
 var = ["cLP", "tKink", "segmComp", "fv_nC", "d0sig", "fv_dphi3D", "fv_d3Dsig", "mindca_iso", "trkRel", "d0sig_max", "MVASoft1", "MVASoft2"]
 
-invmass_SB = "(tripletMass<1.80 && tripletMass>1.70)"
+invmass_SB = "(tripletMass<1.75 && tripletMass>1.65)"
 invmass_peak = "(tripletMass<2.01 && tripletMass>1.93)"
 binning_mass = "(65, 1.60, 2.02)"
 
