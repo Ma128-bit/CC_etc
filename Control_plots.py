@@ -262,6 +262,7 @@ def control_plots():
     for MC, data in MC2022.items():
         file = ROOT.TFile(data, "READ")
         treeMC[j] = file.Get("FinalTree")
+        print(treeMC[j].GetEntries())
         j=j+1
 
     for MC in treeMC:
