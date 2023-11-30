@@ -50,7 +50,7 @@ def fit(ch, par, yield_vals, lumi, era="all"):
 
     x = RooRealVar("x", "2mu+1trk inv. mass (GeV)", 1.65, 2.05)
     x.setBins(int(binning_mass.split(',')[0][1:]))
-    data = RooDataSet("data", h_tripletmass.GetTitle(), RooFit.RooArgSet(x), RooFit.Import(h_tripletmass, ROOT.kFALSE))
+    data = RooDataSet("data", h_tripletmass.GetTitle(), RooArgSet(x), RooFit.Import(h_tripletmass, ROOT.kFALSE))
 
     x.setRange("R1", 1.83, 1.89)
     x.setRange("R2", 1.93, 2.02)
@@ -88,10 +88,10 @@ def fit(ch, par, yield_vals, lumi, era="all"):
     xframe = x.frame()
     xframe.SetTitle("")
     xframe.SetXTitle("2mu +1trk inv. mass (GeV)")
-    totalPDF.paramOn(xframe, RooFit.Parameters(RooFit.RooArgSet(alpha, nSigma, nSig1, nSig2, nBkg)), RooFit.Layout(0.6, 0.9, 0.9))
+    totalPDF.paramOn(xframe, RooFit.Parameters(RooArgSet(alpha, nSigma, nSig1, nSig2, nBkg)), RooFit.Layout(0.6, 0.9, 0.9))
     data.plotOn(xframe)
-    totalPDF.plotOn(xframe, RooFit.Components(RooFit.RooArgSet(sigCBPdf, sig2CBPdf)), RooFit.LineColor(ROOT.kRed), RooFit.LineStyle(ROOT.kDashed))
-    totalPDF.plotOn(xframe, RooFit.Components(RooFit.RooArgSet(bkgExpPdf)), RooFit.LineColor(ROOT.kGreen), RooFit.LineStyle(ROOT.kDashed))
+    totalPDF.plotOn(xframe, RooFit.Components(RooArgSet(sigCBPdf, sig2CBPdf)), RooFit.LineColor(ROOT.kRed), RooFit.LineStyle(ROOT.kDashed))
+    totalPDF.plotOn(xframe, RooFit.Components(RooArgSet(bkgExpPdf)), RooFit.LineColor(ROOT.kGreen), RooFit.LineStyle(ROOT.kDashed))
     totalPDF.plotOn(xframe)
 
     c1 = ROOT.TCanvas("c1", "c1", 900, 900)
