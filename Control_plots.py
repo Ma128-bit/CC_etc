@@ -52,7 +52,7 @@ binning_dict = {
     "MVASoft2": "(50,0.2,0.8)"
 }
 
-def fit(tree, df, year, lumi, era):
+def fit(tree, year, lumi, era):
     ROOT.gROOT.SetBatch(ROOT.kTRUE)  # To run ROOT in batch mode    
     entries = tree.GetEntries()
     print("Total entries era", era, "=", entries)
@@ -180,8 +180,6 @@ def fit(tree, df, year, lumi, era):
                              'Yeald': [nsigevents], 
                              'Error': [nsig_err]})
     
-    df = pd.concat([df, new_line], ignore_index=True)
-    
     chi2 = totalPDF.createChi2(data).getVal()
     ndof = int(binning_mass.split(',')[0][1:]) - 7
     print("chi2: ", chi2)
@@ -200,6 +198,7 @@ def fit(tree, df, year, lumi, era):
 
     c1.SaveAs("Mass_Fits/inv_mass_{}.png".format(era))
     c1.Clear()
+    return new_line
 
 def Control_inv_mass():
     subprocess.run(["mkdir", "Mass_Fits"])
@@ -213,7 +212,8 @@ def Control_inv_mass():
     for era, data in Eras.items():
         file = ROOT.TFile(data, "READ")
         tree = file.Get("FinalTree")
-        fit(tree, df, year, Lumi_values[era], era)
+        new_line = fit(tree, df, year, Lumi_values[era], era)
+        df = pd.concat([df, new_line], ignore_index=True)
         ch_data.Add(data)
         del tree
         
