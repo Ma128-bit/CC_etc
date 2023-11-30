@@ -31,9 +31,11 @@ binning_dict = {
     "MVASoft2": "(50,0.2,0.8)"
 }
 
-def fit(ch, par, yield_vals, lumi, era="all"):
+def fit(tree, lumi, era="all"):
     ROOT.gROOT.SetBatch(ROOT.kTRUE)  # To run ROOT in batch mode    
-    print("Total entries era", era, "=", ch.GetEntries())
+    entries = tree.GetEntries()
+    print("Total entries era", era, "=", entries)
+    yields = [entries*0.05, entries*0.015, entries*0.7]
 
     selez = "(Ptmu3 > 1.2 && ((Ptmu1>3.5 && Etamu1<1.2) || (Ptmu1>2.0 && Etamu1>=1.2 && Etamu1<=2.4)) && ((Ptmu2>3.5 && Etamu2<1.2) || (Ptmu2>2.0 && Etamu2>=1.2 && Etamu2<=2.4)))"
 
@@ -41,11 +43,11 @@ def fit(ch, par, yield_vals, lumi, era="all"):
     h_tripletmass_bkg = ROOT.TH1F()
     h_tripletmass_sign = ROOT.TH1F()
 
-    ch.Draw("tripletMass>>h_tripletmass"+binning_mass, selez)
+    tree.Draw("tripletMass>>h_tripletmass"+binning_mass, selez)
     h_tripletmass = ROOT.gDirectory.Get("h_tripletmass")
-    ch.Draw("tripletMass>>h_tripletmass_bkg"+binning_mass, invmass_SB + "&&" + selez)
+    tree.Draw("tripletMass>>h_tripletmass_bkg"+binning_mass, invmass_SB + "&&" + selez)
     h_tripletmass_bkg = ROOT.gDirectory.Get("h_tripletmass_bkg")
-    ch.Draw("tripletMass>>h_tripletmass_sign"+binning_mass, invmass_peak + "&&" + selez)
+    tree.Draw("tripletMass>>h_tripletmass_sign"+binning_mass, invmass_peak + "&&" + selez)
     h_tripletmass_sign = ROOT.gDirectory.Get("h_tripletmass_sign")
 
     x = RooRealVar("x", "2mu+1trk inv. mass (GeV)", 1.65, 2.05)
@@ -60,15 +62,15 @@ def fit(ch, par, yield_vals, lumi, era="all"):
 
     meanCB = RooRealVar("mean", "meanCB", 1.97, 1.95, 2.0)
     sigmaCB1 = RooRealVar("#sigma_{CB}", "sigmaCB1", 0.02, 0.001, 0.1)
-    alpha1 = RooRealVar("#alpha1", "alpha1", par[0], 0.5, 10.0)
-    nSigma1 = RooRealVar("n1", "n1", par[1], 0.1, 25.0)
+    alpha1 = RooRealVar("#alpha1", "alpha1", 1.0, 0.5, 10.0)
+    nSigma1 = RooRealVar("n1", "n1", 1.0, 0.1, 25.0)
     sig_right = RooCBShape("sig_right", "sig_right", x, meanCB, sigmaCB1, alpha1, nSigma1)
     #sig_right.fitTo(data, RooFit.Range("R2"))
 
     meanCB2 = RooRealVar("mean2", "meanCB2", 1.87, 1.85, 1.90)
     sigma2CB = RooRealVar("#sigma2_{CB}", "sigma2CB", 0.05, 0.001, 0.1)
-    alpha2 = RooRealVar("#alpha2", "alpha2", par[0], 0.5, 10.0)
-    nSigma2 = RooRealVar("n2", "n2", par[1], 0.1, 25.0)
+    alpha2 = RooRealVar("#alpha2", "alpha2", 1.0, 0.5, 10.0)
+    nSigma2 = RooRealVar("n2", "n2", 1.0, 0.1, 25.0)
     sig_left = RooCBShape("sig_left", "sig_left", x, meanCB2, sigma2CB, alpha2, nSigma2)
     #sig_left.fitTo(data, RooFit.Range("R1"))
 
@@ -76,9 +78,9 @@ def fit(ch, par, yield_vals, lumi, era="all"):
     exp_bkg = RooExponential("exp_bkg", "exp_bkg", x, gamma)
     exp_bkg.fitTo(data, RooFit.Range("R3,R4,R5"))
 
-    nSig_right = RooRealVar("nSig", "Number of signal candidates", yield_vals[0], 1.0, 1e+6)
-    nSig_left = RooRealVar("nSigp", "Number of signal 2 candidates", yield_vals[1], 1.0, 1e+6)
-    nBkg = RooRealVar("nBkg", "Bkg component", yield_vals[2], 1.0, 1e+6)
+    nSig_right = RooRealVar("nSig", "Number of signal candidates", yields[0], 1.0, 1e+6)
+    nSig_left = RooRealVar("nSigp", "Number of signal 2 candidates", yields[1], 1.0, 1e+6)
+    nBkg = RooRealVar("nBkg", "Bkg component", yields[2], 1.0, 1e+6)
 
     totalPDF = RooAddPdf("totalPDF", "totalPDF", RooArgList(sig_right, sig_left, exp_bkg),
                          RooArgList(nSig_right, nSig_left, nBkg))
@@ -155,14 +157,13 @@ def fit(ch, par, yield_vals, lumi, era="all"):
     ndof = int(binning_mass.split(',')[0][1:]) - 7
     print("chi2: ", chi2)
     print("ndof: ", ndof)
-    """
-    chi = "#chi^{2}/NDOF = {:.2f}".format(chi2 / ndof)
-    text3 = ROOT.TLatex(0.15, 0.77, chi)
+    chi2_txt = "#chi^{2}/NDOF = {:.2f}".format(chi2 / ndof)
+    text3 = ROOT.TLatex(0.15, 0.77, chi2_txt)
     text3.SetNDC(ROOT.kTRUE)
     text3.SetTextSize(0.032)
     text3.SetTextFont(42)
     text3.Draw("same")
-    """
+    
     if era == "all":
         with open('Inv_mass_plot/some_fit_results.txt', 'w') as file:
             file.write(f"{fsigregion_bkg.getVal()} {nBkg.getVal()}")
@@ -174,8 +175,7 @@ def Control_inv_mass():
     name = ["C", "D", "E", "F", "G"]
     lumi = ["0.25", "0.147", "0.29", "0.887", "0.153"]
     lumi_tot = "1.727"
-    yield_vals = [[1500, 300, 22000], [1000, 250, 9000], [2000, 650, 23000], [7500, 1800, 60000], [800, 180, 10000]]
-    par = [1., 1.]
+    #yields = [[1500, 300, 22000], [1000, 250, 9000], [2000, 650, 23000], [7500, 1800, 60000], [800, 180, 10000]]
     
     with open('Inv_mass_plot/yield.txt', 'w') as file:
         file.write('Yeald results per era:')
@@ -187,8 +187,7 @@ def Control_inv_mass():
     ch_data.Add(control_Run2022F)
     ch_data.Add(control_Run2022G)
     
-    yy = [10000, 2000, 140000]
-    fit(ch_data, par, yy, lumi_tot, "all")
+    fit(ch_data, lumi_tot, "all")
     
     del ch_data
 
