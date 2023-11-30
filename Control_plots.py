@@ -59,25 +59,20 @@ def control_plot_2022():
     invmass_peak = "(tripletMass<2.01 && tripletMass>1.93)"
     binning_mass = "(42, 1.60, 2.02)"
 
-    hdata_bkg = []
-    hdata_sgn = []
-    hmc_sgn = []
-    hmc_sgn2 = []
-
     for k in range(len(var)):
         varname = var[k]
         s = str(k)
         binning = binning_dict[varname]
 
-        ch_data.Draw(varname + ">>hdata_bkg[" + s + "]" + binning, invmass_SB)
-        ch_data.Draw(varname + ">>hdata_sgn[" + s + "]" + binning, invmass_peak)
-        tmc_1.Draw(varname + ">>hmc_sgn[" + s + "]" + binning, invmass_peak)
-        tmc_2.Draw(varname + ">>hmc_sgn2[" + s + "]" + binning, invmass_peak)
+        ch_data.Draw(varname + ">>hdata_bkg" + s+ binning, invmass_SB)
+        ch_data.Draw(varname + ">>hdata_sgn" + s + binning, invmass_peak)
+        tmc_1.Draw(varname + ">>hmc_sgn" + s + binning, invmass_peak)
+        tmc_2.Draw(varname + ">>hmc_sgn2" + s + binning, invmass_peak)
 
-        hdata_bkg.append(TH1F(gDirectory.Get("hdata_bkg" + s)))
-        hdata_sgn.append(TH1F(gDirectory.Get("hdata_sgn" + s)))
-        hmc_sgn.append(TH1F(gDirectory.Get("hmc_sgn" + s)))
-        hmc_sgn2.append(TH1F(gDirectory.Get("hmc_sgn2" + s)))
+        hdata_bkg = TH1F(gDirectory.Get("hdata_bkg" + s))
+        hdata_sgn = TH1F(gDirectory.Get("hdata_sgn" + s))
+        hmc_sgn = TH1F(gDirectory.Get("hmc_sgn" + s))
+        hmc_sgn2 = TH1F(gDirectory.Get("hmc_sgn2" + s))
 
         c2 = TCanvas("c2", "c2", 150, 10, 990, 660)
         pad1 = TPad("pad1", "pad1", 0, 0.3, 1, 1.0)
@@ -85,64 +80,63 @@ def control_plot_2022():
         pad1.SetGridx()
         pad1.Draw()
         pad1.cd()
-        hmc_sgn[k].SetTitle(varname)
-        hmc_sgn2[k].SetTitle(varname)
+        hmc_sgn.SetTitle(varname)
+        hmc_sgn2.SetTitle(varname)
 
         # Normalizzazione MC preE
-        normMC = hmc_sgn[k].GetEntries()
-        # Normalizing Monte Carlo
+        normMC = hmc_sgn.GetEntries()
         wNorm = lumi_preE * xsection_mc_preE * BR / N_MC
-        hmc_sgn[k].Scale(wNorm)
+        hmc_sgn.Scale(wNorm)
 
         # Normalizzazione MC postE
-        normMC2 = hmc_sgn2[k].GetEntries()
+        normMC2 = hmc_sgn2.GetEntries()
         # Normalizing Monte Carlo
         wNorm2 = lumi_postE * xsection_mc_postE * BR / N_MC
-        hmc_sgn2[k].Scale(wNorm2)
+        hmc_sgn2.Scale(wNorm2)
 
         # Unisco i due MC
-        hmc_sgn[k].Add(hmc_sgn2[k])
+        hmc_sgn.Add(hmc_sgn2)
         # Scaling the SB distribution to the number of background events in 1.93,2.01
-        normSB = hdata_bkg[k].GetEntries()
+        normSB = hdata_bkg.GetEntries()
 
         with open("Inv_mass_plot/some_fit_results.txt") as fin:
             fsigregion_bkg_val = float(fin.readline())
             nbkg_val = float(fin.readline())
 
-        hdata_bkg[k].Scale(fsigregion_bkg_val * nbkg_val / normSB)
+        hdata_bkg.Scale(fsigregion_bkg_val * nbkg_val / normSB)
 
-        print("Entries in hdata_sgn[k] before SB subtraction:", hdata_sgn[k].GetEntries())
-        hdata_sgn[k].Add(hdata_bkg[k], -1)  # subtract h2 from h1: h1->Add(h2,-1)
+        print("Entries in hdata_sgn before SB subtraction:", hdata_sgn.GetEntries())
+        hdata_sgn.Add(hdata_bkg, -1)  # subtract h2 from h1: h1->Add(h2,-1)
 
         # Rescaling
-        hdata_sgn[k].Scale(hmc_sgn[k].Integral() / hdata_sgn[k].Integral())
+        hdata_sgn.Scale(hmc_sgn.Integral() / hdata_sgn.Integral())
 
-        print("Entries in hdata_sgn[k] after SB subtraction:", hdata_sgn[k].GetEntries())
-        print("Entries in hmc_sgn[k] after rescaling:", hmc_sgn[k].GetEntries())
+        print("Entries in hdata_sgn after SB subtraction:", hdata_sgn.GetEntries())
+        print("Entries in hmc_sgn after rescaling:", hmc_sgn.GetEntries())
 
         # Plot makeup
-        Y_max = max(hmc_sgn[k].GetMaximum(), hdata_sgn[k].GetMaximum())
+        Y_max = max(hmc_sgn.GetMaximum(), hdata_sgn.GetMaximum())
         Y_max = Y_max * 1.05
-        hmc_sgn[k].GetYaxis().SetRangeUser(0, Y_max)
+        hmc_sgn.GetYaxis().SetRangeUser(0, Y_max)
 
-        hmc_sgn[k].GetYaxis().SetTitle("a.u.")
-        hmc_sgn[k].GetYaxis().SetTitleSize(22)
-        hmc_sgn[k].GetYaxis().SetTitleFont(43)
-        hmc_sgn[k].GetYaxis().SetTitleOffset(1.25)
+        hmc_sgn.GetYaxis().SetTitle("a.u.")
+        hmc_sgn.GetYaxis().SetTitleSize(22)
+        hmc_sgn.GetYaxis().SetTitleFont(43)
+        hmc_sgn.GetYaxis().SetTitleOffset(1.25)
 
-        hmc_sgn[k].SetLineColor(kBlue)
-        hmc_sgn[k].SetLineWidth(3)
-        hmc_sgn[k].SetFillStyle(3004)
-        hmc_sgn[k].SetFillColor(kBlue)
-        hdata_sgn[k].SetLineColor(kRed)
-        hdata_sgn[k].SetLineWidth(3)
-        hdata_sgn[k].SetFillStyle(3005)
-        hdata_sgn[k].SetFillColor(kRed)
+        hmc_sgn.SetLineColor(kBlue)
+        hmc_sgn.SetLineWidth(3)
+        hmc_sgn.SetFillStyle(3004)
+        hmc_sgn.SetFillColor(kBlue)
+        hdata_sgn.SetLineColor(kRed)
+        hdata_sgn.SetLineWidth(3)
+        hdata_sgn.SetFillStyle(3005)
+        hdata_sgn.SetFillColor(kRed)
 
-        hmc_sgn[k].Draw("hist")
-        hdata_sgn[k].Draw("hist same")
+        hmc_sgn.Draw("hist")
+        hdata_sgn.Draw("hist same")
 
-        hmc_sgn[k].SetStats(0)
+        hmc_sgn.SetStats(0)
         x_leg_left = 0.55
         x_leg_right = 0.90
         y_leg_left = 0.63
@@ -151,8 +145,8 @@ def control_plot_2022():
             x_leg_left = 0.1
             x_leg_right = 0.45
         leg = TLegend(x_leg_left, y_leg_left, x_leg_right, y_leg_right)
-        leg.AddEntry(hmc_sgn[k], "MC DsPhiPi", "f")
-        leg.AddEntry(hdata_sgn[k], "data (SB subtracted)", "f")
+        leg.AddEntry(hmc_sgn, "MC DsPhiPi", "f")
+        leg.AddEntry(hdata_sgn, "data (SB subtracted)", "f")
         leg.Draw()
 
         # Lower plot will be in pad2
@@ -165,9 +159,9 @@ def control_plot_2022():
         pad2.cd()
 
         # Define the ratio plot
-        h_x_ratio = hdata_sgn[k].Clone("h_x_ratio")
+        h_x_ratio = hdata_sgn.Clone("h_x_ratio")
         h_x_ratio.Sumw2()
-        h_x_ratio.Divide(hmc_sgn[k])
+        h_x_ratio.Divide(hmc_sgn)
         h_x_ratio.SetStats(0)
 
         # Ratio plot settings
