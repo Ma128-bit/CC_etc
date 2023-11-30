@@ -417,23 +417,22 @@ def control_plots():
         h_x_ratio.Draw("ep")
         line.SetLineWidth(2)
         line.SetLineColor(kRed)
-        print(float(binning.split(',')[1]))
         line.DrawLine(float(binning.split(',')[1]), 1, h_x_ratio.GetXaxis().GetXmax(), 1)
         h_x_ratio.Draw("same")
 
         c2.cd()
         c2.Update()
         c2.SaveAs("Control_Plots/" + varname + ".png")
-        del c2 
-        del pad1 
-        del pad2
-        del h_x_ratio 
-        del hdata_bkg 
-        del hdata_sgn 
-        del hMC_sgn 
-        del line
+        c2.Delete();
+        pad1.Delete();
+        pad2.Delete();
+        h_x_ratio.Delete();
+        hdata_bkg.Delete();
+        hdata_sgn.Delete();
+        hMC_sgn.Delete(); 
+        line.Delete();
         if year == "2022":
-            del hMC_sgn2
+            hMC_sgn2.Delete();
 
 if __name__ == "__main__": 
     Control_inv_mass()
