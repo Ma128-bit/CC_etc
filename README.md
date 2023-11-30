@@ -12,13 +12,13 @@ scram b -j20
 ```
 
 ## Description of scripts
-* `SellEffNtuple.py`
-  * Run as: `python3 SellEffNtuple.py`
+* `SelEffNtuple.py`
+  * Run as: `python3 SelEffNtuple.py`
   * Out: .csv file with number of events per era and per cut
   * Description: It is used to obtain the selection efficiencies starting from data after Ntuplizer
 
-* `SellEffAna.py`
-  * Run as: `python3 SellEffAna.py`
+* `SelEffAna.py`
+  * Run as: `python3 SelEffAna.py`
   * Default: MC - Control channel. Pass `--tau3mu` and/or `--data`
   * Out: .csv file with number of events per era and per cut
   * Description: It is used to obtain the selection efficiencies starting from data after Analysis 
