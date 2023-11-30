@@ -199,7 +199,9 @@ def Control_inv_mass():
     year = "2022"
     if year == "2022":
         for era, data in Era2022.items():
-            fit(ROOT.TFile(data, "READ").Get("FinalTree"), lumi2022[era], era)
+            tree = ROOT.TFile(data, "READ").Get("FinalTree")
+            fit(tree, lumi2022[era], era)
+            del tree
             ch_data.Add(data)
         fit(ch_data, lumi2022["ToT"], "all")
         del ch_data
