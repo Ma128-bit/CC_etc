@@ -73,7 +73,7 @@ def fit(tree, lumi, era="all"):
 
     x.setRange("R1", 1.83, 1.89)
     x.setRange("R2", 1.93, 2.02)
-    x.setRange("R3", 1.65, 1.84)
+    x.setRange("R3", 1.65, 1.80)
     x.setRange("R4", 1.89, 1.925)
     x.setRange("R5", 1.99, 2.02)
 
