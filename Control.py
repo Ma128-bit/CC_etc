@@ -6,7 +6,7 @@ from file_locations import *
 
 var = ["cLP", "tKink", "segmComp", "fv_nC", "d0sig", "fv_dphi3D", "fv_d3Dsig", "mindca_iso", "trkRel", "d0sig_max", "MVASoft1", "MVASoft2"]
 
-invmass_SB = "(tripletMass<1.75 && tripletMass>1.65)"
+invmass_SB = "(tripletMass<1.8 && tripletMass>1.65)"
 invmass_peak = "(tripletMass<2.01 && tripletMass>1.93)"
 binning_mass = "(65, 1.60, 2.02)"
 
@@ -159,7 +159,7 @@ def fit(tree, year, lumi, era):
     text2.Draw("same")
 
     x.setRange("signal", 1.93, 2.01)
-    x.setRange("sideband", 1.65, 1.75)
+    x.setRange("sideband", 1.65, 1.8)
 
     fsigregion_model = totalPDF.createIntegral(x, RooFit.NormSet(x), RooFit.Range("signal"))
     fs = fsigregion_model.getVal()
