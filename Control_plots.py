@@ -69,7 +69,7 @@ def fit(ch, par, yield_vals, lumi, era="all"):
     sigma2CB = RooRealVar("#sigma2_{CB}", "sigma2CB", 0.05, 0.001, 0.1)
     #alpha2 = RooRealVar("#alpha2", "alpha2", par[0], 0.5, 10.0)
     #nSigma2 = RooRealVar("n2", "n2", par[1], 0.1, 25.0)
-    sig_left = RooCBShape("sig_left", "sig_left", x, meanCB2, sigma2CB, alpha, nSigma)
+    sig_left = RooCBShape("sig_left", "sig_left", x, meanCB2, sigma2CB, alpha1, nSigma1)
     #sig_left.fitTo(data, RooFit.Range("R1"))
 
     gamma = RooRealVar("#Gamma", "Gamma", -1, -2.0, -1e-2)
