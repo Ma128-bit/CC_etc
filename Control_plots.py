@@ -48,7 +48,7 @@ def fit(ch, par, yield_vals, lumi, era="all"):
     ch.Draw("tripletMass>>h_tripletmass_sign"+binning_mass, invmass_peak + "&&" + selez)
     h_tripletmass_sign = ROOT.gDirectory.Get("h_tripletmass_sign")
 
-    x = RooFit.RooRealVar("x", "2mu+1trk inv. mass (GeV)", 1.65, 2.05)
+    x = RooRealVar("x", "2mu+1trk inv. mass (GeV)", 1.65, 2.05)
     x.setBins(int(binning_mass.split(',')[0][1:]))
     data = RooFit.RooDataSet("data", h_tripletmass.GetTitle(), RooFit.RooArgSet(x), RooFit.Import(h_tripletmass, ROOT.kFALSE))
 
@@ -59,26 +59,26 @@ def fit(ch, par, yield_vals, lumi, era="all"):
     x.setRange("R5", 1.99, 2.02)
     x.setRange("R6", 1.65, 2.02)
 
-    mGCB = RooFit.RooRealVar("mean", "meanCB", 1.97, 1.95, 2.0)
-    sigma1CB = RooFit.RooRealVar("#sigma_{CB}", "sigma1CB", 0.02, 0.001, 0.1)
-    alpha = RooFit.RooRealVar("#alpha", "alpha", par[0], 0.5, 10.0)
-    nSigma = RooFit.RooRealVar("n1", "n1", par[1], 0.1, 25.0)
+    mGCB = RooRealVar("mean", "meanCB", 1.97, 1.95, 2.0)
+    sigma1CB = RooRealVar("#sigma_{CB}", "sigma1CB", 0.02, 0.001, 0.1)
+    alpha = RooRealVar("#alpha", "alpha", par[0], 0.5, 10.0)
+    nSigma = RooRealVar("n1", "n1", par[1], 0.1, 25.0)
     sigCBPdf = RooFit.RooGaussian("sigCBPdf", "sigCBPdf", x, mGCB, sigma1CB)
 
     sigCBPdf.fitTo(data, RooFit.Range("R2"))
 
-    mGCB2 = RooFit.RooRealVar("mean2", "meanCB2", 1.87, 1.85, 1.90)
-    sigma2CB = RooFit.RooRealVar("#sigma2_{CB}", "sigma2CB", 0.03, 0.001, 0.1)
+    mGCB2 = RooRealVar("mean2", "meanCB2", 1.87, 1.85, 1.90)
+    sigma2CB = RooRealVar("#sigma2_{CB}", "sigma2CB", 0.03, 0.001, 0.1)
     sig2CBPdf = RooFit.RooGaussian("sig2CBPdf", "sig2CBPdf", x, mGCB2, sigma2CB)
     sig2CBPdf.fitTo(data, RooFit.Range("R1"))
 
-    gamma = RooFit.RooRealVar("#Gamma", "Gamma", -1, -2.0, -1e-2)
+    gamma = RooRealVar("#Gamma", "Gamma", -1, -2.0, -1e-2)
     bkgExpPdf = RooFit.RooExponential("bkgExpPdf", "bkgExpPdf", x, gamma)
     bkgExpPdf.fitTo(data, RooFit.Range("R3,R4,R5"))
 
-    nSig2 = RooFit.RooRealVar("nSig", "Number of signal candidates", yield_vals[0], 1.0, 1e+6)
-    nSig1 = RooFit.RooRealVar("nSig2", "Number of signal 2 candidates", yield_vals[1], 1.0, 1e+6)
-    nBkg = RooFit.RooRealVar("nBkg", "Bkg component", yield_vals[2], 1.0, 1e+6)
+    nSig2 = RooRealVar("nSig", "Number of signal candidates", yield_vals[0], 1.0, 1e+6)
+    nSig1 = RooRealVar("nSig2", "Number of signal 2 candidates", yield_vals[1], 1.0, 1e+6)
+    nBkg = RooRealVar("nBkg", "Bkg component", yield_vals[2], 1.0, 1e+6)
 
     totalPDF = RooFit.RooAddPdf("totalPDF", "totalPDF", RooFit.RooArgList(sigCBPdf, sig2CBPdf, bkgExpPdf),
                          RooFit.RooArgList(nSig2, nSig1, nBkg))
