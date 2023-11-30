@@ -8,6 +8,23 @@ invmass_SB = "(tripletMass<1.80 && tripletMass>1.70)"
 invmass_peak = "(tripletMass<2.01 && tripletMass>1.93)"
 binning_mass = "(65, 1.60, 2.02)"
 
+Era2022 = {
+    "C": control_Run2022C,
+    "D": control_Run2022D,
+    "E": control_Run2022E,
+    "F": control_Run2022F,
+    "G": control_Run2022G
+}
+
+lumi2022 = {
+    "C": "0.25",
+    "D": "0.147",
+    "E": "0.29",
+    "F": "0.887",
+    "G": "0.153",
+    "ToT": "1.727"
+}
+
 binning_dict = {
     "Ptmu1": "(60,0,30)",
     "Ptmu2": "(60,0,30)",
@@ -173,24 +190,19 @@ def fit(tree, lumi, era="all"):
     c1.Clear()
 
 def Control_inv_mass():
-    name = ["C", "D", "E", "F", "G"]
-    lumi = ["0.25", "0.147", "0.29", "0.887", "0.153"]
-    lumi_tot = "1.727"
     #yields = [[1500, 300, 22000], [1000, 250, 9000], [2000, 650, 23000], [7500, 1800, 60000], [800, 180, 10000]]
     
     with open('Inv_mass_plot/yield.txt', 'w') as file:
         file.write('Yeald results per era:')
-    
+
     ch_data = TChain("FinalTree")
-    ch_data.Add(control_Run2022C)
-    ch_data.Add(control_Run2022D)
-    ch_data.Add(control_Run2022E)
-    ch_data.Add(control_Run2022F)
-    ch_data.Add(control_Run2022G)
-    
-    fit(ch_data, lumi_tot, "all")
-    
-    del ch_data
+    year = "2022"
+    if year == "2022":
+        for era, data in Era2022.items():
+            fit(ROOT.TFile(data, "READ").Get("FinalTree"), lumi2022[era], era)
+            ch_data.Add(data)
+        fit(ch_data, lumi2022["ToT"], "all")
+        del ch_data
 
 def control_plot_2022():
     lumi = 1.754213258  # recorded lumi by HLT_DoubleMu3_Trk_Tau3mu_v*
