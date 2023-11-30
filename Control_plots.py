@@ -149,7 +149,7 @@ def fit(ch, par, yield_vals, lumi, era="all"):
     fsig = nsigevents / (fsigregion_model.getVal() * (nSig2.getVal() + nSig1.getVal() + nBkg.getVal()))
 
     with open('Inv_mass_plot/yield.txt', 'a') as file:
-        file.write("Signal events in era", era, "=", nsigevents, "+-", nsig_err)
+        file.write(f"Signal events in era {era} = {nsigevents} +- {nsig_err}")
 
     chi2 = totalPDF.createChi2(data).getVal()
     ndof = int(binning_mass.split(',')[0][1:]) - 7
@@ -162,7 +162,7 @@ def fit(ch, par, yield_vals, lumi, era="all"):
 
     if era == "all":
         with open('Inv_mass_plot/some_fit_results.txt', 'w') as file:
-            file.write(fsigregion_bkg.getVal(), " ", nBkg.getVal())
+            file.write(f"{fsigregion_bkg.getVal()} {nBkg.getVal()}")
 
     c1.SaveAs("Inv_mass_plot/inv_mass_{}.png".format(era))
     c1.Clear()
