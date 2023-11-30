@@ -240,6 +240,7 @@ def Control_inv_mass():
     del ch_data
 
 def control_plots():
+    subprocess.run(["mkdir", "Control_Plots"])
     if year == "2022":
         lumi = float(lumi2022["ToT"])  # recorded lumi by HLT_DoubleMu3_Trk_Tau3mu_v*
         lumi_preE = float(lumi2022["Pre_EE"])  # recorded lumi by HLT_DoubleMu3_Trk_Tau3mu_v*
@@ -418,7 +419,7 @@ def control_plots():
 
         c2.cd()
         c2.Update()
-        c2.SaveAs("Control_Plots/" + varname + "_.png")
+        c2.SaveAs("Control_Plots/" + varname + ".png")
 
 if __name__ == "__main__": 
     Control_inv_mass()
