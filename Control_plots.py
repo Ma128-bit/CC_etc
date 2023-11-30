@@ -225,10 +225,10 @@ def Control_inv_mass():
     df = pd.concat([df, new_line], ignore_index=True)
     
     if year == "2022":
-        new_line = fit(ch_data_pre, "Pre_EE", Lumi_values["Pre_EE"], year)
+        new_line = fit(ch_data_pre, year, Lumi_values["Pre_EE"], "Pre_EE")
         df = pd.concat([df, new_line], ignore_index=True)
         del ch_data_pre
-        new_line = fit(ch_data_post, "Post_EE", Lumi_values["Post_EE"], year)
+        new_line = fit(ch_data_post, year, Lumi_values["Post_EE"], "Post_EE")
         df = pd.concat([df, new_line], ignore_index=True)
         del ch_data_post
     
