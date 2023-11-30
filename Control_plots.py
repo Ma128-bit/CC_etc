@@ -423,9 +423,9 @@ def control_plots():
         c2.cd()
         c2.Update()
         c2.SaveAs("Control_Plots/" + varname + ".png")
-        c2.Delete();
-        pad1.Delete();
-        pad2.Delete();
+        del c2
+        del pad2
+        del pad1
         h_x_ratio.Delete();
         hdata_bkg.Delete();
         hdata_sgn.Delete();
