@@ -317,14 +317,14 @@ def control_plots():
         fsigregion_bkg_val = connection_values[0]
         nbkg_val = connection_values[1]
         hdata_bkg.Scale(fsigregion_bkg_val * nbkg_val / normSB)
-        print("Entries in hdata_sgn before SB subtraction:", hdata_sgn.GetEntries())
+        #print("Entries in hdata_sgn before SB subtraction:", hdata_sgn.GetEntries())
         hdata_sgn.Add(hdata_bkg, -1)  # subtract h2 from h1: h1->Add(h2,-1)
 
         # Rescaling
         hdata_sgn.Scale(hmc_sgn.Integral() / hdata_sgn.Integral())
 
-        print("Entries in hdata_sgn after SB subtraction:", hdata_sgn.GetEntries())
-        print("Entries in hmc_sgn after rescaling:", hmc_sgn.GetEntries())
+        #print("Entries in hdata_sgn after SB subtraction:", hdata_sgn.GetEntries())
+        #print("Entries in hmc_sgn after rescaling:", hmc_sgn.GetEntries())
 
         # Plot makeup
         Y_max = max(hmc_sgn.GetMaximum(), hdata_sgn.GetMaximum())
@@ -408,14 +408,15 @@ def control_plots():
         std_dev = 1 / std_dev
 
         # Get mean value and error of ratio plot
-        print(var[k] + " Mean:", mean)
-        print(var[k] + " StdDev:", std_dev)
+        #print(var[k] + " Mean:", mean)
+        #print(var[k] + " StdDev:", std_dev)
 
         # Draw line corresponding to mean value on ratio plot
         line = TLine()
         h_x_ratio.Draw("ep")
         line.SetLineWidth(2)
         line.SetLineColor(kRed)
+        print(float(binning_mass.split(',')[0][1:]), " ", float(binning_mass.split(',')[1][1:]), float(binning_mass.split(',')[2][1:]))
         line.DrawLine(float(binning_mass.split(',')[1][1:]), 1, h_x_ratio.GetXaxis().GetXmax(), 1)
         h_x_ratio.Draw("same")
 
