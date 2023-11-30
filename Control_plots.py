@@ -155,13 +155,14 @@ def fit(ch, par, yield_vals, lumi, era="all"):
     ndof = int(binning_mass.split(',')[0][1:]) - 7
     print("chi2: ", chi2)
     print("ndof: ", ndof)
-    #chi = "#chi^{2}/NDOF = {:.2f}".format(chi2 / ndof)
+    """
+    chi = "#chi^{2}/NDOF = {:.2f}".format(chi2 / ndof)
     text3 = ROOT.TLatex(0.15, 0.77, chi)
     text3.SetNDC(ROOT.kTRUE)
     text3.SetTextSize(0.032)
     text3.SetTextFont(42)
     text3.Draw("same")
-
+    """
     if era == "all":
         with open('Inv_mass_plot/some_fit_results.txt', 'w') as file:
             file.write(f"{fsigregion_bkg.getVal()} {nBkg.getVal()}")
