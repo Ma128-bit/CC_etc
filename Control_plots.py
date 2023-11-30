@@ -75,36 +75,31 @@ def fit(tree, year, lumi, era):
     x.setBins(int(binning_mass.split(',')[0][1:]))
     data = RooDataHist("data", h_tripletmass.GetTitle(), RooArgSet(x), RooFit.Import(h_tripletmass, ROOT.kFALSE))
 
-    x.setRange("R1", 1.83, 1.89)
-    x.setRange("R2", 1.93, 2.02)
-    x.setRange("R3", 1.65, 1.80)
-    x.setRange("R4", 1.89, 1.925)
-    x.setRange("R5", 1.99, 2.02)
+    x.setRange("R1", 1.65, 1.80)
+    x.setRange("R2", 1.89, 1.925)
+    x.setRange("R3", 1.99, 2.02)
 
     meanCB = RooRealVar("mean", "meanCB", 1.97, 1.95, 2.0)
     sigmaCB1 = RooRealVar("#sigma_{CB}", "sigmaCB1", 0.02, 0.001, 0.1)
     alpha1 = RooRealVar("#alpha1", "alpha1", 1.0, 0.5, 10.0)
     nSigma1 = RooRealVar("n1", "n1", 1.0, 0.1, 25.0)
     sig_right = RooCBShape("sig_right", "sig_right", x, meanCB, sigmaCB1, alpha1, nSigma1)
-    #sig_right.fitTo(data, RooFit.Range("R2"))
 
     meanCB2 = RooRealVar("mean2", "meanCB2", 1.87, 1.84, 1.89)
     sigmaCB2 = RooRealVar("#sigma2_{CB}", "sigmaCB2", 0.05, 0.001, 0.05)
     alpha2 = RooRealVar("#alpha2", "alpha2", 1.0, 0.5, 10.0)
     nSigma2 = RooRealVar("n2", "n2", 1.0, 0.1, 25.0)
     sig_left = RooCBShape("sig_left", "sig_left", x, meanCB2, sigmaCB2, alpha2, nSigma2)
-    #sig_left.fitTo(data, RooFit.Range("R1"))
 
     gamma = RooRealVar("#Gamma", "Gamma", -1, -2.0, -1e-2)
     exp_bkg = RooExponential("exp_bkg", "exp_bkg", x, gamma)
-    exp_bkg.fitTo(data, RooFit.Range("R3,R4,R5"))
+    exp_bkg.fitTo(data, RooFit.Range("R1,R2,R3"))
 
     nSig_right = RooRealVar("nSig_R", "Number of signal candidates", yields[0], 1.0, 1e+6)
     nSig_left = RooRealVar("nSig_L", "Number of signal 2 candidates", yields[1], 1.0, 1e+6)
     nBkg = RooRealVar("nBkg", "Bkg component", yields[2], 1.0, 1e+6)
 
-    totalPDF = RooAddPdf("totalPDF", "totalPDF", RooArgList(sig_right, sig_left, exp_bkg),
-                         RooArgList(nSig_right, nSig_left, nBkg))
+    totalPDF = RooAddPdf("totalPDF", "totalPDF", RooArgList(sig_right, sig_left, exp_bkg), RooArgList(nSig_right, nSig_left, nBkg))
 
     r = totalPDF.fitTo(data, RooFit.Extended(ROOT.kTRUE), RooFit.Save(ROOT.kTRUE))
 
@@ -134,6 +129,7 @@ def fit(tree, year, lumi, era):
     c1.cd(1)
     ROOT.gPad.SetPad(0., 0.3, 1., 1.)
     xframe.Draw()
+    
     lable_era = ""
     if era != year:
         lable_era = "Data Era " + era
@@ -196,7 +192,7 @@ def fit(tree, year, lumi, era):
         with open('Mass_Fits/some_fit_results.txt', 'w') as file:
             file.write(f"{fsigregion_bkg.getVal()} {nBkg.getVal()}")
 
-    c1.SaveAs("Mass_Fits/inv_mass_{}.png".format(era))
+    c1.SaveAs("Mass_Fits/inv_mass_{}.png".format(era), "png -dpi 600")
     c1.Clear()
     return new_line
 
@@ -217,7 +213,8 @@ def Control_inv_mass():
         ch_data.Add(data)
         del tree
         
-    fit(ch_data, year, Lumi_values["ToT"], year)
+    new_line = fit(ch_data, year, Lumi_values["ToT"], year)
+    df = pd.concat([df, new_line], ignore_index=True)
     df.to_csv('Mass_Fits/Yeald.csv', index=False)
     del ch_data
 
