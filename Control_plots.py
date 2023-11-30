@@ -426,11 +426,11 @@ def control_plots():
         del c2
         del pad2
         del pad1
+        del line
         h_x_ratio.Delete();
         hdata_bkg.Delete();
         hdata_sgn.Delete();
         hMC_sgn.Delete(); 
-        line.Delete();
         if year == "2022":
             hMC_sgn2.Delete();
 
