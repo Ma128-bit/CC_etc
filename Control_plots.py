@@ -1,4 +1,5 @@
 import ROOT
+import pandas as pd
 from ROOT import *
 from file_locations import *
 
@@ -48,7 +49,7 @@ binning_dict = {
     "MVASoft2": "(50,0.2,0.8)"
 }
 
-def fit(tree, lumi, era="all"):
+def fit(tree, df, lumi, era):
     ROOT.gROOT.SetBatch(ROOT.kTRUE)  # To run ROOT in batch mode    
     entries = tree.GetEntries()
     print("Total entries era", era, "=", entries)
@@ -107,7 +108,7 @@ def fit(tree, lumi, era="all"):
     xframe = x.frame()
     xframe.SetTitle("")
     xframe.SetXTitle("2mu +1trk inv. mass (GeV)")
-    totalPDF.paramOn(xframe, RooFit.Parameters(RooArgSet(alpha2, nSigma2, sigmaCB2, meanCB2, nSig_left, nSig_right, nBkg)), RooFit.Layout(0.6, 0.9, 0.9))
+    #totalPDF.paramOn(xframe, RooFit.Parameters(RooArgSet(alpha2, nSigma2, sigmaCB2, meanCB2, nSig_left, nSig_right, nBkg)), RooFit.Layout(0.6, 0.9, 0.9))
     data.plotOn(xframe)
     totalPDF.plotOn(xframe, RooFit.Components(RooArgSet(sig_right, sig_left)), RooFit.LineColor(ROOT.kRed), RooFit.LineStyle(ROOT.kDashed))
     totalPDF.plotOn(xframe, RooFit.Components(RooArgSet(exp_bkg)), RooFit.LineColor(ROOT.kGreen), RooFit.LineStyle(ROOT.kDashed))
@@ -130,7 +131,12 @@ def fit(tree, lumi, era="all"):
     c1.cd(1)
     ROOT.gPad.SetPad(0., 0.3, 1., 1.)
     xframe.Draw()
-    text = ROOT.TLatex(0.62, 0.91, "Data era " + era + "            L = " + lumi + "fb^{-1}")
+    lable_era = ""
+    if era != year:
+        lable_era = "Data Era " + era
+    else:
+        lable_era = "Data " + era
+    text = ROOT.TLatex(0.62, 0.91, lable_era + "            L = " + lumi + "fb^{-1}")
     text.SetNDC(ROOT.kTRUE)
     text.SetTextSize(0.032)
     text.SetTextFont(42)
@@ -166,10 +172,10 @@ def fit(tree, lumi, era="all"):
     )
 
     fsig = nsigevents / (fsigregion_model.getVal() * (nSig_right.getVal() + nSig_left.getVal() + nBkg.getVal()))
-
-    with open('Inv_mass_plot/yield.txt', 'a') as file:
-        file.write(f"Signal events in era {era} = {nsigevents} +- {nsig_err}")
-
+    # Save in pd dataframe
+    new_line = {'Era': era, 'Yeald': nsigevents, 'Error': nsig_err}
+    df = df.append(new_line, ignore_index=True)
+    
     chi2 = totalPDF.createChi2(data).getVal()
     ndof = int(binning_mass.split(',')[0][1:]) - 7
     print("chi2: ", chi2)
@@ -182,7 +188,7 @@ def fit(tree, lumi, era="all"):
     text3.SetTextFont(42)
     text3.Draw("same")
     
-    if era == "all":
+    if era == year:
         with open('Inv_mass_plot/some_fit_results.txt', 'w') as file:
             file.write(f"{fsigregion_bkg.getVal()} {nBkg.getVal()}")
 
@@ -191,21 +197,22 @@ def fit(tree, lumi, era="all"):
 
 def Control_inv_mass():
     #yields = [[1500, 300, 22000], [1000, 250, 9000], [2000, 650, 23000], [7500, 1800, 60000], [800, 180, 10000]]
-    
-    with open('Inv_mass_plot/yield.txt', 'w') as file:
-        file.write('Yeald results per era:')
-
+    df = pd.DataFrame(columns=['Era', 'Yeald', 'Error'])
     ch_data = TChain("FinalTree")
     year = "2022"
     if year == "2022":
-        for era, data in Era2022.items():
-            file = ROOT.TFile(data, "READ")
-            tree = file.Get("FinalTree")
-            fit(tree, lumi2022[era], era)
-            del tree
-            ch_data.Add(data)
-        fit(ch_data, lumi2022["ToT"], "all")
-        del ch_data
+        Eras = Era2022
+        Lumi_values = lumi2022
+    
+    for era, data in Eras.items():
+        file = ROOT.TFile(data, "READ")
+        tree = file.Get("FinalTree")
+        fit(tree, df, Lumi_values[era], era)
+        ch_data.Add(data)
+        del tree
+        
+    fit(ch_data, df, Lumi_values["ToT"], year)
+    del ch_data
 
 def control_plot_2022():
     lumi = 1.754213258  # recorded lumi by HLT_DoubleMu3_Trk_Tau3mu_v*
