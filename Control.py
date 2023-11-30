@@ -159,7 +159,7 @@ def fit(tree, year, lumi, era):
     text2.Draw("same")
 
     x.setRange("signal", 1.93, 2.01)
-    x.setRange("sideband", 1.7, 1.8)
+    x.setRange("sideband", 1.65, 1.75)
 
     fsigregion_model = totalPDF.createIntegral(x, RooFit.NormSet(x), RooFit.Range("signal"))
     fs = fsigregion_model.getVal()
