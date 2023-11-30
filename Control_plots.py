@@ -176,7 +176,10 @@ def fit(tree, df, year, lumi, era):
 
     fsig = nsigevents / (fsigregion_model.getVal() * (nSig_right.getVal() + nSig_left.getVal() + nBkg.getVal()))
     # Save in pd dataframe
-    new_line = {'Era': era, 'Yeald': nsigevents, 'Error': nsig_err}
+    new_line = pd.DataFrame({'Era': [era], 
+                             'Yeald': [nsigevents], 
+                             'Error': [nsig_err]})
+    
     df = pd.concat([df, new_line], ignore_index=True)
     
     chi2 = totalPDF.createChi2(data).getVal()
