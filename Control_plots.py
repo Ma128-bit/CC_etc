@@ -212,12 +212,12 @@ def Control_inv_mass():
     for era, data in Eras.items():
         file = ROOT.TFile(data, "READ")
         tree = file.Get("FinalTree")
-        new_line = fit(tree, df, year, Lumi_values[era], era)
+        new_line = fit(tree, year, Lumi_values[era], era)
         df = pd.concat([df, new_line], ignore_index=True)
         ch_data.Add(data)
         del tree
         
-    fit(ch_data, df, year, Lumi_values["ToT"], year)
+    fit(ch_data, year, Lumi_values["ToT"], year)
     df.to_csv('Mass_Fits/Yeald.csv', index=False)
     del ch_data
 
