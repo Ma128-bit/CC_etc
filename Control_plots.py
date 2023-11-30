@@ -260,7 +260,8 @@ def control_plots():
     n_evtMC = []
     for MC, data in MC2022.items():
         file = ROOT.TFile(data, "READ")
-        treeMC.append(file.Get("FinalTree"))
+        tree = file.Get("FinalTree")
+        treeMC.append(tree)
 
     for MC in treeMC:
         n_evtMC.append(MC.GetEntries())
