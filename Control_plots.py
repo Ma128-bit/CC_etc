@@ -57,43 +57,41 @@ def fit(ch, par, yield_vals, lumi, era="all"):
     x.setRange("R3", 1.65, 1.84)
     x.setRange("R4", 1.89, 1.925)
     x.setRange("R5", 1.99, 2.02)
-    x.setRange("R6", 1.65, 2.02)
 
-    mGCB = RooRealVar("mean", "meanCB", 1.97, 1.95, 2.0)
-    sigma1CB = RooRealVar("#sigma_{CB}", "sigma1CB", 0.02, 0.001, 0.1)
-    alpha = RooRealVar("#alpha", "alpha", par[0], 0.5, 10.0)
-    nSigma = RooRealVar("n1", "n1", par[1], 0.1, 25.0)
-    sigCBPdf = RooCBShape("sigCBPdf", "sigCBPdf", x, mGCB, sigma1CB, alpha, nSigma)
-    #sigCBPdf.fitTo(data, RooFit.Range("R2"))
+    meanCB = RooRealVar("mean", "meanCB", 1.97, 1.95, 2.0)
+    sigmaCB1 = RooRealVar("#sigma_{CB}", "sigmaCB1", 0.02, 0.001, 0.1)
+    alpha1 = RooRealVar("#alpha1", "alpha1", par[0], 0.5, 10.0)
+    nSigma1 = RooRealVar("n1", "n1", par[1], 0.1, 25.0)
+    sig_right = RooCBShape("sig_right", "sig_right", x, meanCB, sigmaCB1, alpha1, nSigma1)
+    #sig_right.fitTo(data, RooFit.Range("R2"))
 
-    mGCB2 = RooRealVar("mean2", "meanCB2", 1.87, 1.85, 1.90)
-    sigma2CB = RooRealVar("#sigma2_{CB}", "sigma2CB", 0.03, 0.001, 0.1)
-    alpha2 = RooRealVar("#alpha2", "alpha2", par[0], 0.5, 10.0)
-    nSigma2 = RooRealVar("n2", "n2", par[1], 0.1, 25.0)
-    sig2CBPdf = RooCBShape("sig2CBPdf", "sig2CBPdf", x, mGCB2, sigma2CB, alpha2, nSigma2)
-
-    #sig2CBPdf.fitTo(data, RooFit.Range("R1"))
+    meanCB2 = RooRealVar("mean2", "meanCB2", 1.87, 1.85, 1.90)
+    sigma2CB = RooRealVar("#sigma2_{CB}", "sigma2CB", 0.05, 0.001, 0.1)
+    #alpha2 = RooRealVar("#alpha2", "alpha2", par[0], 0.5, 10.0)
+    #nSigma2 = RooRealVar("n2", "n2", par[1], 0.1, 25.0)
+    sig_left = RooCBShape("sig_left", "sig_left", x, meanCB2, sigma2CB, alpha, nSigma)
+    #sig_left.fitTo(data, RooFit.Range("R1"))
 
     gamma = RooRealVar("#Gamma", "Gamma", -1, -2.0, -1e-2)
-    bkgExpPdf = RooExponential("bkgExpPdf", "bkgExpPdf", x, gamma)
-    bkgExpPdf.fitTo(data, RooFit.Range("R3,R4,R5"))
+    exp_bkg = RooExponential("exp_bkg", "exp_bkg", x, gamma)
+    exp_bkg.fitTo(data, RooFit.Range("R3,R4,R5"))
 
-    nSig2 = RooRealVar("nSig", "Number of signal candidates", yield_vals[0], 1.0, 1e+6)
-    nSig1 = RooRealVar("nSig2", "Number of signal 2 candidates", yield_vals[1], 1.0, 1e+6)
+    nSig_right = RooRealVar("nSig", "Number of signal candidates", yield_vals[0], 1.0, 1e+6)
+    nSig_left = RooRealVar("nSigp", "Number of signal 2 candidates", yield_vals[1], 1.0, 1e+6)
     nBkg = RooRealVar("nBkg", "Bkg component", yield_vals[2], 1.0, 1e+6)
 
-    totalPDF = RooAddPdf("totalPDF", "totalPDF", RooArgList(sigCBPdf, sig2CBPdf, bkgExpPdf),
-                         RooArgList(nSig2, nSig1, nBkg))
+    totalPDF = RooAddPdf("totalPDF", "totalPDF", RooArgList(sig_right, sig_left, exp_bkg),
+                         RooArgList(nSig_right, nSig_left, nBkg))
 
     r = totalPDF.fitTo(data, RooFit.Extended(ROOT.kTRUE), RooFit.Save(ROOT.kTRUE))
 
     xframe = x.frame()
     xframe.SetTitle("")
     xframe.SetXTitle("2mu +1trk inv. mass (GeV)")
-    totalPDF.paramOn(xframe, RooFit.Parameters(RooArgSet(alpha, nSigma, nSig1, nSig2, nBkg)), RooFit.Layout(0.6, 0.9, 0.9))
+    totalPDF.paramOn(xframe, RooFit.Parameters(RooArgSet(alpha1, nSigma1, nSig_left, nSig_right, nBkg)), RooFit.Layout(0.6, 0.9, 0.9))
     data.plotOn(xframe)
-    totalPDF.plotOn(xframe, RooFit.Components(RooArgSet(sigCBPdf, sig2CBPdf)), RooFit.LineColor(ROOT.kRed), RooFit.LineStyle(ROOT.kDashed))
-    totalPDF.plotOn(xframe, RooFit.Components(RooArgSet(bkgExpPdf)), RooFit.LineColor(ROOT.kGreen), RooFit.LineStyle(ROOT.kDashed))
+    totalPDF.plotOn(xframe, RooFit.Components(RooArgSet(sig_right, sig_left)), RooFit.LineColor(ROOT.kRed), RooFit.LineStyle(ROOT.kDashed))
+    totalPDF.plotOn(xframe, RooFit.Components(RooArgSet(exp_bkg)), RooFit.LineColor(ROOT.kGreen), RooFit.LineStyle(ROOT.kDashed))
     totalPDF.plotOn(xframe)
 
     c1 = ROOT.TCanvas("c1", "c1", 900, 900)
@@ -133,22 +131,22 @@ def fit(ch, par, yield_vals, lumi, era="all"):
 
     fsidebandregion_model = totalPDF.createIntegral(x, RooFit.NormSet(x), RooFit.Range("sideband"))
 
-    fsigregion_bkg = bkgExpPdf.createIntegral(x, RooFit.NormSet(x), RooFit.Range("signal"))
+    fsigregion_bkg = exp_bkg.createIntegral(x, RooFit.NormSet(x), RooFit.Range("signal"))
     fb = fsigregion_bkg.getVal()
     fb_err = fsigregion_bkg.getPropagatedError(r)
 
-    nsigevents = fs * (nSig2.getVal() + nSig1.getVal() + nBkg.getVal()) - fb * nBkg.getVal()
+    nsigevents = fs * (nSig_right.getVal() + nSig_left.getVal() + nBkg.getVal()) - fb * nBkg.getVal()
     nsig_err = ROOT.TMath.Sqrt(
-        fs_err**2 * (nSig2.getVal() + nSig1.getVal() + nBkg.getVal())**2 +
-        (nSig2.getPropagatedError(r)**2 +
-         nSig1.getPropagatedError(r)**2 +
+        fs_err**2 * (nSig_right.getVal() + nSig_left.getVal() + nBkg.getVal())**2 +
+        (nSig_right.getPropagatedError(r)**2 +
+         nSig_left.getPropagatedError(r)**2 +
          nBkg.getPropagatedError(r)**2) *
         fs**2 +
         fb_err**2 * nBkg.getVal()**2 +
         nBkg.getPropagatedError(r)**2 * fb**2
     )
 
-    fsig = nsigevents / (fsigregion_model.getVal() * (nSig2.getVal() + nSig1.getVal() + nBkg.getVal()))
+    fsig = nsigevents / (fsigregion_model.getVal() * (nSig_right.getVal() + nSig_left.getVal() + nBkg.getVal()))
 
     with open('Inv_mass_plot/yield.txt', 'a') as file:
         file.write(f"Signal events in era {era} = {nsigevents} +- {nsig_err}")
