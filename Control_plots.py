@@ -68,9 +68,9 @@ def fit(ch, par, yield_vals, lumi, era="all"):
 
     mGCB2 = RooRealVar("mean2", "meanCB2", 1.87, 1.85, 1.90)
     sigma2CB = RooRealVar("#sigma2_{CB}", "sigma2CB", 0.03, 0.001, 0.1)
-    #alpha2 = RooRealVar("#alpha2", "alpha2", par[0], 0.5, 10.0)
-    #nSigma2 = RooRealVar("n2", "n2", par[1], 0.1, 25.0)
-    sig2CBPdf = RooGaussian("sig2CBPdf", "sig2CBPdf", x, mGCB2, sigma2CB)
+    alpha2 = RooRealVar("#alpha2", "alpha2", par[0], 0.5, 10.0)
+    nSigma2 = RooRealVar("n2", "n2", par[1], 0.1, 25.0)
+    sig2CBPdf = RooCBShape("sig2CBPdf", "sig2CBPdf", x, mGCB2, sigma2CB, alpha2, nSigma2)
 
     #sig2CBPdf.fitTo(data, RooFit.Range("R1"))
 
