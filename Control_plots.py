@@ -26,7 +26,9 @@ lumi2022 = {
     "E": "0.29",
     "F": "0.887",
     "G": "0.153",
-    "ToT": "1.727"
+    "ToT": "1.727",
+    "Pre_EE": "0.397",
+    "Post_EE": "1.330"
 }
 
 binning_dict = {
@@ -192,7 +194,7 @@ def fit(tree, year, lumi, era):
         with open('Mass_Fits/some_fit_results.txt', 'w') as file:
             file.write(f"{fsigregion_bkg.getVal()} {nBkg.getVal()}")
 
-    c1.SaveAs("Mass_Fits/inv_mass_{}.png".format(era), "png -dpi 600")
+    c1.SaveAs("Mass_Fits/Fit_{}.png".format(era), "png -dpi 600")
     c1.Clear()
     return new_line
 
@@ -204,17 +206,32 @@ def Control_inv_mass():
     if year == "2022":
         Eras = Era2022
         Lumi_values = lumi2022
+        ch_data_pre = TChain("FinalTree")
+        ch_data_post = TChain("FinalTree")
     
     for era, data in Eras.items():
         file = ROOT.TFile(data, "READ")
         tree = file.Get("FinalTree")
         new_line = fit(tree, year, Lumi_values[era], era)
         df = pd.concat([df, new_line], ignore_index=True)
+        if year == "2022" and (era == "C" or era == "D"):
+            ch_data_pre.Add(data)
+        if year == "2022" and (era == "E" or era == "F" or era == "G"):
+            ch_data_post.Add(data)
         ch_data.Add(data)
         del tree
-        
+    
     new_line = fit(ch_data, year, Lumi_values["ToT"], year)
     df = pd.concat([df, new_line], ignore_index=True)
+    
+    if year == "2022":
+        new_line = fit(ch_data_pre, "Pre_EE", Lumi_values["Pre_EE"], year)
+        df = pd.concat([df, new_line], ignore_index=True)
+        del ch_data_pre
+        new_line = fit(ch_data_post, "Post_EE", Lumi_values["Post_EE"], year)
+        df = pd.concat([df, new_line], ignore_index=True)
+        del ch_data_post
+    
     df.to_csv('Mass_Fits/Yeald.csv', index=False)
     del ch_data
 
