@@ -20,6 +20,11 @@ Era2022 = {
     "G": control_Run2022G
 }
 
+MC2022 = {
+    "Pre_EE": MC2022_DsPhiPi_pre,
+    "Post_EE": MC2022_DsPhiPi_post
+}
+
 lumi2022 = {
     "C": "0.25",
     "D": "0.147",
@@ -53,6 +58,8 @@ binning_dict = {
     "MVASoft1": "(50,0.2,0.8)",
     "MVASoft2": "(50,0.2,0.8)"
 }
+
+connection_values = [0. , 0.]
 
 def fit(tree, year, lumi, era):
     ROOT.gROOT.SetBatch(ROOT.kTRUE)  # To run ROOT in batch mode    
@@ -137,6 +144,8 @@ def fit(tree, year, lumi, era):
         lable_era = "Data Era " + era
     else:
         lable_era = "Data " + era
+    if era == "Post_EE" or era == "Pre_EE":
+        lable_era = "Data " + era
     text = ROOT.TLatex(0.62, 0.91, lable_era + "            L = " + lumi + "fb^{-1}")
     text.SetNDC(ROOT.kTRUE)
     text.SetTextSize(0.032)
@@ -162,17 +171,12 @@ def fit(tree, year, lumi, era):
     fb_err = fsigregion_bkg.getPropagatedError(r)
 
     nsigevents = fs * (nSig_right.getVal() + nSig_left.getVal() + nBkg.getVal()) - fb * nBkg.getVal()
-    nsig_err = ROOT.TMath.Sqrt(
-        fs_err**2 * (nSig_right.getVal() + nSig_left.getVal() + nBkg.getVal())**2 +
-        (nSig_right.getPropagatedError(r)**2 +
-         nSig_left.getPropagatedError(r)**2 +
-         nBkg.getPropagatedError(r)**2) *
-        fs**2 +
-        fb_err**2 * nBkg.getVal()**2 +
-        nBkg.getPropagatedError(r)**2 * fb**2
-    )
+    nsig_err = ROOT.TMath.Sqrt(fs_err**2 * (nSig_right.getVal() + nSig_left.getVal() + nBkg.getVal())**2 +
+                               (nSig_right.getPropagatedError(r)**2 + nSig_left.getPropagatedError(r)**2 + nBkg.getPropagatedError(r)**2) * fs**2 + 
+                               fb_err**2 * nBkg.getVal()**2 + nBkg.getPropagatedError(r)**2 * fb**2 )
 
     fsig = nsigevents / (fsigregion_model.getVal() * (nSig_right.getVal() + nSig_left.getVal() + nBkg.getVal()))
+    
     # Save in pd dataframe
     new_line = pd.DataFrame({'Era': [era], 
                              'Yeald': [nsigevents], 
@@ -191,8 +195,8 @@ def fit(tree, year, lumi, era):
     text3.Draw("same")
     
     if era == year:
-        with open('Mass_Fits/some_fit_results.txt', 'w') as file:
-            file.write(f"{fsigregion_bkg.getVal()} {nBkg.getVal()}")
+        connection_values[0] = fsigregion_bkg.getVal()
+        connection_values[1] = nBkg.getVal()
 
     c1.SaveAs("Mass_Fits/Fit_{}.png".format(era), "png -dpi 600")
     c1.Clear()
@@ -235,37 +239,35 @@ def Control_inv_mass():
     df.to_csv('Mass_Fits/Yeald.csv', index=False)
     del ch_data
 
-def control_plot_2022():
-    lumi = 1.754213258  # recorded lumi by HLT_DoubleMu3_Trk_Tau3mu_v*
-    lumi_preE = 0.403852348  # recorded lumi by HLT_DoubleMu3_Trk_Tau3mu_v*
-    lumi_postE = 1.35036091  # recorded lumi by HLT_DoubleMu3_Trk_Tau3mu_v*
+def control_plots():
+    if year == "2022":
+        lumi = float(lumi2022["ToT"])  # recorded lumi by HLT_DoubleMu3_Trk_Tau3mu_v*
+        lumi_preE = float(lumi2022["Pre_EE"])  # recorded lumi by HLT_DoubleMu3_Trk_Tau3mu_v*
+        lumi_postE = float(lumi2022["Post_EE"])  # recorded lumi by HLT_DoubleMu3_Trk_Tau3mu_v*
+        Eras = Era2022
+        MC = MC2022
+    
     xsection_mc_postE = 1.103e10  # Ds Production Cross section
     xsection_mc_preE = 1.106e10  # Ds Production Cross section
     BR = 1.29e-5  # Branching ratio Ds to Phi Pi
 
     # Data ALL
     ch_data = TChain("FinalTree")
-    ch_data.Add(control_Run2022C)
-    ch_data.Add(control_Run2022D)
-    ch_data.Add(control_Run2022E)
-    ch_data.Add(control_Run2022F)
-    ch_data.Add(control_Run2022G)
+    for era, data in Eras.items():
+        ch_data.Add(data)
 
-    # MC ALL
-    tmc_1 = TChain("FinalTree")
-    tmc_1.Add(MC2022_DsPhiPi_pre)
-    n1 = tmc_1.GetEntries()
-    tmc_2 = TChain("FinalTree")
-    tmc_2.Add(MC2022_DsPhiPi_post)
-    n2 = tmc_2.GetEntries()
-    N_MC = n1 + n1
+    treeMC = []
+    n_evtMC = []
+    for MC, data in MC2022.items():
+        file = ROOT.TFile(data, "READ")
+        treeMC.append(file.Get("FinalTree"))
+
+    for MC in treeMC:
+        n_evtMC.append(MC.GetEntries())
+    
+    print("n_evtMC: ", n_evtMC)
+    N_MC = sum(n_evtMC)
     print("N_MC: ", N_MC)
-    print("n1: ", n1)
-    print("n2: ", n2)
-
-    invmass_SB = "(tripletMass<1.80 && tripletMass>1.70)"
-    invmass_peak = "(tripletMass<2.01 && tripletMass>1.93)"
-    binning_mass = "(42, 1.60, 2.02)"
 
     for k in range(len(var)):
         varname = var[k]
@@ -274,13 +276,15 @@ def control_plot_2022():
 
         ch_data.Draw(varname + ">>hdata_bkg" + s+ binning, invmass_SB)
         ch_data.Draw(varname + ">>hdata_sgn" + s + binning, invmass_peak)
-        tmc_1.Draw(varname + ">>hmc_sgn" + s + binning, invmass_peak)
-        tmc_2.Draw(varname + ">>hmc_sgn2" + s + binning, invmass_peak)
+        treeMC[0].Draw(varname + ">>hmc_sgn" + s + binning, invmass_peak)
+        if year == "2022":
+            treeMC[1].Draw(varname + ">>hmc_sgn2" + s + binning, invmass_peak)
 
         hdata_bkg = TH1F(gDirectory.Get("hdata_bkg" + s))
         hdata_sgn = TH1F(gDirectory.Get("hdata_sgn" + s))
         hmc_sgn = TH1F(gDirectory.Get("hmc_sgn" + s))
-        hmc_sgn2 = TH1F(gDirectory.Get("hmc_sgn2" + s))
+        if year == "2022":
+            hmc_sgn2 = TH1F(gDirectory.Get("hmc_sgn2" + s))
 
         c2 = TCanvas("c2", "c2", 150, 10, 990, 660)
         pad1 = TPad("pad1", "pad1", 0, 0.3, 1, 1.0)
@@ -289,30 +293,29 @@ def control_plot_2022():
         pad1.Draw()
         pad1.cd()
         hmc_sgn.SetTitle(varname)
-        hmc_sgn2.SetTitle(varname)
+        if year == "2022":
+            hmc_sgn2.SetTitle(varname)
 
-        # Normalizzazione MC preE
-        normMC = hmc_sgn.GetEntries()
-        wNorm = lumi_preE * xsection_mc_preE * BR / N_MC
-        hmc_sgn.Scale(wNorm)
-
-        # Normalizzazione MC postE
-        normMC2 = hmc_sgn2.GetEntries()
-        # Normalizing Monte Carlo
-        wNorm2 = lumi_postE * xsection_mc_postE * BR / N_MC
-        hmc_sgn2.Scale(wNorm2)
-
-        # Unisco i due MC
-        hmc_sgn.Add(hmc_sgn2)
+        if year == "2022":
+            # Normalizzazione MC preE
+            normMC = hmc_sgn.GetEntries()
+            wNorm = lumi_preE * xsection_mc_preE * BR / N_MC
+            hmc_sgn.Scale(wNorm)
+    
+            # Normalizzazione MC postE
+            normMC2 = hmc_sgn2.GetEntries()
+            # Normalizing Monte Carlo
+            wNorm2 = lumi_postE * xsection_mc_postE * BR / N_MC
+            hmc_sgn2.Scale(wNorm2)
+    
+            # Unisco i due MC
+            hmc_sgn.Add(hmc_sgn2)
+        
         # Scaling the SB distribution to the number of background events in 1.93,2.01
         normSB = hdata_bkg.GetEntries()
-
-        with open("Inv_mass_plot/some_fit_results.txt") as fin:
-            fsigregion_bkg_val = float(fin.readline())
-            nbkg_val = float(fin.readline())
-
+        fsigregion_bkg_val = connection_values[0]
+        nbkg_val = connection_values[1]
         hdata_bkg.Scale(fsigregion_bkg_val * nbkg_val / normSB)
-
         print("Entries in hdata_sgn before SB subtraction:", hdata_sgn.GetEntries())
         hdata_sgn.Add(hdata_bkg, -1)  # subtract h2 from h1: h1->Add(h2,-1)
 
@@ -415,8 +418,9 @@ def control_plot_2022():
 
         c2.cd()
         c2.Update()
-        c2.SaveAs("control_plots/" + varname + "_.png")
+        c2.SaveAs("Control_Plots/" + varname + "_.png")
 
 if __name__ == "__main__": 
     Control_inv_mass()
+    control_plots()
     
