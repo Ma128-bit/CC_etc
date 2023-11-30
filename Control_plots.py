@@ -73,6 +73,7 @@ def fit(tree, year, lumi, era):
     h_tripletmass_bkg = ROOT.TH1F()
     h_tripletmass_sign = ROOT.TH1F()
 
+    
     tree.Draw("tripletMass>>h_tripletmass"+binning_mass, selez)
     h_tripletmass = ROOT.gDirectory.Get("h_tripletmass")
     tree.Draw("tripletMass>>h_tripletmass_bkg"+binning_mass, invmass_SB + "&&" + selez)
@@ -277,40 +278,40 @@ def control_plots():
 
         ch_data.Draw(varname + ">>hdata_bkg" + s+ binning, invmass_SB)
         ch_data.Draw(varname + ">>hdata_sgn" + s + binning, invmass_peak)
-        treeMC[0].Draw(varname + ">>hmc_sgn" + s + binning, invmass_peak)
+        treeMC[0].Draw(varname + ">>hMC_sgn" + s + binning, invmass_peak)
         if year == "2022":
-            treeMC[1].Draw(varname + ">>hmc_sgn2" + s + binning, invmass_peak)
+            treeMC[1].Draw(varname + ">>hMC_sgn2" + s + binning, invmass_peak)
 
         hdata_bkg = TH1F(gDirectory.Get("hdata_bkg" + s))
         hdata_sgn = TH1F(gDirectory.Get("hdata_sgn" + s))
-        hmc_sgn = TH1F(gDirectory.Get("hmc_sgn" + s))
+        hMC_sgn = TH1F(gDirectory.Get("hMC_sgn" + s))
         if year == "2022":
-            hmc_sgn2 = TH1F(gDirectory.Get("hmc_sgn2" + s))
+            hMC_sgn2 = TH1F(gDirectory.Get("hMC_sgn2" + s))
 
         c2 = TCanvas("c2", "c2", 150, 10, 990, 660)
-        pad1 = TPad("pad1", "pad1", 0, 0.3, 1, 1.0)
+        pad1 = TPad("pad1", "pad1", 0, 0.35, 1, 1.0)
         pad1.SetBottomMargin(0)
         pad1.SetGridx()
         pad1.Draw()
         pad1.cd()
-        hmc_sgn.SetTitle(varname)
+        hMC_sgn.SetTitle(varname)
         if year == "2022":
-            hmc_sgn2.SetTitle(varname)
+            hMC_sgn2.SetTitle(varname)
 
         if year == "2022":
             # Normalizzazione MC preE
-            normMC = hmc_sgn.GetEntries()
+            normMC = hMC_sgn.GetEntries()
             wNorm = lumi_preE * xsection_mc_preE * BR / N_MC
-            hmc_sgn.Scale(wNorm)
+            hMC_sgn.Scale(wNorm)
     
             # Normalizzazione MC postE
-            normMC2 = hmc_sgn2.GetEntries()
+            normMC2 = hMC_sgn2.GetEntries()
             # Normalizing Monte Carlo
             wNorm2 = lumi_postE * xsection_mc_postE * BR / N_MC
-            hmc_sgn2.Scale(wNorm2)
+            hMC_sgn2.Scale(wNorm2)
     
             # Unisco i due MC
-            hmc_sgn.Add(hmc_sgn2)
+            hMC_sgn.Add(hMC_sgn2)
         
         # Scaling the SB distribution to the number of background events in 1.93,2.01
         normSB = hdata_bkg.GetEntries()
@@ -321,34 +322,34 @@ def control_plots():
         hdata_sgn.Add(hdata_bkg, -1)  # subtract h2 from h1: h1->Add(h2,-1)
 
         # Rescaling
-        hdata_sgn.Scale(hmc_sgn.Integral() / hdata_sgn.Integral())
+        hdata_sgn.Scale(hMC_sgn.Integral() / hdata_sgn.Integral())
 
         #print("Entries in hdata_sgn after SB subtraction:", hdata_sgn.GetEntries())
-        #print("Entries in hmc_sgn after rescaling:", hmc_sgn.GetEntries())
+        #print("Entries in hMC_sgn after rescaling:", hMC_sgn.GetEntries())
 
         # Plot makeup
-        Y_max = max(hmc_sgn.GetMaximum(), hdata_sgn.GetMaximum())
+        Y_max = max(hMC_sgn.GetMaximum(), hdata_sgn.GetMaximum())
         Y_max = Y_max * 1.05
-        hmc_sgn.GetYaxis().SetRangeUser(0, Y_max)
+        hMC_sgn.GetYaxis().SetRangeUser(0, Y_max)
 
-        hmc_sgn.GetYaxis().SetTitle("a.u.")
-        hmc_sgn.GetYaxis().SetTitleSize(22)
-        hmc_sgn.GetYaxis().SetTitleFont(43)
-        hmc_sgn.GetYaxis().SetTitleOffset(1.25)
+        hMC_sgn.GetYaxis().SetTitle("a.u.")
+        hMC_sgn.GetYaxis().SetTitleSize(22)
+        hMC_sgn.GetYaxis().SetTitleFont(43)
+        hMC_sgn.GetYaxis().SetTitleOffset(1.25)
 
-        hmc_sgn.SetLineColor(kBlue)
-        hmc_sgn.SetLineWidth(3)
-        hmc_sgn.SetFillStyle(3004)
-        hmc_sgn.SetFillColor(kBlue)
+        hMC_sgn.SetLineColor(kBlue)
+        hMC_sgn.SetLineWidth(3)
+        hMC_sgn.SetFillStyle(3004)
+        hMC_sgn.SetFillColor(kBlue)
         hdata_sgn.SetLineColor(kRed)
         hdata_sgn.SetLineWidth(3)
         hdata_sgn.SetFillStyle(3005)
         hdata_sgn.SetFillColor(kRed)
 
-        hmc_sgn.Draw("hist")
+        hMC_sgn.Draw("hist")
         hdata_sgn.Draw("hist same")
 
-        hmc_sgn.SetStats(0)
+        hMC_sgn.SetStats(0)
         x_leg_left = 0.55
         x_leg_right = 0.90
         y_leg_left = 0.63
@@ -357,7 +358,7 @@ def control_plots():
             x_leg_left = 0.1
             x_leg_right = 0.45
         leg = TLegend(x_leg_left, y_leg_left, x_leg_right, y_leg_right)
-        leg.AddEntry(hmc_sgn, "MC DsPhiPi", "f")
+        leg.AddEntry(hMC_sgn, "MC DsPhiPi", "f")
         leg.AddEntry(hdata_sgn, "data (SB subtracted)", "f")
         leg.Draw()
 
@@ -373,7 +374,7 @@ def control_plots():
         # Define the ratio plot
         h_x_ratio = hdata_sgn.Clone("h_x_ratio")
         h_x_ratio.Sumw2()
-        h_x_ratio.Divide(hmc_sgn)
+        h_x_ratio.Divide(hMC_sgn)
         h_x_ratio.SetStats(0)
 
         # Ratio plot settings
@@ -423,6 +424,10 @@ def control_plots():
         c2.cd()
         c2.Update()
         c2.SaveAs("Control_Plots/" + varname + ".png")
+        del c2 pad1 pad2
+        del h_x_ratio hdata_bkg hdata_sgn hMC_sgn line
+        if year == "2022":
+            del hMC_sgn2
 
 if __name__ == "__main__": 
     Control_inv_mass()
