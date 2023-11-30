@@ -169,7 +169,6 @@ def fit(ch, par, yield_vals, lumi, era="all"):
 
     c1.SaveAs("Inv_mass_plot/inv_mass_{}.png".format(era))
     c1.Clear()
-    fout.Close()
 
 def Control_inv_mass():
     name = ["C", "D", "E", "F", "G"]
