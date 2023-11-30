@@ -153,7 +153,9 @@ def fit(ch, par, yield_vals, lumi, era="all"):
 
     chi2 = totalPDF.createChi2(data).getVal()
     ndof = int(binning_mass.split(',')[0][1:]) - 7
-    chi = "#chi^{2}/NDOF = {:.2f}".format(chi2 / ndof)
+    print("chi2: ", chi2)
+    print("ndof: ", ndof)
+    #chi = "#chi^{2}/NDOF = {:.2f}".format(chi2 / ndof)
     text3 = ROOT.TLatex(0.15, 0.77, chi)
     text3.SetNDC(ROOT.kTRUE)
     text3.SetTextSize(0.032)
