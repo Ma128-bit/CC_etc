@@ -138,12 +138,12 @@ def fit(ch, par, yield_vals, lumi, era="all"):
     nsigevents = fs * (nSig2.getVal() + nSig1.getVal() + nBkg.getVal()) - fb * nBkg.getVal()
     nsig_err = ROOT.TMath.Sqrt(
         fs_err**2 * (nSig2.getVal() + nSig1.getVal() + nBkg.getVal())**2 +
-        (nSig2.getPropagatedError(totalPDF.getParameters(data))**2 +
-         nSig1.getPropagatedError(totalPDF.getParameters(data))**2 +
-         nBkg.getPropagatedError(totalPDF.getParameters(data))**2) *
+        (nSig2.getPropagatedError(r)**2 +
+         nSig1.getPropagatedError(r)**2 +
+         nBkg.getPropagatedError(r)**2) *
         fs**2 +
         fb_err**2 * nBkg.getVal()**2 +
-        nBkg.getPropagatedError(totalPDF.getParameters(data))**2 * fb**2
+        nBkg.getPropagatedError(r)**2 * fb**2
     )
 
     fsig = nsigevents / (fsigregion_model.getVal() * (nSig2.getVal() + nSig1.getVal() + nBkg.getVal()))
