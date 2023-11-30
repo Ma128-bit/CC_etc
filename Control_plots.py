@@ -4,6 +4,10 @@ form file_locations import *
 
 var = ["cLP", "tKink", "segmComp", "fv_nC", "d0sig", "fv_dphi3D", "fv_d3Dsig", "mindca_iso", "trkRel", "d0sig_max", "MVASoft1", "MVASoft2"]
 
+invmass_SB = "(tripletMass<1.80 && tripletMass>1.70)"
+invmass_peak = "(tripletMass<2.01 && tripletMass>1.93)"
+binning_mass = "(65, 1.60, 2.02)"
+
 binning_dict = {
     "Ptmu1": "(60,0,30)",
     "Ptmu2": "(60,0,30)",
@@ -26,6 +30,165 @@ binning_dict = {
     "MVASoft1": "(50,0.2,0.8)",
     "MVASoft2": "(50,0.2,0.8)"
 }
+
+def fit(ch, par, yield_vals, lumi, era="all"):
+    ROOT.gROOT.SetBatch(ROOT.kTRUE)  # To run ROOT in batch mode
+    fout = ROOT.TFile("Inv_mass_plot/yield.root", "UPDATE")
+    
+    print("Total entries era", era, "=", ch.GetEntries())
+
+    selez = "(Ptmu3 > 1.2 && ((Ptmu1>3.5 && Etamu1<1.2) || (Ptmu1>2.0 && Etamu1>=1.2 && Etamu1<=2.4)) && ((Ptmu2>3.5 && Etamu2<1.2) || (Ptmu2>2.0 && Etamu2>=1.2 && Etamu2<=2.4)))"
+
+    h_tripletmass = ROOT.TH1F()
+    h_tripletmass_bkg = ROOT.TH1F()
+    h_tripletmass_sign = ROOT.TH1F()
+
+    ch.Draw("tripletMass>>h_tripletmass"+binning_mass, selez)
+    h_tripletmass = ROOT.gDirectory.Get("h_tripletmass")
+    ch.Draw("tripletMass>>h_tripletmass_bkg"+binning_mass, invmass_SB + "&&" + selez)
+    h_tripletmass_bkg = ROOT.gDirectory.Get("h_tripletmass_bkg")
+    ch.Draw("tripletMass>>h_tripletmass_sign"+binning_mass, invmass_peak + "&&" + selez)
+    h_tripletmass_sign = ROOT.gDirectory.Get("h_tripletmass_sign")
+
+    x = RooFit.RooRealVar("x", "2mu+1trk inv. mass (GeV)", 1.65, 2.05)
+    x.setBins(int(binning_mass.split(',')[0][1:]))
+    data = RooFit.RooDataSet("data", h_tripletmass.GetTitle(), RooFit.RooArgSet(x), RooFit.Import(h_tripletmass, ROOT.kFALSE))
+
+    x.setRange("R1", 1.83, 1.89)
+    x.setRange("R2", 1.93, 2.02)
+    x.setRange("R3", 1.65, 1.84)
+    x.setRange("R4", 1.89, 1.925)
+    x.setRange("R5", 1.99, 2.02)
+    x.setRange("R6", 1.65, 2.02)
+
+    mGCB = RooFit.RooRealVar("mean", "meanCB", 1.97, 1.95, 2.0)
+    sigma1CB = RooFit.RooRealVar("#sigma_{CB}", "sigma1CB", 0.02, 0.001, 0.1)
+    alpha = RooFit.RooRealVar("#alpha", "alpha", par[0], 0.5, 10.0)
+    nSigma = RooFit.RooRealVar("n1", "n1", par[1], 0.1, 25.0)
+    sigCBPdf = RooFit.RooGaussian("sigCBPdf", "sigCBPdf", x, mGCB, sigma1CB)
+
+    sigCBPdf.fitTo(data, RooFit.Range("R2"))
+
+    mGCB2 = RooFit.RooRealVar("mean2", "meanCB2", 1.87, 1.85, 1.90)
+    sigma2CB = RooFit.RooRealVar("#sigma2_{CB}", "sigma2CB", 0.03, 0.001, 0.1)
+    sig2CBPdf = RooFit.RooGaussian("sig2CBPdf", "sig2CBPdf", x, mGCB2, sigma2CB)
+    sig2CBPdf.fitTo(data, RooFit.Range("R1"))
+
+    gamma = RooFit.RooRealVar("#Gamma", "Gamma", -1, -2.0, -1e-2)
+    bkgExpPdf = RooFit.RooExponential("bkgExpPdf", "bkgExpPdf", x, gamma)
+    bkgExpPdf.fitTo(data, RooFit.Range("R3,R4,R5"))
+
+    nSig2 = RooFit.RooRealVar("nSig", "Number of signal candidates", yield_vals[0], 1.0, 1e+6)
+    nSig1 = RooFit.RooRealVar("nSig2", "Number of signal 2 candidates", yield_vals[1], 1.0, 1e+6)
+    nBkg = RooFit.RooRealVar("nBkg", "Bkg component", yield_vals[2], 1.0, 1e+6)
+
+    totalPDF = RooFit.RooAddPdf("totalPDF", "totalPDF", RooFit.RooArgList(sigCBPdf, sig2CBPdf, bkgExpPdf),
+                         RooFit.RooArgList(nSig2, nSig1, nBkg))
+
+    totalPDF.fitTo(data, RooFit.Extended(ROOT.kTRUE), RooFit.Save(ROOT.kTRUE))
+
+    xframe = x.frame()
+    xframe.SetTitle("")
+    xframe.SetXTitle("2mu +1trk inv. mass (GeV)")
+    totalPDF.paramOn(xframe, RooFit.Parameters(RooFit.RooArgSet(alpha, nSigma, nSig1, nSig2, nBkg)), RooFit.Layout(0.6, 0.9, 0.9))
+    data.plotOn(xframe)
+    totalPDF.plotOn(xframe, RooFit.Components(RooFit.RooArgSet(sigCBPdf, sig2CBPdf)), RooFit.LineColor(ROOT.kRed), RooFit.LineStyle(ROOT.kDashed))
+    totalPDF.plotOn(xframe, RooFit.Components(RooFit.RooArgSet(bkgExpPdf)), RooFit.LineColor(ROOT.kGreen), RooFit.LineStyle(ROOT.kDashed))
+    totalPDF.plotOn(xframe)
+
+    c1 = ROOT.TCanvas("c1", "c1", 900, 900)
+    c1.Divide(1, 2)
+
+    xframePull = x.frame()
+    xframePull.SetTitle("Pulls bin-by-bin")
+    xframePull.SetXTitle("2mu +1trk inv. mass (GeV)")
+    xframePull.SetYTitle("Pulls")
+    xframePull.addObject(xframe.pullHist(), "p")
+    xframePull.SetMinimum(-4)
+    xframePull.SetMaximum(4)
+    c1.cd(2)
+    ROOT.gPad.SetPad(0., 0., 1., 0.3)
+    xframePull.Draw()
+
+    c1.cd(1)
+    ROOT.gPad.SetPad(0., 0.3, 1., 1.)
+    xframe.Draw()
+    text = ROOT.TLatex(0.62, 0.91, "Data era " + era + "            L = " + lumi + "fb^{-1}")
+    text.SetNDC(ROOT.kTRUE)
+    text.SetTextSize(0.032)
+    text.SetTextFont(42)
+    text.Draw("same")
+    text2 = ROOT.TLatex(0.15, 0.81, "#bf{CMS Preliminary}")
+    text2.SetNDC(ROOT.kTRUE)
+    text2.SetTextSize(0.032)
+    text2.SetTextFont(42)
+    text2.Draw("same")
+
+    x.setRange("signal", 1.93, 2.01)
+    x.setRange("sideband", 1.7, 1.8)
+
+    fsigregion_model = totalPDF.createIntegral(x, RooFit.NormSet(x), RooFit.Range("signal"))
+    fs = fsigregion_model.getVal()
+    fs_err = fsigregion_model.getPropagatedError(totalPDF.getParameters(data))
+
+    fsidebandregion_model = totalPDF.createIntegral(x, RooFit.NormSet(x), RooFit.Range("sideband"))
+
+    fsigregion_bkg = bkgExpPdf.createIntegral(x, RooFit.NormSet(x), RooFit.Range("signal"))
+    fb = fsigregion_bkg.getVal()
+    fb_err = fsigregion_bkg.getPropagatedError(totalPDF.getParameters(data))
+
+    nsigevents = fs * (nSig2.getVal() + nSig1.getVal() + nBkg.getVal()) - fb * nBkg.getVal()
+    nsig_err = ROOT.TMath.Sqrt(
+        fs_err**2 * (nSig2.getVal() + nSig1.getVal() + nBkg.getVal())**2 +
+        (nSig2.getPropagatedError(totalPDF.getParameters(data))**2 +
+         nSig1.getPropagatedError(totalPDF.getParameters(data))**2 +
+         nBkg.getPropagatedError(totalPDF.getParameters(data))**2) *
+        fs**2 +
+        fb_err**2 * nBkg.getVal()**2 +
+        nBkg.getPropagatedError(totalPDF.getParameters(data))**2 * fb**2
+    )
+
+    fsig = nsigevents / (fsigregion_model.getVal() * (nSig2.getVal() + nSig1.getVal() + nBkg.getVal()))
+
+    print("Signal events in era", era, "=", nsigevents, "+-", nsig_err)
+
+    chi2 = totalPDF.createChi2(data).getVal()
+    ndof = int(binning_mass.split(',')[0][1:]) - 7
+    chi = "#chi^{2}/NDOF = {:.2f}".format(chi2 / ndof)
+    text3 = ROOT.TLatex(0.15, 0.77, chi)
+    text3.SetNDC(ROOT.kTRUE)
+    text3.SetTextSize(0.032)
+    text3.SetTextFont(42)
+    text3.Draw("same")
+
+    if era == "all":
+        fout2 = ROOT.TFile("Inv_mass_plot/some_fit_results.root", "UPDATE")
+        fout2.WriteTObject(ROOT.TObject(fsigregion_bkg.getVal()), "", "Overwrite")
+        fout2.WriteTObject(ROOT.TObject(nBkg.getVal()), "", "Overwrite")
+        fout2.Close()
+
+    c1.SaveAs("Inv_mass_plot/inv_mass_{}.png".format(era))
+    c1.Clear()
+    fout.Close()
+
+def Control_inv_mass():
+    name = ["C", "D", "E", "F", "G"]
+    lumi = ["0.25", "0.147", "0.29", "0.887", "0.153"]
+    lumi_tot = "1.727"
+    yield_vals = [[1500, 300, 22000], [1000, 250, 9000], [2000, 650, 23000], [7500, 1800, 60000], [800, 180, 10000]]
+    par = [1., 1.]
+    
+    ch_data = TChain("FinalTree")
+    ch_data.Add(control_Run2022C)
+    ch_data.Add(control_Run2022D)
+    ch_data.Add(control_Run2022E)
+    ch_data.Add(control_Run2022F)
+    ch_data.Add(control_Run2022G)
+    
+    yy = [10000, 2000, 140000]
+    fit(ch_data, par, yy, lumi_tot, "all")
+    
+    del ch_data
 
 def control_plot_2022():
     lumi = 1.754213258  # recorded lumi by HLT_DoubleMu3_Trk_Tau3mu_v*
