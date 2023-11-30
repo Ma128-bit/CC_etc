@@ -65,12 +65,12 @@ def fit(ch, par, yield_vals, lumi, era="all"):
     nSigma = RooRealVar("n1", "n1", par[1], 0.1, 25.0)
     sigCBPdf = RooGaussian("sigCBPdf", "sigCBPdf", x, mGCB, sigma1CB)
 
-    sigCBPdf.fitTo(data, RooFit.Range("R2"))
+    #sigCBPdf.fitTo(data, RooFit.Range("R2"))
 
     mGCB2 = RooRealVar("mean2", "meanCB2", 1.87, 1.85, 1.90)
     sigma2CB = RooRealVar("#sigma2_{CB}", "sigma2CB", 0.03, 0.001, 0.1)
     sig2CBPdf = RooGaussian("sig2CBPdf", "sig2CBPdf", x, mGCB2, sigma2CB)
-    sig2CBPdf.fitTo(data, RooFit.Range("R1"))
+    #sig2CBPdf.fitTo(data, RooFit.Range("R1"))
 
     gamma = RooRealVar("#Gamma", "Gamma", -1, -2.0, -1e-2)
     bkgExpPdf = RooExponential("bkgExpPdf", "bkgExpPdf", x, gamma)
