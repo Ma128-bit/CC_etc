@@ -52,7 +52,7 @@ binning_dict = {
     "MVASoft2": "(50,0.2,0.8)"
 }
 
-def fit(tree, year, df, lumi, era):
+def fit(tree, df, year, lumi, era):
     ROOT.gROOT.SetBatch(ROOT.kTRUE)  # To run ROOT in batch mode    
     entries = tree.GetEntries()
     print("Total entries era", era, "=", entries)
