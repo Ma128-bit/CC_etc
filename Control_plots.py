@@ -9,6 +9,8 @@ invmass_SB = "(tripletMass<1.80 && tripletMass>1.70)"
 invmass_peak = "(tripletMass<2.01 && tripletMass>1.93)"
 binning_mass = "(65, 1.60, 2.02)"
 
+year = "2022"
+
 Era2022 = {
     "C": control_Run2022C,
     "D": control_Run2022D,
@@ -49,7 +51,7 @@ binning_dict = {
     "MVASoft2": "(50,0.2,0.8)"
 }
 
-def fit(tree, df, lumi, era):
+def fit(tree, year, df, lumi, era):
     ROOT.gROOT.SetBatch(ROOT.kTRUE)  # To run ROOT in batch mode    
     entries = tree.GetEntries()
     print("Total entries era", era, "=", entries)
@@ -189,17 +191,17 @@ def fit(tree, df, lumi, era):
     text3.Draw("same")
     
     if era == year:
-        with open('Inv_mass_plot/some_fit_results.txt', 'w') as file:
+        with open('Mass_Fits/some_fit_results.txt', 'w') as file:
             file.write(f"{fsigregion_bkg.getVal()} {nBkg.getVal()}")
 
-    c1.SaveAs("Inv_mass_plot/inv_mass_{}.png".format(era))
+    c1.SaveAs("Mass_Fits/inv_mass_{}.png".format(era))
     c1.Clear()
 
 def Control_inv_mass():
-    #yields = [[1500, 300, 22000], [1000, 250, 9000], [2000, 650, 23000], [7500, 1800, 60000], [800, 180, 10000]]
+    subprocess.run(["mkdir Mass_Fits"])
     df = pd.DataFrame(columns=['Era', 'Yeald', 'Error'])
     ch_data = TChain("FinalTree")
-    year = "2022"
+    
     if year == "2022":
         Eras = Era2022
         Lumi_values = lumi2022
@@ -211,7 +213,8 @@ def Control_inv_mass():
         ch_data.Add(data)
         del tree
         
-    fit(ch_data, df, Lumi_values["ToT"], year)
+    fit(ch_data, df, year, Lumi_values["ToT"], year)
+    df.to_csv('Mass_Fits/Post_Ntuple_Data_COntrol.csv', index=False)
     del ch_data
 
 def control_plot_2022():
