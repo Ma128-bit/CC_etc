@@ -265,8 +265,9 @@ def control_plots():
         print(treeMC[j].GetEntries())
         j=j+1
 
-    for MC in treeMC:
-        n_evtMC.append(MC.GetEntries())
+    #for MC in treeMC:
+    #    n_evtMC.append(MC.GetEntries())
+    print(treeMC[j].GetEntries())
     
     print("n_evtMC: ", n_evtMC)
     N_MC = sum(n_evtMC)
