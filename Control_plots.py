@@ -414,7 +414,9 @@ def control_plots():
         # Draw line corresponding to mean value on ratio plot
         line = TLine()
         h_x_ratio.Draw("ep")
-        line.DrawLine(0, mean, h_x_ratio.GetXaxis().GetXmax(), mean)
+        line.SetLineWidth(2)
+        line.SetLineColor(kRed)
+        line.DrawLine(float(binning_mass.split(',')[1][1:]), 1, h_x_ratio.GetXaxis().GetXmax(), 1)
         h_x_ratio.Draw("same")
 
         c2.cd()
