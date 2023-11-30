@@ -83,7 +83,7 @@ def fit(ch, par, yield_vals, lumi, era="all"):
     totalPDF = RooAddPdf("totalPDF", "totalPDF", RooArgList(sigCBPdf, sig2CBPdf, bkgExpPdf),
                          RooArgList(nSig2, nSig1, nBkg))
 
-    totalPDF.fitTo(data, RooFit.Extended(ROOT.kTRUE), RooFit.Save(ROOT.kTRUE))
+    r = totalPDF.fitTo(data, RooFit.Extended(ROOT.kTRUE), RooFit.Save(ROOT.kTRUE))
 
     xframe = x.frame()
     xframe.SetTitle("")
@@ -127,13 +127,13 @@ def fit(ch, par, yield_vals, lumi, era="all"):
 
     fsigregion_model = totalPDF.createIntegral(x, RooFit.NormSet(x), RooFit.Range("signal"))
     fs = fsigregion_model.getVal()
-    fs_err = fsigregion_model.getPropagatedError(totalPDF.getParameters(data))
+    fs_err = fsigregion_model.getPropagatedError(r)
 
     fsidebandregion_model = totalPDF.createIntegral(x, RooFit.NormSet(x), RooFit.Range("sideband"))
 
     fsigregion_bkg = bkgExpPdf.createIntegral(x, RooFit.NormSet(x), RooFit.Range("signal"))
     fb = fsigregion_bkg.getVal()
-    fb_err = fsigregion_bkg.getPropagatedError(totalPDF.getParameters(data))
+    fb_err = fsigregion_bkg.getPropagatedError(r)
 
     nsigevents = fs * (nSig2.getVal() + nSig1.getVal() + nBkg.getVal()) - fb * nBkg.getVal()
     nsig_err = ROOT.TMath.Sqrt(
