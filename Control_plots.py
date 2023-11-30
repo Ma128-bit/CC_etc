@@ -50,7 +50,7 @@ def fit(ch, par, yield_vals, lumi, era="all"):
 
     x = RooRealVar("x", "2mu+1trk inv. mass (GeV)", 1.65, 2.05)
     x.setBins(int(binning_mass.split(',')[0][1:]))
-    data = RooFit.RooDataSet("data", h_tripletmass.GetTitle(), RooFit.RooArgSet(x), RooFit.Import(h_tripletmass, ROOT.kFALSE))
+    data = RooDataSet("data", h_tripletmass.GetTitle(), RooFit.RooArgSet(x), RooFit.Import(h_tripletmass, ROOT.kFALSE))
 
     x.setRange("R1", 1.83, 1.89)
     x.setRange("R2", 1.93, 2.02)
