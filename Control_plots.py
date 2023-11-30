@@ -2,7 +2,6 @@ import ROOT
 from ROOT import *
 from file_locations import *
 
-
 var = ["cLP", "tKink", "segmComp", "fv_nC", "d0sig", "fv_dphi3D", "fv_d3Dsig", "mindca_iso", "trkRel", "d0sig_max", "MVASoft1", "MVASoft2"]
 
 invmass_SB = "(tripletMass<1.80 && tripletMass>1.70)"
@@ -33,9 +32,7 @@ binning_dict = {
 }
 
 def fit(ch, par, yield_vals, lumi, era="all"):
-    ROOT.gROOT.SetBatch(ROOT.kTRUE)  # To run ROOT in batch mode
-    fout = ROOT.TFile("Inv_mass_plot/yield.root", "UPDATE")
-    
+    ROOT.gROOT.SetBatch(ROOT.kTRUE)  # To run ROOT in batch mode    
     print("Total entries era", era, "=", ch.GetEntries())
 
     selez = "(Ptmu3 > 1.2 && ((Ptmu1>3.5 && Etamu1<1.2) || (Ptmu1>2.0 && Etamu1>=1.2 && Etamu1<=2.4)) && ((Ptmu2>3.5 && Etamu2<1.2) || (Ptmu2>2.0 && Etamu2>=1.2 && Etamu2<=2.4)))"
@@ -151,7 +148,8 @@ def fit(ch, par, yield_vals, lumi, era="all"):
 
     fsig = nsigevents / (fsigregion_model.getVal() * (nSig2.getVal() + nSig1.getVal() + nBkg.getVal()))
 
-    print("Signal events in era", era, "=", nsigevents, "+-", nsig_err)
+    with open('Inv_mass_plot/yield.txt', 'a') as file:
+        file.write("Signal events in era", era, "=", nsigevents, "+-", nsig_err)
 
     chi2 = totalPDF.createChi2(data).getVal()
     ndof = int(binning_mass.split(',')[0][1:]) - 7
@@ -163,10 +161,8 @@ def fit(ch, par, yield_vals, lumi, era="all"):
     text3.Draw("same")
 
     if era == "all":
-        fout2 = ROOT.TFile("Inv_mass_plot/some_fit_results.root", "UPDATE")
-        fout2.WriteTObject(ROOT.TObject(fsigregion_bkg.getVal()), "", "Overwrite")
-        fout2.WriteTObject(ROOT.TObject(nBkg.getVal()), "", "Overwrite")
-        fout2.Close()
+        with open('Inv_mass_plot/some_fit_results.txt', 'w') as file:
+            file.write(fsigregion_bkg.getVal(), " ", nBkg.getVal())
 
     c1.SaveAs("Inv_mass_plot/inv_mass_{}.png".format(era))
     c1.Clear()
@@ -178,6 +174,9 @@ def Control_inv_mass():
     lumi_tot = "1.727"
     yield_vals = [[1500, 300, 22000], [1000, 250, 9000], [2000, 650, 23000], [7500, 1800, 60000], [800, 180, 10000]]
     par = [1., 1.]
+    
+    with open('Inv_mass_plot/yield.txt', 'w') as file:
+        file.write('Yeald results per era:')
     
     ch_data = TChain("FinalTree")
     ch_data.Add(control_Run2022C)
