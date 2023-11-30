@@ -48,15 +48,9 @@ def fit(ch, par, yield_vals, lumi, era="all"):
     ch.Draw("tripletMass>>h_tripletmass_sign"+binning_mass, invmass_peak + "&&" + selez)
     h_tripletmass_sign = ROOT.gDirectory.Get("h_tripletmass_sign")
 
-    c3 = ROOT.TCanvas("c3", "", 150, 10, 800, 800)
-    h_tripletmass.Draw()
-    h_tripletmass_bkg.Draw("same")
-    h_tripletmass_sign.Draw("same")
-    c3.SaveAs("prova.png")
-
     x = RooRealVar("x", "2mu+1trk inv. mass (GeV)", 1.65, 2.05)
     x.setBins(int(binning_mass.split(',')[0][1:]))
-    data = RooDataSet("data", h_tripletmass.GetTitle(), RooArgSet(x), RooFit.Import(h_tripletmass, ROOT.kFALSE))
+    data = RooDataHist("data", h_tripletmass.GetTitle(), RooArgSet(x), RooFit.Import(h_tripletmass, ROOT.kFALSE))
 
     x.setRange("R1", 1.83, 1.89)
     x.setRange("R2", 1.93, 2.02)
