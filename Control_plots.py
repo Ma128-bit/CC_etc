@@ -1,6 +1,7 @@
 import ROOT
 from ROOT import *
-form file_locations import *
+from file_locations import *
+
 
 var = ["cLP", "tKink", "segmComp", "fv_nC", "d0sig", "fv_dphi3D", "fv_d3Dsig", "mindca_iso", "trkRel", "d0sig_max", "MVASoft1", "MVASoft2"]
 
