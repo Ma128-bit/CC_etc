@@ -372,5 +372,6 @@ def control_plot_2022():
         c2.Update()
         c2.SaveAs("control_plots/" + varname + "_.png")
 
-# Call the function
-control_plot_2022()
+if __name__ == "__main__": 
+    Control_inv_mass()
+    
