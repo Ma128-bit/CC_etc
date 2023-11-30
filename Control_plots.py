@@ -84,8 +84,8 @@ def fit(tree, lumi, era="all"):
     sig_right = RooCBShape("sig_right", "sig_right", x, meanCB, sigmaCB1, alpha1, nSigma1)
     #sig_right.fitTo(data, RooFit.Range("R2"))
 
-    meanCB2 = RooRealVar("mean2", "meanCB2", 1.87, 1.84, 1.90)
-    sigmaCB2 = RooRealVar("#sigma2_{CB}", "sigmaCB2", 0.05, 0.001, 0.1)
+    meanCB2 = RooRealVar("mean2", "meanCB2", 1.87, 1.84, 1.89)
+    sigmaCB2 = RooRealVar("#sigma2_{CB}", "sigmaCB2", 0.05, 0.001, 0.05)
     alpha2 = RooRealVar("#alpha2", "alpha2", 1.0, 0.5, 10.0)
     nSigma2 = RooRealVar("n2", "n2", 1.0, 0.1, 25.0)
     sig_left = RooCBShape("sig_left", "sig_left", x, meanCB2, sigmaCB2, alpha2, nSigma2)
