@@ -185,8 +185,8 @@ def fit(tree, year, lumi, era):
     
     chi2 = totalPDF.createChi2(data).getVal()
     ndof = int(binning_mass.split(',')[0][1:]) - 7
-    print("chi2: ", chi2)
-    print("ndof: ", ndof)
+    #print("chi2: ", chi2)
+    #print("ndof: ", ndof)
     chi2_ndof = chi2/ndof
     chi2_txt = "#chi^{2}/NDOF = " + "{:.2f}".format(chi2_ndof)
     text3 = ROOT.TLatex(0.15, 0.77, chi2_txt)
