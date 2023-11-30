@@ -424,8 +424,14 @@ def control_plots():
         c2.cd()
         c2.Update()
         c2.SaveAs("Control_Plots/" + varname + ".png")
-        del c2 pad1 pad2
-        del h_x_ratio hdata_bkg hdata_sgn hMC_sgn line
+        del c2 
+        del pad1 
+        del pad2
+        del h_x_ratio 
+        del hdata_bkg 
+        del hdata_sgn 
+        del hMC_sgn 
+        del line
         if year == "2022":
             del hMC_sgn2
 
