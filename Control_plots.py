@@ -416,8 +416,8 @@ def control_plots():
         h_x_ratio.Draw("ep")
         line.SetLineWidth(2)
         line.SetLineColor(kRed)
-        print(float(binning_mass.split(',')[0][1:]), " ", float(binning_mass.split(',')[1][1:]), float(binning_mass.split(',')[2][1:]))
-        line.DrawLine(float(binning_mass.split(',')[1][1:]), 1, h_x_ratio.GetXaxis().GetXmax(), 1)
+        print(float(binning.split(',')[1][1:]))
+        line.DrawLine(float(binning.split(',')[1][1:]), 1, h_x_ratio.GetXaxis().GetXmax(), 1)
         h_x_ratio.Draw("same")
 
         c2.cd()
