@@ -63,25 +63,25 @@ def fit(ch, par, yield_vals, lumi, era="all"):
     sigma1CB = RooRealVar("#sigma_{CB}", "sigma1CB", 0.02, 0.001, 0.1)
     alpha = RooRealVar("#alpha", "alpha", par[0], 0.5, 10.0)
     nSigma = RooRealVar("n1", "n1", par[1], 0.1, 25.0)
-    sigCBPdf = RooFit.RooGaussian("sigCBPdf", "sigCBPdf", x, mGCB, sigma1CB)
+    sigCBPdf = RooGaussian("sigCBPdf", "sigCBPdf", x, mGCB, sigma1CB)
 
     sigCBPdf.fitTo(data, RooFit.Range("R2"))
 
     mGCB2 = RooRealVar("mean2", "meanCB2", 1.87, 1.85, 1.90)
     sigma2CB = RooRealVar("#sigma2_{CB}", "sigma2CB", 0.03, 0.001, 0.1)
-    sig2CBPdf = RooFit.RooGaussian("sig2CBPdf", "sig2CBPdf", x, mGCB2, sigma2CB)
+    sig2CBPdf = RooGaussian("sig2CBPdf", "sig2CBPdf", x, mGCB2, sigma2CB)
     sig2CBPdf.fitTo(data, RooFit.Range("R1"))
 
     gamma = RooRealVar("#Gamma", "Gamma", -1, -2.0, -1e-2)
-    bkgExpPdf = RooFit.RooExponential("bkgExpPdf", "bkgExpPdf", x, gamma)
+    bkgExpPdf = RooExponential("bkgExpPdf", "bkgExpPdf", x, gamma)
     bkgExpPdf.fitTo(data, RooFit.Range("R3,R4,R5"))
 
     nSig2 = RooRealVar("nSig", "Number of signal candidates", yield_vals[0], 1.0, 1e+6)
     nSig1 = RooRealVar("nSig2", "Number of signal 2 candidates", yield_vals[1], 1.0, 1e+6)
     nBkg = RooRealVar("nBkg", "Bkg component", yield_vals[2], 1.0, 1e+6)
 
-    totalPDF = RooFit.RooAddPdf("totalPDF", "totalPDF", RooFit.RooArgList(sigCBPdf, sig2CBPdf, bkgExpPdf),
-                         RooFit.RooArgList(nSig2, nSig1, nBkg))
+    totalPDF = RooAddPdf("totalPDF", "totalPDF", RooArgList(sigCBPdf, sig2CBPdf, bkgExpPdf),
+                         RooArgList(nSig2, nSig1, nBkg))
 
     totalPDF.fitTo(data, RooFit.Extended(ROOT.kTRUE), RooFit.Save(ROOT.kTRUE))
 
