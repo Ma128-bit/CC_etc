@@ -92,6 +92,9 @@ if __name__ == "__main__":
 
 	if data == True:
 		if is_Tau3mu == False:
+			with Pool() as p:
+        			list = p.starmap(make_sum, [('Run_22C',CCfiles_Run2022C, csv = False),('Run_22D',CCfiles_Run2022D, csv = False),('Run_22E',CCfiles_Run2022E, csv = False),('Run_22F',CCfiles_Run2022F, csv = False),('Run_22G',CCfiles_Run2022G, csv = False)])
+			'''
 			R22C_sum = make_sum("Run_22C", CCfiles_Run2022C, csv = False)
 			R22D_sum = make_sum("Run_22D", CCfiles_Run2022D, csv = False)
 			R22E_sum = make_sum("Run_22E", CCfiles_Run2022E, csv = False)
@@ -100,6 +103,7 @@ if __name__ == "__main__":
 			#R23C_v4_sum = make_sum("Run_23C_v4", files_Run2023C_v4, csv = False)
 
 			list = [R22C_sum, R22D_sum, R22E_sum, R22F_sum, R22G_sum]
+   			'''
 			df_out = pd.DataFrame(list, columns=C_names)
 			df_out['Index'] = ["Run_22C", "Run_22D", "Run_22E", "Run_22F", "Run_22G"]
 			column_order = ['Index'] + [col for col in df_out if col != 'Index']
