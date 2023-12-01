@@ -87,13 +87,13 @@ def histo_from_df(df, year):
     histo.GetXaxis().SetTitle(year+" Era")
     histo.GetYaxis().SetTitle("Entries")
     histo.SetMarkerStyle(20)
-    histo.SetMarkerColor(kBlue)
+    histo.SetMarkerColor(16)
     histo.GetYaxis().SetRangeUser(0, max*1.1)
-    histo.SetLineColor(kBlue)
+    histo.SetLineColor(16)
     histo.SetMarkerSize(1.2)
     fit_func = ROOT.TF1("fit_func", "pol0", -1, N_eras-1)
     histo.Fit(fit_func, "R")
-    
+    fit_func->histo.SetLineColor(38)
     c3 = ROOT.TCanvas("canvas", "Titolo del canvas", 1200,800)
     c3.cd()
     
