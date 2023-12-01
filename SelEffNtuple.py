@@ -1,4 +1,6 @@
 import sys, os, subprocess, json
+num_cores = os.cpu_count()
+print("N. CPU cores: ", num_cores, "\n")
 import warnings
 from datetime import datetime
 warnings.filterwarnings("ignore", category=UserWarning, module="numpy")
