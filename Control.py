@@ -61,6 +61,35 @@ binning_dict = {
 
 connection_values = [0. , 0.]
 
+def histo_from_df(df, year):
+    gStyle.SetOptFit(1)
+    gStyle.SetOptStat(1)
+    histo = ROOT.TH1F("histo", year+ "Ds->#phi #pi yeald per Era" , 7, 0, 7)
+    lumi = {}
+    if year == "2022":
+        lumi = lumi2022
+    N_eras = len(df['Era'])
+    histo.GetXaxis().SetRangeUser(-1, N_eras-1)
+    histo.GetXaxis().SetNdivisions(N_eras*2 +1)
+    index = 1
+    for i in range(N_eras):
+        histo.SetBinContent(i, df['Yeald'][i]/lumi[df['Era'][i]])
+        histo.SetBinError(i, df['Error'][i]/lumi[df['Era'][i]])
+        histo.GetXaxis().ChangeLabel(index,-1,-1,-1,-1,-1," ")
+        index = index +1
+        histo.GetXaxis().ChangeLabel(index,-1,-1,-1,-1,-1,df['Era'][i])
+        index = index +1
+    c3 = ROOT.TCanvas("canvas", "Titolo del canvas", 1200,800)
+    c3.cd()
+    histo.SetMarkerStyle(20)
+    histo.SetMarkerColor(kBlue)
+    histo.SetLineColor(kBlue)
+    histo.SetMarkerSize(1.2)
+    histo.Fit("pol0")
+    histo.Draw()
+    c3.SaveAs("Mass_Fits/Plot_yield.png")
+    del c3
+
 def fit(tree, year, lumi, era):
     ROOT.gROOT.SetBatch(ROOT.kTRUE)  # To run ROOT in batch mode    
     entries = tree.GetEntries()
@@ -184,7 +213,7 @@ def fit(tree, year, lumi, era):
                              'Error': [nsig_err]})
     
     chi2 = totalPDF.createChi2(data).getVal()
-    ndof = int(binning_mass.split(',')[0][1:]) - 7
+    ndof = int(binning_mass.split(',')[0][1:]) - 9
     #print("chi2: ", chi2)
     #print("ndof: ", ndof)
     chi2_ndof = chi2/ndof
@@ -203,7 +232,7 @@ def fit(tree, year, lumi, era):
     c1.Clear()
     return new_line
 
-def Control_inv_mass():
+def Fit_inv_mass():
     subprocess.run(["mkdir", "Mass_Fits"])
     df = pd.DataFrame(columns=['Era', 'Yeald', 'Error'])
     ch_data = TChain("FinalTree")
@@ -225,6 +254,8 @@ def Control_inv_mass():
             ch_data_post.Add(data)
         ch_data.Add(data)
         del tree
+
+    histo_from_df(df, year)
     
     new_line = fit(ch_data, year, Lumi_values["ToT"], year)
     df = pd.concat([df, new_line], ignore_index=True)
@@ -435,6 +466,6 @@ def control_plots():
             hMC_sgn2.Delete();
 
 if __name__ == "__main__": 
-    Control_inv_mass()
+    Fit_inv_mass()
     control_plots()
     
