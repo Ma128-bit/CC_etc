@@ -4,6 +4,7 @@ print("N. CPU cores: ", num_cores)
 if num_cores/4<2:
 	print("WARNING: 8 CPU cores are recommended to run code at full speed")
 import warnings
+import time
 from datetime import datetime
 warnings.filterwarnings("ignore", category=UserWarning, module="numpy")
 import numpy as np
@@ -95,6 +96,7 @@ if __name__ == "__main__":
 	files_Run2022_MC_control_pre = [i+"/0000" for i in control_files_MC if "preE" in i]
 	files_Run2022_MC_control_post = [i+"/0000" for i in control_files_MC if "postE" in i]
 
+	start_time = time.time()
 	if data == True:
 		if is_Tau3mu == False:
 			with Pool(processes=num_cores) as p:
@@ -143,7 +145,11 @@ if __name__ == "__main__":
 			column_order = ['Index'] + [col for col in df_out if col != 'Index']
 			df_out = df_out[column_order]
 			df_out.to_csv('Post_Ntuple_MC_tau3mu.csv', index=False)
-
+	
+	end_time = time.time()
+	execution_time = (end_time - start_time)/60
+	formatted_time = "{:.{}f}".format(execution_time, 2)
+	print(f"Execution time: {formatted_time} min")
 
 
 
