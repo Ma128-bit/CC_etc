@@ -73,9 +73,8 @@ if __name__ == "__main__":
 	CCfiles_Run2022D = CCfiles_Run2022D1 + CCfiles_Run2022D2
 	CCfiles_Run2022E = [i+"/0000" for i in control_files_2022E]
 	CCfiles_Run2022F = [i+"/0000" for i in control_files_2022F]
-	CCfiles_Run2022F = CCfiles_Run2022F_0 + CCfiles_Run2022F_1
-	CCfiles_Run2022F_part1 = CCfiles_Run2022F[::2]  # Prende gli elementi con indice pari
-    	CCfiles_Run2022F_part2 = CCfiles_Run2022F[1::2]
+	CCfiles_Run2022F_part1 = CCfiles_Run2022F[::2] 
+	CCfiles_Run2022F_part2 = CCfiles_Run2022F[1::2]
 	CCfiles_Run2022G = [i+"/0000" for i in control_files_2022G]
 
 	Taufiles_Run2022C = [i+"/0000" for i in tau3mu_files_2022C]
