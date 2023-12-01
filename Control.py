@@ -115,10 +115,10 @@ def histo_from_df(df, year):
     box.AddText("p_{0}: %.2f #pm %.2f" % (p0_value, p0_error))
    
     histo.Draw("H")
-    
-    histo.SetLineWidth(2)
-    histo.SetLineColor(1)
-    histo.Draw("E1 same")
+    histoClone = histo.Clone("histoClone")
+    histoClone.SetLineWidth(2)
+    histoClone.SetLineColor(1)
+    histoClone.Draw("E1 same")
     box.Draw("same")
     c3.SaveAs("Mass_Fits/Plot_yield.png", "png -dpi 600")
     del c3
