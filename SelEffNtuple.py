@@ -96,6 +96,7 @@ if __name__ == "__main__":
 	files_Run2022_MC_control_pre = [i+"/0000" for i in control_files_MC if "preE" in i]
 	files_Run2022_MC_control_post = [i+"/0000" for i in control_files_MC if "postE" in i]
 
+	subprocess.run(["mkdir", "EffResults"])
 	start_time = time.time()
 	if data == True:
 		if is_Tau3mu == False:
@@ -115,7 +116,7 @@ if __name__ == "__main__":
 			df_out['Index'] = ["Run_22C", "Run_22D", "Run_22E", "Run_22F_1", "Run_22F_2", "Run_22G"]
 			column_order = ['Index'] + [col for col in df_out if col != 'Index']
 			df_out = df_out[column_order]
-			df_out.to_csv('Post_Ntuple_Data_Control.csv', index=False)
+			df_out.to_csv('EffResults/Post_Ntuple_Data_Control.csv', index=False)
 		else:
 			with Pool(processes=num_cores) as p:
         			list = p.starmap(make_sum, [('Run_22C',Taufiles_Run2022C, False),('Run_22D',Taufiles_Run2022D, False),('Run_22E',Taufiles_Run2022E, False),('Run_22F_1',Taufiles_Run2022F_part1, False), ('Run_22F_2',Taufiles_Run2022F_part2, False),('Run_22G',Taufiles_Run2022G, False)])
@@ -124,7 +125,7 @@ if __name__ == "__main__":
 			df_out['Index'] = ["Run_22C", "Run_22D", "Run_22E", "Run_22F_1", "Run_22F_2", "Run_22G"]
 			column_order = ['Index'] + [col for col in df_out if col != 'Index']
 			df_out = df_out[column_order]
-			df_out.to_csv('Post_Ntuple_Data_tau3mu.csv', index=False)
+			df_out.to_csv('EffResults/Post_Ntuple_Data_tau3mu.csv', index=False)
 
 	else:
 		if is_Tau3mu == False:
@@ -135,7 +136,7 @@ if __name__ == "__main__":
 			df_out['Index'] = ["MC_2022_pre", "MC_2022_post"]
 			column_order = ['Index'] + [col for col in df_out if col != 'Index']
 			df_out = df_out[column_order]
-			df_out.to_csv('Post_Ntuple_MC_Control.csv', index=False)
+			df_out.to_csv('EffResults/Post_Ntuple_MC_Control.csv', index=False)
 		else:
 			Run_2022_MC_pre = make_sum("MC_2022_pre", files_Run2022_MC_tau3mu_pre, csv = False)
 			Run_2022_MC_post = make_sum("MC_2022_post", files_Run2022_MC_tau3mu_post, csv = False)
@@ -144,7 +145,7 @@ if __name__ == "__main__":
 			df_out['Index'] = ["MC_2022_pre", "MC_2022_post"]
 			column_order = ['Index'] + [col for col in df_out if col != 'Index']
 			df_out = df_out[column_order]
-			df_out.to_csv('Post_Ntuple_MC_tau3mu.csv', index=False)
+			df_out.to_csv('EffResults/Post_Ntuple_MC_tau3mu.csv', index=False)
 	
 	end_time = time.time()
 	execution_time = (end_time - start_time)/60
