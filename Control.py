@@ -85,7 +85,7 @@ def histo_from_df(df, year):
         index = index +1
     histo.GetXaxis().ChangeLabel(index,-1,-1,-1,-1,-1," ")
     histo.GetXaxis().SetTitle(year+" Era")
-    histo.GetYaxis().SetTitle("Entries")
+    histo.GetYaxis().SetTitle("Entries/fb^{-1}")
     #histo.SetMarkerStyle(20)
     #histo.SetMarkerColor(14)
     #histo.SetMarkerSize(1.2)
@@ -115,7 +115,8 @@ def histo_from_df(df, year):
     box.AddText("p_{0}: %.2f #pm %.2f" % (p0_value, p0_error))
    
 
-    histo.Draw("HE")
+    histo.Draw("H")
+    histo.Draw("E same")
     box.Draw("same")
     c3.SaveAs("Mass_Fits/Plot_yield.png", "png -dpi 600")
     del c3
