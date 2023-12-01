@@ -111,7 +111,7 @@ def histo_from_df(df, year):
     box.SetLineWidth(3)     
     box.SetTextAlign(11)
     box.AddText("Fit Results:")
-    box.AddText("#chi^{2}: %.2f" % chi2_value)
+    box.AddText("#chi^{2}/ndof: %.2f" % chi2_value)
     box.AddText("p_{0}: %.2f #pm %.2f" % (p0_value, p0_error))
    
     histo.Draw("H")
