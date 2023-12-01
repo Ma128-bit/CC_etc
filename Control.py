@@ -93,12 +93,22 @@ def histo_from_df(df, year):
     histo.SetMarkerSize(1.2)
     fit_func = ROOT.TF1("fit_func", "pol0", -1, N_eras-1)
     histo.Fit(fit_func, "R")
+    
     c3 = ROOT.TCanvas("canvas", "Titolo del canvas", 1200,800)
     c3.cd()
-    legend = ROOT.TLegend(0.65, 0.65, 0.85, 0.85)  
-    legend.AddEntry(fit_func, "Fit Results", "l")  
+    
+    fit_parameters = fit_func.GetParameters()
+    p0_value = fit_parameters[0]
+    p0_error = fit_func.GetParError(0)
+    chi2_value = fit_func.GetChisquare()
+    box = ROOT.TPaveText(0.65, 0.75, 0.85, 0.85, "NDC")
+    box.SetFillColor(0)  # Imposta il colore di sfondo del box a trasparente
+    box.SetBorderSize(0) 
+    box.AddText("p0: %.2f +/- %.2f" % (p0_value, p0_error))
+    box.AddText("chi^2: %.2f" % chi2_value)
+
     histo.Draw()
-    legend.Draw("same")
+    box.Draw("same")
     c3.SaveAs("Mass_Fits/Plot_yield.png", "png -dpi 600")
     del c3
 
