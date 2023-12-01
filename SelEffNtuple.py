@@ -15,7 +15,7 @@ parser = argparse.ArgumentParser(description="--tau3mu and --data. Default: cont
 parser.add_argument("--tau3mu", action="store_true", help="Tau3mu")
 parser.add_argument("--data", action="store_true", help="Enable verbose mode")
 args = parser.parse_args()
-is_tau3mu = args.tau3mu
+is_Tau3mu = args.tau3mu
 data = args.data
 
 if is_Tau3mu == True:
