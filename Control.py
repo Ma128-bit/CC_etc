@@ -91,14 +91,14 @@ def histo_from_df(df, year):
     histo.GetYaxis().SetRangeUser(0, max*1.1)
     histo.SetLineColor(kBlue)
     histo.SetMarkerSize(1.2)
-    fit_func = ROOT.TF1("fit_func", "pol0", 0, N_eras-1)
+    fit_func = ROOT.TF1("fit_func", "pol0", -1, N_eras-1)
     histo.Fit(fit_func, "R")
     c3 = ROOT.TCanvas("canvas", "Titolo del canvas", 1200,800)
     c3.cd()
     legend = ROOT.TLegend(0.65, 0.65, 0.85, 0.85)  
     legend.AddEntry(fit_func, "Fit Results", "l")  
-    legend.Draw()
     histo.Draw()
+    legend.Draw("same")
     c3.SaveAs("Mass_Fits/Plot_yield.png", "png -dpi 600")
     del c3
 
