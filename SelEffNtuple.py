@@ -10,8 +10,12 @@ from file_locations import *
 
 histonames_CC= ["InitialPlots/hEvtCount", "PlotsAfterTrigger/hEvtCount", "PlotsAfterOnePFCand/hEvtCount", "PlotsAfterLooseMuon/hEvtCount", "PlotsAfterDiMuonCand/hEvtCount", "PlotsAfter2Mu1Track/hEvtCount", "PlotsAfterPhiPiCandSel/hEvtCount"]
 
-data = False
-is_Tau3mu = True
+parser = argparse.ArgumentParser(description="--tau3mu and --data. Default: control and MC")
+parser.add_argument("--tau3mu", action="store_true", help="Tau3mu")
+parser.add_argument("--data", action="store_true", help="Enable verbose mode")
+args = parser.parse_args()
+is_tau3mu = args.tau3mu
+data = args.data
 
 if is_Tau3mu == True:
 	histonames_CC= ["InitialPlots/hEvtCount", "PlotsAfterTrigger/hEvtCount", "PlotsAfterLooseMuon/hEvtCount", "PlotsAfter3Muons/hEvtCount", "PlotsAfterTauCand/hEvtCount"]
