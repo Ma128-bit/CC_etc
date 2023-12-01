@@ -115,15 +115,10 @@ def histo_from_df(df, year):
     box.AddText("#chi^{2}: %.2f" % chi2_value)
     box.AddText("p_{0}: %.2f #pm %.2f" % (p0_value, p0_error))
    
-
     histo.Draw("H")
-    histo.Draw("E B same")
+    histo.Draw("E1 B same")
     box.Draw("same")
     c3.SaveAs("Mass_Fits/Plot_yield.png", "png -dpi 600")
-    c4 = ROOT.TCanvas("canvas", "Titolo del canvas", 1200,800)
-    c4.cd()
-    histo.Draw("e1")
-    c4.SaveAs("Mass_Fits/prova.png", "png -dpi 600")
     del c3
 
 def fit(tree, year, lumi, era):
