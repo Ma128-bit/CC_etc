@@ -62,7 +62,7 @@ binning_dict = {
 connection_values = [0. , 0.]
 
 def histo_from_df(df, year):
-    gStyle.SetOptFit(1)
+    gStyle.SetOptFit(0)
     gStyle.SetOptStat(0)
     histo = ROOT.TH1F("histo", year+ " Ds#rightarrow#phi(#mu#mu)#pi yeald per Era" , 7, 0, 7)
     lumi = {}
