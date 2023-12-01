@@ -1,8 +1,6 @@
 import sys, os, subprocess, json
 num_cores = os.cpu_count()
 print("N. CPU cores: ", num_cores)
-if num_cores/4<2:
-	print("WARNING: 8 CPU cores are recommended to run code at full speed")
 import warnings
 import time
 from datetime import datetime
@@ -24,6 +22,9 @@ args = parser.parse_args()
 is_Tau3mu = args.tau3mu
 data = args.data
 
+if num_cores/4<2 and data==True:
+	print("WARNING: 8 CPU cores are recommended to run code at full speed")
+	
 if is_Tau3mu == True:
 	histonames_CC= ["InitialPlots/hEvtCount", "PlotsAfterTrigger/hEvtCount", "PlotsAfterLooseMuon/hEvtCount", "PlotsAfter3Muons/hEvtCount", "PlotsAfterTauCand/hEvtCount"]
 
