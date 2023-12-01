@@ -6,10 +6,13 @@ import numpy as np
 warnings.filterwarnings("default", category=UserWarning, module="numpy")
 import pandas as pd
 import uproot
+from file_locations import *
 
 histonames_CC= ["InitialPlots/hEvtCount", "PlotsAfterTrigger/hEvtCount", "PlotsAfterOnePFCand/hEvtCount", "PlotsAfterLooseMuon/hEvtCount", "PlotsAfterDiMuonCand/hEvtCount", "PlotsAfter2Mu1Track/hEvtCount", "PlotsAfterPhiPiCandSel/hEvtCount"]
+
 data = False
 is_Tau3mu = True
+
 if is_Tau3mu == True:
 	histonames_CC= ["InitialPlots/hEvtCount", "PlotsAfterTrigger/hEvtCount", "PlotsAfterLooseMuon/hEvtCount", "PlotsAfter3Muons/hEvtCount", "PlotsAfterTauCand/hEvtCount"]
 
@@ -55,121 +58,77 @@ def make_sum(print_lable, files, csv = False):
 	return Run_sum
 
 if __name__ == "__main__":
-	data_path = "/lustre/cms/store/user/mbuonsan/"
 	
-	files_2022C = [
-		"ParkingDoubleMuonLowMass0/SkimDsPhiPi_2022eraC_stream0_Mini_v3/230507_105546/0000",
-		"ParkingDoubleMuonLowMass1/SkimDsPhiPi_2022eraC_stream1_Mini_v3/230507_105617/0000",
-		"ParkingDoubleMuonLowMass2/SkimDsPhiPi_2022eraC_stream2_Mini_v3/230507_105648/0000",
-		"ParkingDoubleMuonLowMass3/SkimDsPhiPi_2022eraC_stream3_Mini_v3/230507_105718/0000",
-		"ParkingDoubleMuonLowMass4/SkimDsPhiPi_2022eraC_stream4_Mini_v3/230507_105748/0000",
-		"ParkingDoubleMuonLowMass5/SkimDsPhiPi_2022eraC_stream5_Mini_v3/230507_105817/0000",
-		"ParkingDoubleMuonLowMass6/SkimDsPhiPi_2022eraC_stream6_Mini_v3/230507_105847/0000",
-		"ParkingDoubleMuonLowMass7/SkimDsPhiPi_2022eraC_stream7_Mini_v3/230507_105917/0000"
-	]
+	CCfiles_Run2022C = [i+"/0000" for i in control_files_2022C]
+	CCfiles_Run2022D = [i+"/0000" for i in control_files_2022D]
+	CCfiles_Run2022E = [i+"/0000" for i in control_files_2022E]
+	CCfiles_Run2022F_0 = [i+"/0000" for i in control_files_2022F]
+	CCfiles_Run2022F_1 = [i+"/0001" for i in control_files_2022F]
+	CCfiles_Run2022F = CCfiles_Run2022F_0 + CCfiles_Run2022F_1
+	CCfiles_Run2022G = [i+"/0000" for i in control_files_2022G]
 
-	files_2022D = [
-		"ParkingDoubleMuonLowMass0/SkimDsPhiPi_2022eraD_stream0_Mini_v3/230507_105929/0000",
-		"ParkingDoubleMuonLowMass1/SkimDsPhiPi_2022eraD_stream1_Mini_v3/230507_105959/0000",
-		"ParkingDoubleMuonLowMass2/SkimDsPhiPi_2022eraD_stream2_Mini_v3/230507_110030/0000",
-		"ParkingDoubleMuonLowMass3/SkimDsPhiPi_2022eraD_stream3_Mini_v3/230507_110101/0000",
-		"ParkingDoubleMuonLowMass4/SkimDsPhiPi_2022eraD_stream4_Mini_v3/230507_110135/0000",
-		"ParkingDoubleMuonLowMass5/SkimDsPhiPi_2022eraD_stream5_Mini_v3/230507_110209/0000",
-		"ParkingDoubleMuonLowMass6/SkimDsPhiPi_2022eraD_stream6_Mini_v3/230507_110239/0000",
-		"ParkingDoubleMuonLowMass7/SkimDsPhiPi_2022eraD_stream7_Mini_v3/230507_110308/0000"
-	]
+	Taufiles_Run2022C = [i+"/0000" for i in tau3mu_files_2022C]
+	Taufiles_Run2022D = [i+"/0000" for i in tau3mu_files_2022D]
+	Taufiles_Run2022E = [i+"/0000" for i in tau3mu_files_2022E]
+	Taufiles_Run2022F_0 = [i+"/0000" for i in tau3mu_files_2022F]
+	Taufiles_Run2022F_1 = [i+"/0001" for i in tau3mu_files_2022F]
+	Taufiles_Run2022F = Taufiles_Run2022F_0 + Taufiles_Run2022F_1
+	Taufiles_Run2022G = [i+"/0000" for i in tau3mu_files_2022G]
 
-	files_2022E = [
-		"ParkingDoubleMuonLowMass0/SkimDsPhiPi_2022eraE_stream0_Mini_v3/230507_110320/0000",
-		"ParkingDoubleMuonLowMass1/SkimDsPhiPi_2022eraE_stream1_Mini_v3/230507_110348/0000",
-		"ParkingDoubleMuonLowMass2/SkimDsPhiPi_2022eraE_stream2_Mini_v3/230507_110418/0000",
-		"ParkingDoubleMuonLowMass3/SkimDsPhiPi_2022eraE_stream3_Mini_v3/230507_110448/0000",
-		"ParkingDoubleMuonLowMass4/SkimDsPhiPi_2022eraE_stream4_Mini_v3/230507_110518/0000",
-		"ParkingDoubleMuonLowMass5/SkimDsPhiPi_2022eraE_stream5_Mini_v3/230507_110549/0000",
-		"ParkingDoubleMuonLowMass6/SkimDsPhiPi_2022eraE_stream6_Mini_v3/230507_110619/0000",
-		"ParkingDoubleMuonLowMass7/SkimDsPhiPi_2022eraE_stream7_Mini_v3/230507_110649/0000"
-	]
+	files_Run2022_MC_tau3mu_pre = [i+"/0000" for i in tau3mu_files_MC if "preE" in i]
+	files_Run2022_MC_tau3mu_post = [i+"/0000" for i in tau3mu_files_MC if "postE" in i]
 
-	files_2022F = [
-		"ParkingDoubleMuonLowMass0/SkimDsPhiPi_2022eraF_stream0_Mini_v3/230507_110700/0000",
-		"ParkingDoubleMuonLowMass1/SkimDsPhiPi_2022eraF_stream1_Mini_v3/230507_110734/0000",
-		"ParkingDoubleMuonLowMass2/SkimDsPhiPi_2022eraF_stream2_Mini_v3/230507_110806/0000",
-		"ParkingDoubleMuonLowMass3/SkimDsPhiPi_2022eraF_stream3_Mini_v3/230507_110838/0000",
-		"ParkingDoubleMuonLowMass4/SkimDsPhiPi_2022eraF_stream4_Mini_v3/230507_110908/0000",
-		"ParkingDoubleMuonLowMass5/SkimDsPhiPi_2022eraF_stream5_Mini_v3/230507_110939/0000",
-		"ParkingDoubleMuonLowMass6/SkimDsPhiPi_2022eraF_stream6_Mini_v3/230507_111009/0000",
-		"ParkingDoubleMuonLowMass7/SkimDsPhiPi_2022eraF_stream7_Mini_v3/230507_111039/0000",
-		"ParkingDoubleMuonLowMass0/SkimDsPhiPi_2022eraF_stream0_Mini_v3/230507_110700/0001",
-		"ParkingDoubleMuonLowMass1/SkimDsPhiPi_2022eraF_stream1_Mini_v3/230507_110734/0001",
-		"ParkingDoubleMuonLowMass2/SkimDsPhiPi_2022eraF_stream2_Mini_v3/230507_110806/0001",
-		"ParkingDoubleMuonLowMass3/SkimDsPhiPi_2022eraF_stream3_Mini_v3/230507_110838/0001",
-		"ParkingDoubleMuonLowMass4/SkimDsPhiPi_2022eraF_stream4_Mini_v3/230507_110908/0001",
-		"ParkingDoubleMuonLowMass5/SkimDsPhiPi_2022eraF_stream5_Mini_v3/230507_110939/0001",
-		"ParkingDoubleMuonLowMass6/SkimDsPhiPi_2022eraF_stream6_Mini_v3/230507_111009/0001",
-		"ParkingDoubleMuonLowMass7/SkimDsPhiPi_2022eraF_stream7_Mini_v3/230507_111039/0001"
-	]
+	files_Run2022_MC_control_pre = [i+"/0000" for i in control_files_MC if "preE" in i]
+	files_Run2022_MC_control_post = [i+"/0000" for i in control_files_MC if "postE" in i]
 
-	files_2022G = [
-		"ParkingDoubleMuonLowMass0/SkimDsPhiPi_2022eraG_stream0_Mini_v3/230507_111050/0000",
-		"ParkingDoubleMuonLowMass1/SkimDsPhiPi_2022eraG_stream1_Mini_v3/230507_111120/0000",
-		"ParkingDoubleMuonLowMass2/SkimDsPhiPi_2022eraG_stream2_Mini_v3/230507_111149/0000",
-		"ParkingDoubleMuonLowMass3/SkimDsPhiPi_2022eraG_stream3_Mini_v3/230507_111218/0000",
-		"ParkingDoubleMuonLowMass4/SkimDsPhiPi_2022eraG_stream4_Mini_v3/230507_111248/0000",
-		"ParkingDoubleMuonLowMass5/SkimDsPhiPi_2022eraG_stream5_Mini_v3/230507_111319/0000",
-		"ParkingDoubleMuonLowMass6/SkimDsPhiPi_2022eraG_stream6_Mini_v3/230507_111352/0000",
-		"ParkingDoubleMuonLowMass7/SkimDsPhiPi_2022eraG_stream7_Mini_v3/230507_111424/0000"
-	]
-
-	
-	files_Run2022C = [data_path + i for i in files_2022C]
-	files_Run2022D = [data_path + i for i in files_2022D]
-	files_Run2022E = [data_path + i for i in files_2022E]
-	files_Run2022F = [data_path + i for i in files_2022F]
-	files_Run2022G = [data_path + i for i in files_2022G]
-
-	files_2022_MC = [
-		"DstoPhiPi_Phito2Mu_MuFilter_TuneCP5_13p6TeV_pythia8-evtgen/SkimPhiPi_MCRun3_Mini_postE/230507_103348/0000",
-		"DstoPhiPi_Phito2Mu_MuFilter_TuneCP5_13p6TeV_pythia8-evtgen/SkimPhiPi_MCRun3_Mini_preE/230507_103411/0000",
-	]
-
-	files_Run2022_MC = [data_path + i for i in files_2022_MC]
-
-	files_2022_MC_tau3mu = [
-		"DstoTau_Tauto3Mu_3MuFilter_TuneCP5_13p6TeV_pythia8-evtgen/SkimTau3mu_MCRun3_Ds_new_Mini_postE/230504_170127/0000",
-		"ButoTau_Tauto3Mu_3MuFilter_TuneCP5_13p6TeV_pythia8-evtgen/SkimTau3mu_MCRun3_Bu_Mini_postE/230504_170114/0000",
-		"BdtoTau_Tauto3Mu_3MuFilter_TuneCP5_13p6TeV_pythia8-evtgen/SkimTau3mu_MCRun3_Bd_Mini_postE/230504_170014/0000",
-		#"DstoTau_Tauto3Mu_3MuFilter_TuneCP5_13p6TeV_pythia8-evtgen/SkimTau3mu_MCRun3_Ds_new_Mini_preE/230504_170059/0000",
-		#"ButoTau_Tauto3Mu_3MuFilter_TuneCP5_13p6TeV_pythia8-evtgen/SkimTau3mu_MCRun3_Bu_Mini_preE/230504_170043/0000",
-		#"BdtoTau_Tauto3Mu_3MuFilter_TuneCP5_13p6TeV_pythia8-evtgen/SkimTau3mu_MCRun3_Bd_Mini_preE/230504_170029/0000",
-	]
-
-	files_Run2022_MC_tau3mu = [data_path + i for i in files_2022_MC_tau3mu]
-	
-	
 	if data == True:
-		R22C_sum = make_sum("Run_22C", files_Run2022C, csv = False)
-		R22D_sum = make_sum("Run_22D", files_Run2022D, csv = False)
-		R22E_sum = make_sum("Run_22E", files_Run2022E, csv = False)
-		R22F_sum = make_sum("Run_22F", files_Run2022F, csv = False)
-		R22G_sum = make_sum("Run_22G", files_Run2022G, csv = False)
-		#R23C_v4_sum = make_sum("Run_23C_v4", files_Run2023C_v4, csv = False)
+		if is_Tau3mu == False:
+			R22C_sum = make_sum("Run_22C", CCfiles_Run2022C, csv = False)
+			R22D_sum = make_sum("Run_22D", CCfiles_Run2022D, csv = False)
+			R22E_sum = make_sum("Run_22E", CCfiles_Run2022E, csv = False)
+			R22F_sum = make_sum("Run_22F", CCfiles_Run2022F, csv = False)
+			R22G_sum = make_sum("Run_22G", CCfiles_Run2022G, csv = False)
+			#R23C_v4_sum = make_sum("Run_23C_v4", files_Run2023C_v4, csv = False)
 
-		list = [R22C_sum, R22D_sum, R22E_sum, R22F_sum, R22G_sum]
-		df_out = pd.DataFrame(list, columns=C_names)
-		df_out['Index'] = ["Run_22C", "Run_22D", "Run_22E", "Run_22F", "Run_22G"]
-		column_order = ['Index'] + [col for col in df_out if col != 'Index']
-		df_out = df_out[column_order]
-		df_out.to_csv('Post_Ntuple_Data_COntrol.csv', index=False)
+			list = [R22C_sum, R22D_sum, R22E_sum, R22F_sum, R22G_sum]
+			df_out = pd.DataFrame(list, columns=C_names)
+			df_out['Index'] = ["Run_22C", "Run_22D", "Run_22E", "Run_22F", "Run_22G"]
+			column_order = ['Index'] + [col for col in df_out if col != 'Index']
+			df_out = df_out[column_order]
+			df_out.to_csv('Post_Ntuple_Data_Control.csv', index=False)
+		else:
+			R22C_sum = make_sum("Run_22C", Taufiles_Run2022C, csv = False)
+			R22D_sum = make_sum("Run_22D", Taufiles_Run2022D, csv = False)
+			R22E_sum = make_sum("Run_22E", Taufiles_Run2022E, csv = False)
+			R22F_sum = make_sum("Run_22F", Taufiles_Run2022F, csv = False)
+			R22G_sum = make_sum("Run_22G", Taufiles_Run2022G, csv = False)
+			#R23C_v4_sum = make_sum("Run_23C_v4", files_Run2023C_v4, csv = False)
+
+			list = [R22C_sum, R22D_sum, R22E_sum, R22F_sum, R22G_sum]
+			df_out = pd.DataFrame(list, columns=C_names)
+			df_out['Index'] = ["Run_22C", "Run_22D", "Run_22E", "Run_22F", "Run_22G"]
+			column_order = ['Index'] + [col for col in df_out if col != 'Index']
+			df_out = df_out[column_order]
+			df_out.to_csv('Post_Ntuple_Data_tau3mu.csv', index=False)
+
 	else:
 		if is_Tau3mu == False:
-			Run_2022_MC = make_sum("MC_2022", files_Run2022_MC, csv = False)
-			list = [Run_2022_MC]
+			Run_2022_MC_pre = make_sum("MC_2022_pre", files_Run2022_MC_control_pre, csv = False)
+			Run_2022_MC_post = make_sum("MC_2022_post", files_Run2022_MC_control_post, csv = False)
+			list = [Run_2022_MC_pre, Run_2022_MC_post]
 			df_out = pd.DataFrame(list, columns=C_names)
+			df_out['Index'] = ["MC_2022_pre", "MC_2022_post"]
+			column_order = ['Index'] + [col for col in df_out if col != 'Index']
+			df_out = df_out[column_order]
 			df_out.to_csv('Post_Ntuple_MC_Control.csv', index=False)
 		else:
-			Run_2022_MC = make_sum("MC_2022", files_Run2022_MC_tau3mu, csv = False)
-			list = [Run_2022_MC]
+			Run_2022_MC_pre = make_sum("MC_2022_pre", files_Run2022_MC_tau3mu_pre, csv = False)
+			Run_2022_MC_post = make_sum("MC_2022_post", files_Run2022_MC_tau3mu_post, csv = False)
+			list = [Run_2022_MC_pre, Run_2022_MC_post]
 			df_out = pd.DataFrame(list, columns=C_names)
+			df_out['Index'] = ["MC_2022_pre", "MC_2022_post"]
+			column_order = ['Index'] + [col for col in df_out if col != 'Index']
+			df_out = df_out[column_order]
 			df_out.to_csv('Post_Ntuple_MC_tau3mu.csv', index=False)
 
 
