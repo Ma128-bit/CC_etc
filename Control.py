@@ -84,7 +84,7 @@ def histo_from_df(df, year):
         histo.GetXaxis().ChangeLabel(index,-1,-1,-1,-1,-1,df['Era'][i])
         index = index +1
     histo.GetXaxis().ChangeLabel(index,-1,-1,-1,-1,-1," ")
-    histo.GetXaxis().SetTitle(yeald+" Era")
+    histo.GetXaxis().SetTitle(year+" Era")
     histo.GetYaxis().SetTitle("Entries")
     histo.SetMarkerStyle(20)
     histo.SetMarkerColor(kBlue)
