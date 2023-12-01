@@ -1,6 +1,8 @@
 import sys, os, subprocess, json
 num_cores = os.cpu_count()
 print("N. CPU cores: ", num_cores)
+if num_cores/4<2:
+	print("WARNING: 8 CPU cores are recommended to run code at full speed")
 import warnings
 from datetime import datetime
 warnings.filterwarnings("ignore", category=UserWarning, module="numpy")
