@@ -92,8 +92,8 @@ def histo_from_df(df, year):
     histo.SetLineColor(16)
     histo.SetMarkerSize(1.2)
     fit_func = ROOT.TF1("fit_func", "pol0", -1, N_eras-1)
-    histo.Fit(fit_func, "R")
     fit_func.SetLineColor(38)
+    histo.Fit(fit_func, "R")
     c3 = ROOT.TCanvas("canvas", "Titolo del canvas", 1200,800)
     c3.cd()
     
