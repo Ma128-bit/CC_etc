@@ -72,9 +72,10 @@ if __name__ == "__main__":
 	CCfiles_Run2022D2 = [i+"/0000" for i in control_files_2022D2]
 	CCfiles_Run2022D = CCfiles_Run2022D1 + CCfiles_Run2022D2
 	CCfiles_Run2022E = [i+"/0000" for i in control_files_2022E]
-	CCfiles_Run2022F_0 = [i+"/0000" for i in control_files_2022F]
-	CCfiles_Run2022F_1 = [i+"/0001" for i in control_files_2022F]
+	CCfiles_Run2022F = [i+"/0000" for i in control_files_2022F]
 	CCfiles_Run2022F = CCfiles_Run2022F_0 + CCfiles_Run2022F_1
+	CCfiles_Run2022F_part1 = CCfiles_Run2022F[::2]  # Prende gli elementi con indice pari
+    	CCfiles_Run2022F_part2 = CCfiles_Run2022F[1::2]
 	CCfiles_Run2022G = [i+"/0000" for i in control_files_2022G]
 
 	Taufiles_Run2022C = [i+"/0000" for i in tau3mu_files_2022C]
@@ -82,9 +83,7 @@ if __name__ == "__main__":
 	Taufiles_Run2022D2 = [i+"/0000" for i in tau3mu_files_2022D1]
 	Taufiles_Run2022D = Taufiles_Run2022D1 + Taufiles_Run2022D2
 	Taufiles_Run2022E = [i+"/0000" for i in tau3mu_files_2022E]
-	Taufiles_Run2022F_0 = [i+"/0000" for i in tau3mu_files_2022F]
-	Taufiles_Run2022F_1 = [i+"/0001" for i in tau3mu_files_2022F]
-	Taufiles_Run2022F = Taufiles_Run2022F_0 + Taufiles_Run2022F_1
+	Taufiles_Run2022F = [i+"/0000" for i in tau3mu_files_2022F]
 	Taufiles_Run2022G = [i+"/0000" for i in tau3mu_files_2022G]
 
 	files_Run2022_MC_tau3mu_pre = [i+"/0000" for i in tau3mu_files_MC if "preE" in i]
@@ -95,8 +94,8 @@ if __name__ == "__main__":
 
 	if data == True:
 		if is_Tau3mu == False:
-			with Pool() as p:
-        			list = p.starmap(make_sum, [('Run_22C',CCfiles_Run2022C, False),('Run_22D',CCfiles_Run2022D, False),('Run_22E',CCfiles_Run2022E, False),('Run_22F',CCfiles_Run2022F, False),('Run_22G',CCfiles_Run2022G, False)])
+			with Pool(processes=num_cores) as p:
+        			list = p.starmap(make_sum, [('Run_22C',CCfiles_Run2022C, False),('Run_22D',CCfiles_Run2022D, False),('Run_22E',CCfiles_Run2022E, False),('Run_22F_1',CCfiles_Run2022F_part1, False), ('Run_22F_2',CCfiles_Run2022F_part2, False),('Run_22G',CCfiles_Run2022G, False)])
 			'''
 			R22C_sum = make_sum("Run_22C", CCfiles_Run2022C, csv = False)
 			R22D_sum = make_sum("Run_22D", CCfiles_Run2022D, csv = False)
@@ -108,7 +107,7 @@ if __name__ == "__main__":
 			list = [R22C_sum, R22D_sum, R22E_sum, R22F_sum, R22G_sum]
    			'''
 			df_out = pd.DataFrame(list, columns=C_names)
-			df_out['Index'] = ["Run_22C", "Run_22D", "Run_22E", "Run_22F", "Run_22G"]
+			df_out['Index'] = ["Run_22C", "Run_22D", "Run_22E", "Run_22F_1", "Run_22F_2", "Run_22G"]
 			column_order = ['Index'] + [col for col in df_out if col != 'Index']
 			df_out = df_out[column_order]
 			df_out.to_csv('Post_Ntuple_Data_Control.csv', index=False)
