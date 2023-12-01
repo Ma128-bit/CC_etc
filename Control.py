@@ -83,14 +83,15 @@ def histo_from_df(df, year):
         index = index +1
         histo.GetXaxis().ChangeLabel(index,-1,-1,-1,-1,-1,df['Era'][i])
         index = index +1
-    c3 = ROOT.TCanvas("canvas", "Titolo del canvas", 1200,800)
-    c3.cd()
+    histo.GetXaxis().ChangeLabel(index,-1,-1,-1,-1,-1," ")
     histo.SetMarkerStyle(20)
     histo.SetMarkerColor(kBlue)
     histo.GetYaxis().SetRangeUser(0, max*1.1)
     histo.SetLineColor(kBlue)
     histo.SetMarkerSize(1.2)
     histo.Fit("pol0")
+    c3 = ROOT.TCanvas("canvas", "Titolo del canvas", 1200,800)
+    c3.cd()
     histo.Draw()
     c3.SaveAs("Mass_Fits/Plot_yield.png")
     del c3
