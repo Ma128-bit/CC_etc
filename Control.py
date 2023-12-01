@@ -73,8 +73,8 @@ def histo_from_df(df, year):
     histo.GetXaxis().SetNdivisions(N_eras*2 +1)
     index = 1
     for i in range(N_eras):
-        histo.SetBinContent(i, df['Yeald'][i]/lumi[df['Era'][i]])
-        histo.SetBinError(i, df['Error'][i]/lumi[df['Era'][i]])
+        histo.SetBinContent(i, df['Yeald'][i]/float(lumi[df['Era'][i]]))
+        histo.SetBinError(i, df['Error'][i]/float(lumi[df['Era'][i]]))
         histo.GetXaxis().ChangeLabel(index,-1,-1,-1,-1,-1," ")
         index = index +1
         histo.GetXaxis().ChangeLabel(index,-1,-1,-1,-1,-1,df['Era'][i])
