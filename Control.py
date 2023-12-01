@@ -103,8 +103,10 @@ def histo_from_df(df, year):
     chi2_value = fit_func.GetChisquare()
     box = ROOT.TPaveText(0.65, 0.75, 0.85, 0.85, "NDC")
     box.SetFillColor(0)  # Imposta il colore di sfondo del box a trasparente
-    box.SetBorderSize(0) 
-    box.AddText("p0: %.2f +/- %.2f" % (p0_value, p0_error))
+    box.SetBorderSize(1) 
+    box.SetBorderColor(kRed) 
+    box.SetTextAlign(11)
+    box.AddText("p0: %.2f #pm %.2f" % (p0_value, p0_error))
     box.AddText("chi^2: %.2f" % chi2_value)
 
     histo.Draw()
