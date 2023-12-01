@@ -84,6 +84,8 @@ def histo_from_df(df, year):
         histo.GetXaxis().ChangeLabel(index,-1,-1,-1,-1,-1,df['Era'][i])
         index = index +1
     histo.GetXaxis().ChangeLabel(index,-1,-1,-1,-1,-1," ")
+    histo.GetXaxis().SetTitle(yeald+" Era")
+    histo.GetYaxis().SetTitle("Entries")
     histo.SetMarkerStyle(20)
     histo.SetMarkerColor(kBlue)
     histo.GetYaxis().SetRangeUser(0, max*1.1)
@@ -93,7 +95,7 @@ def histo_from_df(df, year):
     c3 = ROOT.TCanvas("canvas", "Titolo del canvas", 1200,800)
     c3.cd()
     histo.Draw()
-    c3.SaveAs("Mass_Fits/Plot_yield.png")
+    c3.SaveAs("Mass_Fits/Plot_yield.png", "png -dpi 600")
     del c3
 
 def fit(tree, year, lumi, era):
