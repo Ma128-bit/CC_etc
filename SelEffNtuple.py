@@ -1,6 +1,6 @@
 import sys, os, subprocess, json
 num_cores = os.cpu_count()
-print("N. CPU cores: ", num_cores, "\n")
+print("N. CPU cores: ", num_cores)
 import warnings
 from datetime import datetime
 warnings.filterwarnings("ignore", category=UserWarning, module="numpy")
@@ -83,6 +83,8 @@ if __name__ == "__main__":
 	Taufiles_Run2022D = Taufiles_Run2022D1 + Taufiles_Run2022D2
 	Taufiles_Run2022E = [i+"/0000" for i in tau3mu_files_2022E]
 	Taufiles_Run2022F = [i+"/0000" for i in tau3mu_files_2022F]
+	Taufiles_Run2022F_part1 = Taufiles_Run2022F[::2] 
+	Taufiles_Run2022F_part2 = Taufiles_Run2022F[1::2]
 	Taufiles_Run2022G = [i+"/0000" for i in tau3mu_files_2022G]
 
 	files_Run2022_MC_tau3mu_pre = [i+"/0000" for i in tau3mu_files_MC if "preE" in i]
@@ -111,16 +113,11 @@ if __name__ == "__main__":
 			df_out = df_out[column_order]
 			df_out.to_csv('Post_Ntuple_Data_Control.csv', index=False)
 		else:
-			R22C_sum = make_sum("Run_22C", Taufiles_Run2022C, csv = False)
-			R22D_sum = make_sum("Run_22D", Taufiles_Run2022D, csv = False)
-			R22E_sum = make_sum("Run_22E", Taufiles_Run2022E, csv = False)
-			R22F_sum = make_sum("Run_22F", Taufiles_Run2022F, csv = False)
-			R22G_sum = make_sum("Run_22G", Taufiles_Run2022G, csv = False)
-			#R23C_v4_sum = make_sum("Run_23C_v4", files_Run2023C_v4, csv = False)
+			with Pool(processes=num_cores) as p:
+        			list = p.starmap(make_sum, [('Run_22C',Taufiles_Run2022C, False),('Run_22D',Taufiles_Run2022D, False),('Run_22E',Taufiles_Run2022E, False),('Run_22F_1',Taufiles_Run2022F_part1, False), ('Run_22F_2',Taufiles_Run2022F_part2, False),('Run_22G',Taufiles_Run2022G, False)])
 
-			list = [R22C_sum, R22D_sum, R22E_sum, R22F_sum, R22G_sum]
 			df_out = pd.DataFrame(list, columns=C_names)
-			df_out['Index'] = ["Run_22C", "Run_22D", "Run_22E", "Run_22F", "Run_22G"]
+			df_out['Index'] = ["Run_22C", "Run_22D", "Run_22E", "Run_22F_1", "Run_22F_2", "Run_22G"]
 			column_order = ['Index'] + [col for col in df_out if col != 'Index']
 			df_out = df_out[column_order]
 			df_out.to_csv('Post_Ntuple_Data_tau3mu.csv', index=False)
