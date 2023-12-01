@@ -89,6 +89,7 @@ def histo_from_df(df, year):
     #histo.SetMarkerStyle(20)
     #histo.SetMarkerColor(14)
     #histo.SetMarkerSize(1.2)
+    histo.SetBarWidth(1.5)
     histo.SetFillColor(14)
     histo.SetLineColor(46)
     histo.GetYaxis().SetRangeUser(0, max*1.1)
