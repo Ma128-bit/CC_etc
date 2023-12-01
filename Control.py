@@ -495,5 +495,5 @@ def control_plots():
 
 if __name__ == "__main__": 
     Fit_inv_mass()
-    control_plots()
+    #control_plots()
     
