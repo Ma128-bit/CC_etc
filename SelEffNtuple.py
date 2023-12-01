@@ -118,6 +118,7 @@ if __name__ == "__main__":
 			column_order = ['Index'] + [col for col in df_out if col != 'Index']
 			df_out = df_out[column_order]
 			df_out.to_csv('EffResults/Post_Ntuple_Data_Control.csv', index=False)
+			print("EffResults/Post_Ntuple_Data_Control.csv Saved!")
 		else:
 			with Pool(processes=num_cores) as p:
         			list = p.starmap(make_sum, [('Run_22C',Taufiles_Run2022C, False),('Run_22D',Taufiles_Run2022D, False),('Run_22E',Taufiles_Run2022E, False),('Run_22F_1',Taufiles_Run2022F_part1, False), ('Run_22F_2',Taufiles_Run2022F_part2, False),('Run_22G',Taufiles_Run2022G, False)])
@@ -127,6 +128,7 @@ if __name__ == "__main__":
 			column_order = ['Index'] + [col for col in df_out if col != 'Index']
 			df_out = df_out[column_order]
 			df_out.to_csv('EffResults/Post_Ntuple_Data_tau3mu.csv', index=False)
+			print("EffResults/Post_Ntuple_Data_tau3mu.csv Saved!")
 
 	else:
 		if is_Tau3mu == False:
@@ -138,6 +140,7 @@ if __name__ == "__main__":
 			column_order = ['Index'] + [col for col in df_out if col != 'Index']
 			df_out = df_out[column_order]
 			df_out.to_csv('EffResults/Post_Ntuple_MC_Control.csv', index=False)
+			print("EffResults/Post_Ntuple_MC_Control.csv Saved!")
 		else:
 			Run_2022_MC_pre = make_sum("MC_2022_pre", files_Run2022_MC_tau3mu_pre, csv = False)
 			Run_2022_MC_post = make_sum("MC_2022_post", files_Run2022_MC_tau3mu_post, csv = False)
@@ -147,6 +150,7 @@ if __name__ == "__main__":
 			column_order = ['Index'] + [col for col in df_out if col != 'Index']
 			df_out = df_out[column_order]
 			df_out.to_csv('EffResults/Post_Ntuple_MC_tau3mu.csv', index=False)
+			print("EffResults/Post_Ntuple_MC_tau3mu.csv Saved!")
 	
 	end_time = time.time()
 	execution_time = (end_time - start_time)/60
