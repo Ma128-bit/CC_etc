@@ -117,7 +117,7 @@ def histo_from_df(df, year):
    
 
     histo.Draw("H")
-    histo.Draw("EB same")
+    histo.Draw("E2 same")
     box.Draw("same")
     c3.SaveAs("Mass_Fits/Plot_yield.png", "png -dpi 600")
     del c3
