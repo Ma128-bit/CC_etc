@@ -101,10 +101,11 @@ def histo_from_df(df, year):
     p0_value = fit_parameters[0]
     p0_error = fit_func.GetParError(0)
     chi2_value = fit_func.GetChisquare()
-    box = ROOT.TPaveText(0.65, 0.7, 0.89, 0.88, "NDC")
-    box.SetFillColor(0)  # Imposta il colore di sfondo del box a trasparente
+    box = ROOT.TPaveText(0.65, 0.7, 0.89, 0.884, "NDC")
+    box.SetFillColor(1)  # Imposta il colore di sfondo del box a trasparente
     box.SetBorderSize(1) 
     box.SetLineColor(16)   
+    box.SetFillColor(16)   
     box.SetLineStyle(2)    
     box.SetLineWidth(2)     
     box.SetTextAlign(11)
