@@ -47,7 +47,7 @@ def load_data(print_lable, input_list):
 		files = subprocess.check_output("find %s -type f -name '*root'" % entry, shell=True)
 		for f in files.splitlines():
 			datasets.append(load_histo(f.decode()))
-		print(" ", print_lable, "   ", j, "/",len(input_list), end='\r')
+		print(" ", print_lable, "   ", j, "/",len(input_list), "    ", end='\r')
 		j=j+1
 	print("\nDone!")
 	df_all = pd.concat(datasets, ignore_index=True)
@@ -60,7 +60,7 @@ def make_sum(print_lable, files, csv = False):
 	Run_sum = []
 	for k in C_names:
 		Run_sum.append(Run[k].sum())
-	print(Run_sum)
+	print(print_lable, ": ", Run_sum)
 	return Run_sum
 
 if __name__ == "__main__":
