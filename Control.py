@@ -72,9 +72,13 @@ def histo_from_df(df, year):
     histo.GetXaxis().SetRangeUser(-1, N_eras-1)
     histo.GetXaxis().SetNdivisions(N_eras*2 +1)
     index = 1
+    max = 0
     for i in range(N_eras):
         histo.SetBinContent(i, df['Yeald'][i]/float(lumi[df['Era'][i]]))
         histo.SetBinError(i, df['Error'][i]/float(lumi[df['Era'][i]]))
+        sum = (df['Yeald'][i]/float(lumi[df['Era'][i]]) + df['Error'][i]/float(lumi[df['Era'][i]]))
+        if sum > max:
+            max = sum
         histo.GetXaxis().ChangeLabel(index,-1,-1,-1,-1,-1," ")
         index = index +1
         histo.GetXaxis().ChangeLabel(index,-1,-1,-1,-1,-1,df['Era'][i])
@@ -83,6 +87,7 @@ def histo_from_df(df, year):
     c3.cd()
     histo.SetMarkerStyle(20)
     histo.SetMarkerColor(kBlue)
+    histo.GetYaxis().SetRangeUser(0, max*1.1)
     histo.SetLineColor(kBlue)
     histo.SetMarkerSize(1.2)
     histo.Fit("pol0")
