@@ -94,7 +94,7 @@ if __name__ == "__main__":
 	if data == True:
 		if is_Tau3mu == False:
 			with Pool() as p:
-        			list = p.starmap(make_sum, [('Run_22C',CCfiles_Run2022C, csv = False),('Run_22D',CCfiles_Run2022D, csv = False),('Run_22E',CCfiles_Run2022E, csv = False),('Run_22F',CCfiles_Run2022F, csv = False),('Run_22G',CCfiles_Run2022G, csv = False)])
+        			list = p.starmap(make_sum, [('Run_22C',CCfiles_Run2022C, False),('Run_22D',CCfiles_Run2022D, False),('Run_22E',CCfiles_Run2022E, False),('Run_22F',CCfiles_Run2022F, False),('Run_22G',CCfiles_Run2022G, False)])
 			'''
 			R22C_sum = make_sum("Run_22C", CCfiles_Run2022C, csv = False)
 			R22D_sum = make_sum("Run_22D", CCfiles_Run2022D, csv = False)
