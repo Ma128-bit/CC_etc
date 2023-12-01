@@ -65,7 +65,9 @@ def make_sum(print_lable, files, csv = False):
 if __name__ == "__main__":
 	
 	CCfiles_Run2022C = [i+"/0000" for i in control_files_2022C]
-	CCfiles_Run2022D = [i+"/0000" for i in control_files_2022D]
+	CCfiles_Run2022D1 = [i+"/0000" for i in control_files_2022D1]
+	CCfiles_Run2022D2 = [i+"/0000" for i in control_files_2022D2]
+	CCfiles_Run2022D = CCfiles_Run2022D1 + CCfiles_Run2022D2
 	CCfiles_Run2022E = [i+"/0000" for i in control_files_2022E]
 	CCfiles_Run2022F_0 = [i+"/0000" for i in control_files_2022F]
 	CCfiles_Run2022F_1 = [i+"/0001" for i in control_files_2022F]
@@ -73,7 +75,9 @@ if __name__ == "__main__":
 	CCfiles_Run2022G = [i+"/0000" for i in control_files_2022G]
 
 	Taufiles_Run2022C = [i+"/0000" for i in tau3mu_files_2022C]
-	Taufiles_Run2022D = [i+"/0000" for i in tau3mu_files_2022D]
+	Taufiles_Run2022D1 = [i+"/0000" for i in tau3mu_files_2022D1]
+	Taufiles_Run2022D2 = [i+"/0000" for i in tau3mu_files_2022D1]
+	Taufiles_Run2022D = Taufiles_Run2022D1 + Taufiles_Run2022D2
 	Taufiles_Run2022E = [i+"/0000" for i in tau3mu_files_2022E]
 	Taufiles_Run2022F_0 = [i+"/0000" for i in tau3mu_files_2022F]
 	Taufiles_Run2022F_1 = [i+"/0001" for i in tau3mu_files_2022F]
