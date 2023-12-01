@@ -97,7 +97,8 @@ if __name__ == "__main__":
 	files_Run2022_MC_control_pre = [i+"/0000" for i in control_files_MC if "preE" in i]
 	files_Run2022_MC_control_post = [i+"/0000" for i in control_files_MC if "postE" in i]
 
-	subprocess.run(["mkdir", "EffResults"])
+	if not os.path.exists("EffResults"):
+		subprocess.run(["mkdir", "EffResults"])
 	start_time = time.time()
 	if data == True:
 		if is_Tau3mu == False:
