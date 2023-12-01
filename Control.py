@@ -89,9 +89,8 @@ def histo_from_df(df, year):
     #histo.SetMarkerStyle(20)
     #histo.SetMarkerColor(14)
     #histo.SetMarkerSize(1.2)
-    histo.SetLineWidth(2)
+    histo.SetLineWidth(0)
     histo.SetFillColor(18)
-    histo.SetLineColor(1)
     histo.GetYaxis().SetRangeUser(0, max*1.1)
     fit_func = ROOT.TF1("fit_func", "pol0", -1, N_eras-1)
     fit_func.SetLineColor(38)
@@ -116,7 +115,10 @@ def histo_from_df(df, year):
     box.AddText("p_{0}: %.2f #pm %.2f" % (p0_value, p0_error))
    
     histo.Draw("H")
-    histo.Draw("E1 B same")
+    
+    histo.SetLineWidth(2)
+    histo.SetLineColor(1)
+    histo.Draw("E1 same")
     box.Draw("same")
     c3.SaveAs("Mass_Fits/Plot_yield.png", "png -dpi 600")
     del c3
