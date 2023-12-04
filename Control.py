@@ -357,13 +357,13 @@ def control_plots(scale=False):
             hMC_sgn = TH1F()
             hMC_sgn2 = TH1F()
             
-            PVCollection_Size = ROOT.Double()
-            var_value = ROOT.Double()
+            PVCollection_Size = ROOT.Double_t()
+            var_value = ROOT.Double_t()
             treeMC[0].SetBranchAddress("PVCollection_Size", ROOT.AddressOf(PVCollection_Size))
             treeMC[0].SetBranchAddress(varname, ROOT.AddressOf(var_value))
 
-            PVCollection_Size2 = ROOT.Double()
-            var_value2 = ROOT.Double()
+            PVCollection_Size2 = ROOT.Double_t()
+            var_value2 = ROOT.Double_t()
             treeMC[1].SetBranchAddress("PVCollection_Size", ROOT.AddressOf(PVCollection_Size2))
             treeMC[1].SetBranchAddress(varname, ROOT.AddressOf(var_value2))
 
