@@ -1,7 +1,7 @@
 void PV_ratio_hist() {
     // Apri i file .root
-    TFile *file1 = new TFile("histogram_nVTx_MC.root");
-    TFile *file2 = new TFile("histogram_nVTx.root");
+    TFile *file1 = new TFile("PV_Histo/histogram_nVTx_MC.root");
+    TFile *file2 = new TFile("PV_Histo/histogram_nVTx.root");
 
     // Leggi gli istogrammi dai file
     TH1F *h_DsPhiPi_preE = (TH1F*)file1->Get("h_MC_CC_DsPhiPi_preE");
@@ -30,16 +30,17 @@ void PV_ratio_hist() {
     
     TH1F *h_C = (TH1F*)file2->Get("h_data_C");
     TH1F *h_D = (TH1F*)file2->Get("h_data_D");
-    TH1F *h_E = (TH1F*)file2->Get("h_dataE_E");
-    TH1F *h_F = (TH1F*)file2->Get("h_dataE_F");
-    TH1F *h_F2 = (TH1F*)file2->Get("h_dataE2_F");
-    TH1F *h_G = (TH1F*)file2->Get("h_dataE_G");
+    TH1F *h_E = (TH1F*)file2->Get("h_data_E");
+    TH1F *h_F = (TH1F*)file2->Get("h_data_F1");
+    TH1F *h_F2 = (TH1F*)file2->Get("h_data_F2");
+    TH1F *h_G = (TH1F*)file2->Get("h_data_G");
     
     TH1F *h_control_C = (TH1F*)file2->Get("h_data_control_C");
     TH1F *h_control_D = (TH1F*)file2->Get("h_data_control_D");
-    TH1F *h_control_E = (TH1F*)file2->Get("h_data_controlE_E");
-    TH1F *h_control_F = (TH1F*)file2->Get("h_data_controlE_F");
-    TH1F *h_control_G = (TH1F*)file2->Get("h_data_controlE_G");
+    TH1F *h_control_E = (TH1F*)file2->Get("h_data_control_E");
+    TH1F *h_control_F = (TH1F*)file2->Get("h_data_control_F1");
+    TH1F *h_control_F2 = (TH1F*)file2->Get("h_data_control_F2");
+    TH1F *h_control_G = (TH1F*)file2->Get("h_data_control_G");
     
     // Add gli istogrammi
     h_C->Add(h_D);
@@ -51,7 +52,7 @@ void PV_ratio_hist() {
     h_control_C->Add(h_control_D);
     h_control_C->Scale(1.0 / h_control_C->Integral());
     
-    h_control_E->Add(h_control_F); h_control_E->Add(h_control_G);
+    h_control_E->Add(h_control_F); h_control_E->Add(h_control_F2); h_control_E->Add(h_control_G);
     h_control_E->Scale(1.0 / h_control_E->Integral());
     
     TCanvas *c = new TCanvas("c", "c", 1500, 800);
@@ -87,7 +88,7 @@ void PV_ratio_hist() {
     ratio_h_DsPhiPi_postE->Divide(h_control_E, h_DsPhiPi_postE);
     
     // Crea un nuovo file .root e salva l'istogramma del rapporto
-    TFile *output_file = new TFile("histogram_ratio.root", "RECREATE");
+    TFile *output_file = new TFile("PV_Histo/histogram_ratio.root", "RECREATE");
 
     ratio_h_Ds_preE->Write();
     ratio_h_Ds_postE->Write();
