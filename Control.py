@@ -377,16 +377,17 @@ def control_plots(scale=False):
             treeMC[1].SetBranchAddress("nVtx", PVCollection_Size2)
             treeMC[1].SetBranchAddress(varname, var_value2)
             
-            for event in treeMC[0].GetEntries():
+            for event in range(treeMC[0].GetEntries()):
                 treeMC[0].GetEntry(event)
                 scale = histopre.GetBinContent(histopre.FindBin(PVCollection_Size))
-                scaled_X = var_value * scale
+                scaled_X = var_value[0] * scale
+                print("var_value[0]: ", var_value[0])
                 hMC_sgn.Fill(scaled_X)
                 
-            for event in treeMC[1].GetEntries():
+            for event in range(treeMC[1].GetEntries()):
                 treeMC[1].GetEntry(event)
                 scale = histopre.GetBinContent(histopre.FindBin(PVCollection_Size2))
-                scaled_X = var_value2 * scale
+                scaled_X = var_value2[0] * scale
                 hMC_sgn2.Fill(scaled_X)
                 
         else:
