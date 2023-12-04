@@ -31,18 +31,18 @@ dict = {
     "Bp_postE_tau3mu": [True, MC2022_Bp_post, 2],
     "Ds_preE_tau3mu": [True, MC2022_Ds_pre, 3],
     "Ds_postE_tau3mu": [True, MC2022_Ds_post, 3],
-    "C_control": [True, control_Run2022C, 0],
-    "D_control": [True, control_Run2022D, 0],
-    "E_control": [True, control_Run2022E, 0],
-    "F_control": [True, control_Run2022F, 0],
-    "G_control": [True, control_Run2022G, 0],
-    "DsPhiPi_preE_control": [True, MC2022_DsPhiPi_pre, 4],
-    "DsPhiPi_postE_control": [True, MC2022_DsPhiPi_post, 4]
+    "C_control": [False, control_Run2022C, 0],
+    "D_control": [False, control_Run2022D, 0],
+    "E_control": [False, control_Run2022E, 0],
+    "F_control": [False, control_Run2022F, 0],
+    "G_control": [False, control_Run2022G, 0],
+    "DsPhiPi_preE_control": [False, MC2022_DsPhiPi_pre, 4],
+    "DsPhiPi_postE_control": [False, MC2022_DsPhiPi_post, 4]
 }
 
 def load_data(tau3mu, file_name):
     """Load ROOT data and turn tree into a pd dataframe"""
-    print("Loading data from", file_name)
+    #print("Loading data from", file_name)
     f = uproot.open(file_name)
     tree = f["FinalTree"]
     if tau3mu == True:
@@ -66,6 +66,7 @@ def load_dfs(dict, string):
 
 def add_weight_nVtx(df_all):
     df_all["weight_nVtx"] = 1
+    df_all["weight_nVtx_err"] = 0
     histo_file = TFile.Open("./PV_Histo/histogram_ratio.root")
     histo = {
         "B0_preE_tau3mu": None,
@@ -79,7 +80,6 @@ def add_weight_nVtx(df_all):
     }
     for key in histo:
         name = "ratio_h_" + key.split('_')[0] + "_" + key.split('_')[1]
-        print(name)
         histo[key] = histo_file.Get(name)
 
     le = len(df_all)
@@ -87,16 +87,57 @@ def add_weight_nVtx(df_all):
         for index, row in df_all.iterrows():
             pbar.update(1)
             if row['ID'] in histo:
-                scale = histo[row['ID']].GetBinContent(histo[row['ID']].FindBin(row['nVtx']))
+                bin = histo[row['ID']].FindBin(row['nVtx'])
+                scale = histo[row['ID']].GetBinContent(bin)
+                scale_err = histo[row['ID']].GetBinError(bin)
                 df_all.at[index, "weight_nVtx"] = scale
+                df_all.at[index, "weight_nVtx_err"] = scale_err
+
+    return df_all
+
+def add_weight_MuonSF(df_all, tau3mu=True):
+    df_all["Muon1_SF"] = 1
+    df_all["Muon1_SF_err"] = 0
+    df_all["Muon2_SF"] = 1
+    df_all["Muon2_SF_err"] = 0
+    if tau3mu==True:
+        df_all["Muon3_SF"] = 1
+        df_all["Muon3_SF_err"] = 0
+    SF_pre = TFile.Open("/lustrehome/mbuonsante/Tau_3mu/CMSSW_12_4_11_patch3/src/MacroAnalysis/GM_PF_SF/SF_preE.root")
+    SF_post = TFile.Open("/lustrehome/mbuonsante/Tau_3mu/CMSSW_12_4_11_patch3/src/MacroAnalysis/GM_PF_SF/SF_postE.root")
+    SFs = {
+        "preE": None,
+        "postE": None,
+    }
+    SFs["preE"] = SF_pre.Get("NUM_GlobalMuons_PF_DEN_genTracks_abseta_pt")
+    SFs["postE"] = SF_post.Get("NUM_GlobalMuons_PF_DEN_genTracks_abseta_pt")
+    le = len(df_all)
+    with tqdm(total=le) as pbar:
+        for index, row in df_all.iterrows():
+            pbar.update(1)
+            if "preE" in row['ID']:
+                info = "preE"
+            elif "postE" in row['ID']:
+                info = "postE"
+            else:
+                info = None  
+            if info is not None:
+                for k in range(2+int(tau3mu)):
+                    bin = SFs[info].FindBin(row["Ptmu"+str(k+1)], row["Etamu"+str(k+1)])
+                    scale = SFs[info].GetBinContent(bin)
+                    scale_err = SFs[info].GetBinError(bin)
+                    df_all.at[index, "Muon"+str(k+1)+"_SF"] = scale
+                    df_all.at[index, "Muon"+str(k+1)+"_SF"] = scale_err
 
     return df_all
 
 if __name__ == "__main__":
+    print("Load tau3mu files:")
     df_tau3mu = load_dfs(dict, "tau3mu")
-    print(df_tau3mu)
+    print("Done!\nAdd 'weight_nVtx':")
     df_tau3mu = add_weight_nVtx(df_tau3mu)
-    print(df_tau3mu)
+    print("Done!\nAdd 'weight_MuonSFs':")
+    df_tau3mu = add_weight_MuonSF(df_tau3mu)
     print(df_tau3mu["weight_nVtx"][df_tau3mu["weight_nVtx"]<1])
     
     
