@@ -61,7 +61,7 @@ def fit_era(dataset, era):
                 for r, d, f in os.walk(path):
                     for file in f:
                         if '.root' in file:
-                            print(os.path.join(r, file))
+                            #print(os.path.join(r, file))
                             t1.Add(os.path.join(r, file))
 
     if dataset == 'MC':
