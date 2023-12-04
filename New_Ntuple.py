@@ -94,7 +94,7 @@ if __name__ == "__main__":
     print(df_tau3mu)
     df_tau3mu = add_weight_nVtx(df_tau3mu)
     print(df_tau3mu)
-    print(df_tau3mu["weight_nVtx"]["weight_nVtx"<1])
+    print(df_tau3mu["weight_nVtx"][df_tau3mu["weight_nVtx"]<1])
     
     
 
