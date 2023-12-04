@@ -75,8 +75,9 @@ def add_weight_nVtx(df_all):
         "DsPhiPi_postE_control": None,
     }
     for key in histo:
-        name = key.split('_')[0] + key.split('_')[1]
-        histo[key] = histo_file.Get("ratio_h_"+ name)
+        name = "ratio_h_" + key.split('_')[0] + key.split('_')[1]
+        print(name)
+        histo[key] = histo_file.Get(name)
     
     for index, row in df_all.iterrows():
         if row['ID'] in histo:
