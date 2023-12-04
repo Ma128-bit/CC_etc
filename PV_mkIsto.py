@@ -17,10 +17,9 @@ if num_cores/4<3:
 	print("WARNING: 12 CPU cores are recommended to run code at full speed")
     
 def fit_era(dataset, era):
-    indx = ['_0', '_1', '_2', '_3', '_4', '_5', '_6', '_7']
-    if (dataset=='data' or dataset=='dataE' or dataset=='dataE2'):
+    if (dataset=='data' or dataset=='MC'):
         nome="TreeMakerBkg/ntuple"
-    if (dataset=='data_control' or dataset=='data_controlE'):
+    if (dataset=='data_control' or dataset=='MC_CC'):
         nome="Tree3Mu/ntuple"
     t1 = TChain(nome)
     if dataset == 'data':
@@ -55,29 +54,63 @@ def fit_era(dataset, era):
         else:
             paths = []
 
-    for i in range(len(paths)):
-        path = paths[i]
-        if path!='':
-            for r, d, f in os.walk(path):
-                for file in f:
-                    if '.root' in file:
-                        print(os.path.join(r, file))
-                        t1.Add(os.path.join(r, file))
+	if dataset=='data' or dataset=='data_control':
+		histo_name = "histogram_nVTx.root"
+	    for i in range(len(paths)):
+	        path = paths[i]
+	        if path!='':
+	            for r, d, f in os.walk(path):
+	                for file in f:
+	                    if '.root' in file:
+	                        print(os.path.join(r, file))
+	                        t1.Add(os.path.join(r, file))
+
+	if dataset == 'MC':
+		if era == 'Ds_preE':
+			path = tau3mu_files_MC[0]
+		elif era == 'Ds_postE':
+			path = tau3mu_files_MC[1]
+		elif era == 'Bp_preE':
+			path = tau3mu_files_MC[2]
+		elif era == 'Bp_postE':
+			path = tau3mu_files_MC[3]
+		elif era == 'B0_preE':
+			path = tau3mu_files_MC[4]
+		elif era == 'B0_postE':
+			path = tau3mu_files_MC[5]
+		elif era == 'DsPhiPi_preE':
+			path = control_files_MC[0]
+		elif era == 'DsPhiPi_postE':
+			path = control_files_MC[1]
+		else:
+			path = ''
+	
+	if dataset == 'MC' and path!='':
+		histo_name = "histogram_nVTx_MC.root"
+	    for r, d, f in os.walk(path):
+	        for file in f:
+                if '.root' in file:
+					print(os.path.join(r, file))
+					t1.Add(os.path.join(r, file))
+
 
     title="h_"+dataset+"_"+era
     title1="h_"+dataset+"_"+era
     h = TH1F(title,title1,80,0,80)
     #h.append(TH1F(title,title1,80,0,80))
     t1.Draw("PVCollection_Size>>"+title,"","N")
-    
+
+	
     file = None
     while file is None:
-        file = TFile.Open('histogram_nVTx.root', 'UPDATE')
+        file = TFile.Open(histo_name, 'UPDATE')
     h.Write()
     file.Close()
 
 if __name__=='__main__':
     f = TFile("histogram_nVTx.root", "RECREATE")
     f.Close()
+	f2 = TFile("histogram_nVTx_MC.root", "RECREATE")
+    f2.Close()
     with Pool() as p:
-        p.starmap(fit_era, [('data','C'), ('data','D'), ('data','E'), ('data','F1'), ('data','F2'), ('data','G'), ('data_control','C'), ('data_control','D'), ('data_control','E'), ('data_control','F2'), ('data_control','F2'), ('data_control','G')])
+        p.starmap(fit_era, [('data','C'), ('data','D'), ('data','E'), ('data','F1'), ('data','F2'), ('data','G'), ('data_control','C'), ('data_control','D'), ('data_control','E'), ('data_control','F2'), ('data_control','F2'), ('data_control','G'), ('MC','Ds_preE'), ('MC','Ds_postE'), ('MC','Bp_preE'), ('MC','Bp_postE'), ('MC','B0_preE'), ('MC','B0_postE'), ('MC','DsPhiPi_preE'), ('MC','DsPhiPi_postE')])
