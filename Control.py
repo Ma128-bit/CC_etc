@@ -305,7 +305,7 @@ def Fit_inv_mass():
     df.to_csv('Mass_Fits/Yeald.csv', index=False)
     del ch_data
 
-def control_plots():
+def control_plots(scale=False):
     if not os.path.exists("Control_Plots"):
         subprocess.run(["mkdir", "Control_Plots"])
     if year == "2022":
@@ -314,6 +314,11 @@ def control_plots():
         lumi_postE = float(lumi2022["Post_EE"])  # recorded lumi by HLT_DoubleMu3_Trk_Tau3mu_v*
         Eras = Era2022
         MC = MC2022
+
+    if(scale == True):
+        fileR = ROOT.TFile("histogram_ratio.root", "READ")
+        histopre = fileR.Get("ratio_h_DsPhiPi_preE")
+        histopost = fileR.Get("ratio_h_DsPhiPi_postE")
     
     xsection_mc_postE = 1.103e10  # Ds Production Cross section
     xsection_mc_preE = 1.106e10  # Ds Production Cross section
@@ -343,16 +348,42 @@ def control_plots():
         binning = binning_dict[varname]
 
         ch_data.Draw(varname + ">>hdata_bkg" + s+ binning, invmass_SB)
-        ch_data.Draw(varname + ">>hdata_sgn" + s + binning, invmass_peak)
-        treeMC[0].Draw(varname + ">>hMC_sgn" + s + binning, invmass_peak)
-        if year == "2022":
-            treeMC[1].Draw(varname + ">>hMC_sgn2" + s + binning, invmass_peak)
-
+        ch_data.Draw(varname + ">>hdata_sgn" + s + binning, invmass_peak)            
         hdata_bkg = TH1F(gDirectory.Get("hdata_bkg" + s))
         hdata_sgn = TH1F(gDirectory.Get("hdata_sgn" + s))
-        hMC_sgn = TH1F(gDirectory.Get("hMC_sgn" + s))
-        if year == "2022":
-            hMC_sgn2 = TH1F(gDirectory.Get("hMC_sgn2" + s))
+        
+        if scale == True:
+            hMC_sgn = TH1F()
+            hMC_sgn2 = TH1F()
+            
+            PVCollection_Size = ROOT.Double()
+            var_value = ROOT.Double()
+            treeMC[0].SetBranchAddress("PVCollection_Size", ROOT.AddressOf(PVCollection_Size))
+            treeMC[0].SetBranchAddress(varname, ROOT.AddressOf(var_value))
+
+            PVCollection_Size2 = ROOT.Double()
+            var_value2 = ROOT.Double()
+            treeMC[1].SetBranchAddress("PVCollection_Size", ROOT.AddressOf(PVCollection_Size2))
+            treeMC[1].SetBranchAddress(varname, ROOT.AddressOf(var_value2))
+
+            for event in treeMC[0].GetEntries():
+                treeMC[0].GetEntry(event)
+                scale = histopre.GetBinContent(histopre.FindBin(PVCollection_Size))
+                scaled_X = var_value * scale
+                hMC_sgn.Fill(scaled_X)
+                
+            for event in treeMC[1].GetEntries():
+                treeMC[1].GetEntry(event)
+                scale = histopre.GetBinContent(histopre.FindBin(PVCollection_Size2))
+                scaled_X = var_value2 * scale
+                hMC_sgn2.Fill(scaled_X)
+                
+        else:
+            treeMC[0].Draw(varname + ">>hMC_sgn" + s + binning, invmass_peak)
+            hMC_sgn = TH1F(gDirectory.Get("hMC_sgn" + s))
+            if year == "2022":
+                treeMC[1].Draw(varname + ">>hMC_sgn2" + s + binning, invmass_peak)
+                hMC_sgn2 = TH1F(gDirectory.Get("hMC_sgn2" + s))
 
         c2 = TCanvas("c2", "c2", 150, 10, 990, 660)
         pad1 = TPad("pad1", "pad1", 0, 0.35, 1, 1.0)
@@ -502,5 +533,5 @@ def control_plots():
 
 if __name__ == "__main__": 
     Fit_inv_mass()
-    #control_plots()
+    control_plots()
     
