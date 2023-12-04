@@ -3,7 +3,6 @@ from datetime import datetime
 import numpy as np
 import pandas as pd
 import uproot
-import matplotlib.pyplot as plt
 from ROOT import *
 from file_locations import *
 
