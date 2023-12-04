@@ -381,7 +381,7 @@ def control_plots(scale=False):
                 treeMC[0].GetEntry(event)
                 scale = histopre.GetBinContent(histopre.FindBin(PVCollection_Size[0]))
                 scaled_X = var_value[0] * scale
-                print("var_value[0]: ", var_value[0])
+                #print("var_value[0]: ", var_value[0])
                 hMC_sgn.Fill(scaled_X)
                 
             for event in range(treeMC[1].GetEntries()):
@@ -389,6 +389,9 @@ def control_plots(scale=False):
                 scale = histopre.GetBinContent(histopre.FindBin(PVCollection_Size2[0]))
                 scaled_X = var_value2[0] * scale
                 hMC_sgn2.Fill(scaled_X)
+
+            del PVCollection_Size
+            del var_value
                 
         else:
             treeMC[0].Draw(varname + ">>hMC_sgn" + s + binning, invmass_peak)
