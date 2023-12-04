@@ -29,7 +29,7 @@ dict = {
     "Bp_preE_tau3mu": [True, MC2022_Bp_pre, 2],
     "Bp_postE_tau3mu": [True, MC2022_Bp_post, 2],
     "Ds_preE_tau3mu": [True, MC2022_Ds_pre, 3],
-    "Ds_post_tau3mu": [True, MC2022_Ds_post, 3],
+    "Ds_postE_tau3mu": [True, MC2022_Ds_post, 3],
     "C_control": [True, control_Run2022C, 0],
     "D_control": [True, control_Run2022D, 0],
     "E_control": [True, control_Run2022E, 0],
@@ -66,13 +66,13 @@ def add_weight_nVtx(df_all):
     df_all["weight_nVtx"] = 1
     histo_file = TFile.Open("./PV_Histo/histogram_ratio.root")
     histo = {
-        "B0_pre_tau3mu": None,
-        "B0_post_tau3mu": None,
-        "Bp_pre_tau3mu": None,
-        "Bp_post_tau3mu": None,
-        "Ds_pre_tau3mu": None,
-        "DsPhiPi_pre_control": None,
-        "DsPhiPi_post_control": None,
+        "B0_preE_tau3mu": None,
+        "B0_postE_tau3mu": None,
+        "Bp_preE_tau3mu": None,
+        "Bp_postE_tau3mu": None,
+        "Ds_preE_tau3mu": None,
+        "DsPhiPi_preE_control": None,
+        "DsPhiPi_postE_control": None,
     }
     for key in histo:
         name = key.split('_')[0] + key.split('_')[1]
