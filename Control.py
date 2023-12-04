@@ -316,7 +316,7 @@ def control_plots(scale=False):
         MC = MC2022
 
     if(scale == True):
-        fileR = ROOT.TFile("histogram_ratio.root", "READ")
+        fileR = ROOT.TFile("PV_Histo/histogram_ratio.root", "READ")
         histopre = fileR.Get("ratio_h_DsPhiPi_preE")
         histopost = fileR.Get("ratio_h_DsPhiPi_postE")
     
@@ -533,5 +533,5 @@ def control_plots(scale=False):
 
 if __name__ == "__main__": 
     Fit_inv_mass()
-    control_plots()
+    control_plots(scale == True)
     
