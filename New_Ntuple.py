@@ -92,9 +92,15 @@ def add_weight_nVtx_fast(df_all):
 
     args_list = [(index, row, histo) for index, row in df_all.iterrows()]
 
-    with Pool() as pool, tqdm(total=len(args_list)) as pbar:
-        results = list(pool.imap(process_row, args_list))
-        pbar.update(len(args_list))
+    total_rows = len(args_list)
+    processed_rows = 0
+
+    with Pool() as pool, tqdm(total=total_rows) as pbar:
+        results = []
+        for result in pool.imap_unordered(process_row, args_list):
+            results.append(result)
+            processed_rows += 1
+            pbar.update(1)
 
     for index, scale in results:
         if scale is not None:
