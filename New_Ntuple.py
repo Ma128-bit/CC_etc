@@ -3,7 +3,6 @@ from datetime import datetime
 import numpy as np
 import pandas as pd
 import uproot
-from multiprocessing import Pool
 from tqdm import tqdm
 from ROOT import *
 from file_locations import *
@@ -64,52 +63,6 @@ def load_dfs(dict, string):
     df_all = pd.concat(dfs, ignore_index=True)
     return df_all
 
-def process_row(args):
-    index, row, histo = args
-    if row['ID'] in histo:
-        scale = histo[row['ID']].GetBinContent(histo[row['ID']].FindBin(row['nVtx']))
-        return index, scale
-    else:
-        return index, None
-
-def add_weight_nVtx_fast(df_all):
-    df_all["weight_nVtx"] = 1
-    histo_file = TFile.Open("./PV_Histo/histogram_ratio.root")
-    histo = {
-        "B0_preE_tau3mu": None,
-        "B0_postE_tau3mu": None,
-        "Bp_preE_tau3mu": None,
-        "Bp_postE_tau3mu": None,
-        "Ds_preE_tau3mu": None,
-        "Ds_postE_tau3mu": None,
-        "DsPhiPi_preE_control": None,
-        "DsPhiPi_postE_control": None,
-    }
-    for key in histo:
-        name = "ratio_h_" + key.split('_')[0] + "_" + key.split('_')[1]
-        print(name)
-        histo[key] = histo_file.Get(name)
-
-    args_list = [(index, row, histo) for index, row in df_all.iterrows()]
-
-    total_rows = len(args_list)
-    processed_rows = 0
-
-    with Pool() as pool, tqdm(total=total_rows) as pbar:
-        results = []
-        for result in pool.imap_unordered(process_row, args_list):
-            results.append(result)
-            processed_rows += 1
-            pbar.update(1)
-
-    for index, scale in results:
-        if scale is not None:
-            df_all.at[index, "weight_nVtx"] = scale
-
-    print("Elaborazione completata.")
-    return df_all
-
-
 
 def add_weight_nVtx(df_all):
     df_all["weight_nVtx"] = 1
@@ -130,18 +83,19 @@ def add_weight_nVtx(df_all):
         histo[key] = histo_file.Get(name)
 
     le = len(df_all)
-    for index, row in df_all.iterrows():
-        print(index,"/",le, end='\r')
-        if row['ID'] in histo:
-            scale = histo[row['ID']].GetBinContent(histo[row['ID']].FindBin(row['nVtx']))
-            #print(scale)
-            df_all.at[index, "weight_nVtx"] = scale
+    with tqdm(total=le) as pbar:
+        for index, row in df_all.iterrows():
+            pbar.update(1)
+            if row['ID'] in histo:
+                scale = histo[row['ID']].GetBinContent(histo[row['ID']].FindBin(row['nVtx']))
+                df_all.at[index, "weight_nVtx"] = scale
+
     return df_all
 
 if __name__ == "__main__":
     df_tau3mu = load_dfs(dict, "tau3mu")
     print(df_tau3mu)
-    df_tau3mu = add_weight_nVtx_fast(df_tau3mu)
+    df_tau3mu = add_weight_nVtx(df_tau3mu)
     print(df_tau3mu)
     print(df_tau3mu["weight_nVtx"][df_tau3mu["weight_nVtx"]<1])
     
