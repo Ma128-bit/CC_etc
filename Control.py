@@ -370,11 +370,11 @@ def control_plots(scale=False):
             import array
             PVCollection_Size = array.array('d', [0])
             var_value = array.array('d', [0])
-            treeMC[0].SetBranchAddress("PVCollection_Size", PVCollection_Size)
+            treeMC[0].SetBranchAddress("nVtx", PVCollection_Size)
             treeMC[0].SetBranchAddress(varname, var_value)
             PVCollection_Size2 = array.array('d', [0])
             var_value2 = array.array('d', [0])
-            treeMC[1].SetBranchAddress("PVCollection_Size", PVCollection_Size2)
+            treeMC[1].SetBranchAddress("nVtx", PVCollection_Size2)
             treeMC[1].SetBranchAddress(varname, var_value2)
             
             for event in treeMC[0].GetEntries():
