@@ -78,8 +78,7 @@ def add_weight_nVtx(df_all):
         name = "ratio_h_" + key.split('_')[0] + key.split('_')[1]
         print(name)
         histo[key] = histo_file.Get(name)
-
-    histo["B0_preE_tau3mu"].Draw()
+        histo[key].Draw()
     
     for index, row in df_all.iterrows():
         if row['ID'] in histo:
