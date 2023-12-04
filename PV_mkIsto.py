@@ -105,11 +105,15 @@ def fit_era(dataset, era):
 
 	
     file = None
+    j = 0
     while file is None:
         file = TFile.Open(histo_name, 'UPDATE')
-        print(dataset, " ", era, "in while ...")
+        if j>0:
+            print(dataset, " ", era, "in while ...")
+        j= j +1
     h.Write()
     file.Close()
+    print(dataset, " ", era, " Done"")
 
 if __name__=='__main__':
     if not os.path.exists("PV_Histo"):
