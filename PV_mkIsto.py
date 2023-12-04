@@ -56,46 +56,46 @@ def fit_era(dataset, era):
 
     if dataset=='data' or dataset=='data_control':
         histo_name = "PV_Histo/histogram_nVTx.root"
-	for i in range(len(paths)):
-	    path = paths[i]
-	    if path!='':
-	        for r, d, f in os.walk(path):
-	            for file in f:
-	                if '.root' in file:
-	                    print(os.path.join(r, file))
-	                    t1.Add(os.path.join(r, file))
+        for i in range(len(paths)):
+            path = paths[i]
+            if path!='':
+                for r, d, f in os.walk(path):
+                    for file in f:
+                        if '.root' in file:
+                            print(os.path.join(r, file))
+                            t1.Add(os.path.join(r, file))
 
     if dataset == 'MC':
-	if era == 'Ds_preE':
-	    path = tau3mu_files_MC[0]
-	elif era == 'Ds_postE':
-	    path = tau3mu_files_MC[1]
-	elif era == 'Bp_preE':
-	    path = tau3mu_files_MC[2]
-	elif era == 'Bp_postE':
-	    path = tau3mu_files_MC[3]
-	elif era == 'B0_preE':
-	    path = tau3mu_files_MC[4]
-	elif era == 'B0_postE':
-	    path = tau3mu_files_MC[5]
-	else:
-	    path = ''
+        if era == 'Ds_preE':
+            path = tau3mu_files_MC[0]
+        elif era == 'Ds_postE':
+            path = tau3mu_files_MC[1]
+        elif era == 'Bp_preE':
+            path = tau3mu_files_MC[2]
+        elif era == 'Bp_postE':
+            path = tau3mu_files_MC[3]
+        elif era == 'B0_preE':
+            path = tau3mu_files_MC[4]
+        elif era == 'B0_postE':
+            path = tau3mu_files_MC[5]
+        else:
+            path = ''
 
     if dataset == 'MC_CC':
-	elif era == 'DsPhiPi_preE':
-	    path = control_files_MC[0]
-	elif era == 'DsPhiPi_postE':
-	    path = control_files_MC[1]
-	else:
-	    path = ''
+        elif era == 'DsPhiPi_preE':
+            path = control_files_MC[0]
+        elif era == 'DsPhiPi_postE':
+            path = control_files_MC[1]
+        else:
+            path = ''
 	
     if (dataset == 'MC' or dataset == 'MC_CC') and path!='':
-	histo_name = "PV_Histo/histogram_nVTx_MC.root"
-	for r, d, f in os.walk(path):
-	    for file in f:
+        histo_name = "PV_Histo/histogram_nVTx_MC.root"
+        for r, d, f in os.walk(path):
+            for file in f:
                 if '.root' in file:
-		    print(os.path.join(r, file))
-		    t1.Add(os.path.join(r, file))
+                    print(os.path.join(r, file))
+                    t1.Add(os.path.join(r, file))
 
 
     title="h_"+dataset+"_"+era
@@ -113,7 +113,7 @@ def fit_era(dataset, era):
 
 if __name__=='__main__':
     if not os.path.exists("PV_Histo"):
-	subprocess.run(["mkdir", "PV_Histo"])
+        subprocess.run(["mkdir", "PV_Histo"])
     f = TFile("PV_Histo/histogram_nVTx.root", "RECREATE")
     f.Close()
 	f2 = TFile("PV_Histo/histogram_nVTx_MC.root", "RECREATE")
