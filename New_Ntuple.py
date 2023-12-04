@@ -64,9 +64,7 @@ def load_dfs(dict, string):
     return df_all
 
 def add_weight_nVtx(df_all):
-    nVtx = df_all['nVtx'].values
-    ID = df_all['ID'].values
-    weight_nVtx = np.ones(len(ID))
+    df_all["weight_nVtx"] = 1
     histo_file = TFile.Open("./PV_Histo/histogram_ratio.root")
     histo = {
         "B0_pre_tau3mu": None,
@@ -80,10 +78,11 @@ def add_weight_nVtx(df_all):
     for key in histo:
         name = key.split('_')[0] + key.split('_')[1]
         histo[key] = histo_file.Get("ratio_h_"+ name)
-    for i in range(len(ID)):
-        if ID[i] in histo:
-            weight_nVtx[i] = histo[ID[i]].GetBinContent(histo[ID[i]].FindBin(nVtx[i]))
-    df_all = df_all.assign("weight_nVtx"=weight_nVtx)
+    
+    for index, row in df_all.iterrows():
+        if row['ID'] in histo:
+            df_all.at[index, "weight_nVtx"] = histo[row['ID']].GetBinContent(histo[row['ID']].FindBin(row['nVtx']))
+    
     return df_all
 
 if __name__ == "__main__":
