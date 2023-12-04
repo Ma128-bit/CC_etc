@@ -59,6 +59,9 @@ def make_sum(print_lable, files, csv = False): #NOT USED
 	return Run_sum
 
 if __name__ == "__main__":
+	if not os.path.exists("EffResults"):
+		subprocess.run(["mkdir", "EffResults"])
+		
 	if data == True:
 		if is_tau3mu==False:
 			R22C_sum = load_histo(control_Run2022C)
@@ -72,7 +75,7 @@ if __name__ == "__main__":
 			df_out['Index'] = ["Run_22C", "Run_22D", "Run_22E", "Run_22F", "Run_22G"]
 			column_order = ['Index'] + [col for col in df_out if col != 'Index']
 			df_out = df_out[column_order]
-			df_out.to_csv('Post_analysis_Data_control.csv', index=False)
+			df_out.to_csv('EffResults/Post_analysis_Data_control.csv', index=False)
 		else:
 			R22C_sum = load_histo(tau3mu_Run2022C)
 			R22D_sum = load_histo(tau3mu_Run2022D)
@@ -85,7 +88,7 @@ if __name__ == "__main__":
 			df_out['Index'] = ["Run_22C", "Run_22D", "Run_22E", "Run_22F", "Run_22G"]
 			column_order = ['Index'] + [col for col in df_out if col != 'Index']
 			df_out = df_out[column_order]
-			df_out.to_csv('Post_analysis_Data_tau3mu.csv', index=False)
+			df_out.to_csv('EffResults/Post_analysis_Data_tau3mu.csv', index=False)
 
 	else:
 		if is_tau3mu==False:
@@ -96,7 +99,7 @@ if __name__ == "__main__":
 			df_out['Index'] = ["MC_2022_preE", "MC_2022_postE"]
 			column_order = ['Index'] + [col for col in df_out if col != 'Index']
 			df_out = df_out[column_order]
-			df_out.to_csv('Post_analysis_MC_control.csv', index=False)
+			df_out.to_csv('EffResults/Post_analysis_MC_control.csv', index=False)
 		else:
 			MC1_p = load_histo(MC2022_Ds_pre)
 			MC2_p = load_histo(MC2022_B0_pre)
@@ -109,7 +112,7 @@ if __name__ == "__main__":
 			df_out['Index'] = ["Ds_pre", "B0_pre", "Bp_pre", "Ds_post", "B0_post", "Bp_post"]
 			column_order = ['Index'] + [col for col in df_out if col != 'Index']
 			df_out = df_out[column_order]
-			df_out.to_csv('Post_analysis_MC_tau3mu.csv', index=False)
+			df_out.to_csv('EffResults/Post_analysis_MC_tau3mu.csv', index=False)
 		
 	
 
