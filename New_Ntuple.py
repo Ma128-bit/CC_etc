@@ -80,7 +80,9 @@ def add_weight_nVtx(df_all):
     
     for index, row in df_all.iterrows():
         if row['ID'] in histo:
-            df_all.at[index, "weight_nVtx"] = histo[row['ID']].GetBinContent(histo[row['ID']].FindBin(row['nVtx']))
+            scale = histo[row['ID']].GetBinContent(histo[row['ID']].FindBin(row['nVtx']))
+            print(scale)
+            df_all.at[index, "weight_nVtx"] = scale
     
     return df_all
 
