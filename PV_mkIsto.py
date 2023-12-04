@@ -13,8 +13,8 @@ from file_locations import *
 from multiprocessing import Pool
 num_cores = os.cpu_count()
 print("N. CPU cores: ", num_cores)
-if num_cores/4<3:
-	print("WARNING: 12 CPU cores are recommended to run code at full speed")
+if num_cores/4<5:
+	print("WARNING: 20 CPU cores are recommended to run code at full speed")
     
 def fit_era(dataset, era):
     if (dataset=='data' or dataset=='MC'):
