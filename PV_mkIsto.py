@@ -125,3 +125,4 @@ if __name__=='__main__':
     with Pool() as p:
         p.starmap(fit_era, [('data','C'), ('data','D'), ('data','E'), ('data','F1'), ('data','F2'), ('data','G'), ('data_control','C'), ('data_control','D'), ('data_control','E'), ('data_control','F1'), ('data_control','F2'), ('data_control','G'), ('MC','Ds_preE'), ('MC','Ds_postE'), ('MC','Bp_preE'), ('MC','Bp_postE'), ('MC','B0_preE'), ('MC','B0_postE'), ('MC_CC','DsPhiPi_preE'), ('MC_CC','DsPhiPi_postE')])
         #p.starmap(fit_era, [('MC_CC','DsPhiPi_preE')])
+    subprocess.run("root -l PV_ratio_hist.C", shell=True)
