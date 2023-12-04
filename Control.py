@@ -12,7 +12,7 @@ invmass_peak = "(tripletMass<2.01 && tripletMass>1.93)"
 binning_mass = "(65, 1.60, 2.02)"
 
 year = "2022"
-
+weight_in_plots = False
 Era2022 = {
     "C": control_Run2022C,
     "D": control_Run2022D,
@@ -548,5 +548,5 @@ def control_plots(scale=False):
 
 if __name__ == "__main__": 
     Fit_inv_mass()
-    control_plots(True)
+    control_plots(weight_in_plots)
     
