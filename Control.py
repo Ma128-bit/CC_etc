@@ -356,7 +356,7 @@ def control_plots(scale=False):
         if scale == True:
             hMC_sgn = TH1F()
             hMC_sgn2 = TH1F()
-            
+            """
             PVCollection_Size = ROOT.Double_t()
             var_value = ROOT.Double_t()
             treeMC[0].SetBranchAddress("PVCollection_Size", ROOT.AddressOf(PVCollection_Size))
@@ -366,7 +366,17 @@ def control_plots(scale=False):
             var_value2 = ROOT.Double_t()
             treeMC[1].SetBranchAddress("PVCollection_Size", ROOT.AddressOf(PVCollection_Size2))
             treeMC[1].SetBranchAddress(varname, ROOT.AddressOf(var_value2))
-
+            """
+            import array
+            PVCollection_Size = array.array('d', [0])
+            var_value = array.array('d', [0])
+            treeMC[0].SetBranchAddress("PVCollection_Size", PVCollection_Size)
+            treeMC[0].SetBranchAddress(varname, var_value)
+            PVCollection_Size2 = array.array('d', [0])
+            var_value2 = array.array('d', [0])
+            treeMC[1].SetBranchAddress("PVCollection_Size", PVCollection_Size2)
+            treeMC[1].SetBranchAddress(varname, var_value2)
+            
             for event in treeMC[0].GetEntries():
                 treeMC[0].GetEntry(event)
                 scale = histopre.GetBinContent(histopre.FindBin(PVCollection_Size))
