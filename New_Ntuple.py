@@ -25,20 +25,21 @@ dict = {
     "E_tau3mu": [True, tau3mu_Run2022E, 0],
     "F_tau3mu": [True, tau3mu_Run2022F, 0],
     "G_tau3mu": [True, tau3mu_Run2022G, 0],
-    "B0_pre_tau3mu": [True, MC2022_B0_pre, 1],
-    "B0_post_tau3mu": [True, MC2022_B0_post, 1],
-    "Bp_pre_tau3mu": [True, MC2022_Bp_pre, 2],
-    "Bp_post_tau3mu": [True, MC2022_Bp_post, 2],
-    "Ds_pre_tau3mu": [True, MC2022_Ds_pre, 3],
-    "Ds_post": [True, MC2022_Ds_post, 3],
+    "B0_preE_tau3mu": [True, MC2022_B0_pre, 1],
+    "B0_postE_tau3mu": [True, MC2022_B0_post, 1],
+    "Bp_preE_tau3mu": [True, MC2022_Bp_pre, 2],
+    "Bp_postE_tau3mu": [True, MC2022_Bp_post, 2],
+    "Ds_preE_tau3mu": [True, MC2022_Ds_pre, 3],
+    "Ds_post_tau3mu": [True, MC2022_Ds_post, 3],
     "C_control": [True, control_Run2022C, 0],
     "D_control": [True, control_Run2022D, 0],
     "E_control": [True, control_Run2022E, 0],
     "F_control": [True, control_Run2022F, 0],
     "G_control": [True, control_Run2022G, 0],
-    "DsPhiPi_pre_control": [True, MC2022_DsPhiPi_pre, 4],
-    "DsPhiPi_post_control": [True, MC2022_DsPhiPi_post, 4],
+    "DsPhiPi_preE_control": [True, MC2022_DsPhiPi_pre, 4],
+    "DsPhiPi_postE_control": [True, MC2022_DsPhiPi_post, 4],
 }
+
 def load_data(tau3mu, file_name):
     """Load ROOT data and turn tree into a pd dataframe"""
     print("Loading data from", file_name)
@@ -51,30 +52,46 @@ def load_data(tau3mu, file_name):
     data = tree.arrays(br ,library="pd")
     return data
 
-def load_dfs(list, dict, string):
+def load_dfs(dict, string):
     dfs = []
     for key, value in dict.items():
         if string in key:
             df = load_data(value[0], value[1])
             df['isMC'] = value[2]
+            df['ID'] = key
             dfs.append(df)
     df_all = pd.concat(dfs, ignore_index=True)
     return df_all
+
+def add_weight_nVtx(df_all):
+    nVtx = df_all['nVtx'].values
+    ID = df_all['ID'].values
+    weight_nVtx = np.ones(len(ID))
+    histo_file = TFile.Open("./PV_Histo/histogram_ratio.root")
+    histo = {
+        "B0_pre_tau3mu": None,
+        "B0_post_tau3mu": None,
+        "Bp_pre_tau3mu": None,
+        "Bp_post_tau3mu": None,
+        "Ds_pre_tau3mu": None,
+        "DsPhiPi_pre_control": None,
+        "DsPhiPi_post_control": None,
+    }
+    for key in histo:
+        name = key.split('_')[0] + key.split('_')[1]
+        histo[key] = histo_file.Get("ratio_h_"+ name)
+    for i in range(len(ID)):
+        if ID[i] in histo:
+            weight_nVtx[i] = histo[ID[i]].GetBinContent(histo[ID[i]].FindBin(nVtx[i]))
+    df_all = df_all.assign("weight_nVtx"=weight_nVtx)
+    return df_all
+
+if __name__ == "__main__":
+    df_tau3mu = load_dfs(dict, "tau3mu")
+    print(df_tau3mu)
+    df_tau3mu = add_weight_nVtx(df_tau3mu)
+    print(df_tau3mu)
+    print(df_tau3mu["weight_nVtx"])
+    
     
 
-# Apri il file ROOT
-file = uproot.open("PV_Histo/histogram_ratio.root")
-
-# Leggi l'istogramma TH1
-histogram = file["ratio_h_Ds_preE"]
-
-# Estrai i bin e i valori
-bin_centers = histogram.edges[:-1] + 0.5 * histogram.edges[1] - histogram.edges[0]
-bin_values = histogram.values
-
-# Visualizza l'istogramma
-plt.bar(bin_centers, bin_values, width=histogram.edges[1] - histogram.edges[0])
-plt.xlabel("X Axis")
-plt.ylabel("Y Axis")
-plt.title("Il mio TH1")
-plt.show()
