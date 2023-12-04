@@ -82,7 +82,7 @@ def fit_era(dataset, era):
             path = ''
 
     if dataset == 'MC_CC':
-        elif era == 'DsPhiPi_preE':
+        if era == 'DsPhiPi_preE':
             path = control_files_MC[0]
         elif era == 'DsPhiPi_postE':
             path = control_files_MC[1]
