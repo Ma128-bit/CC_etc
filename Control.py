@@ -266,7 +266,8 @@ def fit(tree, year, lumi, era):
     return new_line
 
 def Fit_inv_mass():
-    subprocess.run(["mkdir", "Mass_Fits"])
+    if not os.path.exists("Mass_Fits"):
+        subprocess.run(["mkdir", "Mass_Fits"])
     df = pd.DataFrame(columns=['Era', 'Yeald', 'Error'])
     ch_data = TChain("FinalTree")
     
@@ -305,7 +306,8 @@ def Fit_inv_mass():
     del ch_data
 
 def control_plots():
-    subprocess.run(["mkdir", "Control_Plots"])
+    if not os.path.exists("Control_Plots"):
+        subprocess.run(["mkdir", "Control_Plots"])
     if year == "2022":
         lumi = float(lumi2022["ToT"])  # recorded lumi by HLT_DoubleMu3_Trk_Tau3mu_v*
         lumi_preE = float(lumi2022["Pre_EE"])  # recorded lumi by HLT_DoubleMu3_Trk_Tau3mu_v*
