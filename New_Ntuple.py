@@ -228,7 +228,7 @@ def add_weight_final(df_all, full=True, tau3mu=True):
 
 if __name__ == "__main__":
     
-    tau3mu=True
+    tau3mu=False
     full=True
     
     if tau3mu==True:
