@@ -3,6 +3,7 @@ from datetime import datetime
 import numpy as np
 import pandas as pd
 import uproot
+import ROOT
 from tqdm import tqdm
 from ROOT import *
 from file_locations import *
@@ -267,8 +268,8 @@ if __name__ == "__main__":
     print("File CSV saved!")
     """
     rdf = ROOT.RDF.MakeCsvDataFrame("/lustrehome/mbuonsante/Tau_3mu/CC_etc/CMSSW_13_0_13/src/"+fileName+".csv")
-    cols = ROOT.vector('string')(); cols.push_back("isMC"); cols.push_back("weights");
-    rdf.Snapshot("FinalTree", "pippo.root", cols)
+    #cols = ROOT.vector('string')(); cols.push_back("isMC"); cols.push_back("weights");
+    rdf.Snapshot("FinalTree", "pippo.root")
     print("File ROOT saved!")
 
     
