@@ -20,32 +20,68 @@ branches_tau3mu =[
 ]
 
 dict = {
-    "C_tau3mu": [True, tau3mu_Run2022C, 0],
-    "D_tau3mu": [True, tau3mu_Run2022D, 0],
-    "E_tau3mu": [True, tau3mu_Run2022E, 0],
-    "F_tau3mu": [True, tau3mu_Run2022F, 0],
-    "G_tau3mu": [True, tau3mu_Run2022G, 0],
-    "B0_preE_tau3mu": [True, MC2022_B0_pre, 1],
-    "B0_postE_tau3mu": [True, MC2022_B0_post, 1],
-    "Bp_preE_tau3mu": [True, MC2022_Bp_pre, 2],
-    "Bp_postE_tau3mu": [True, MC2022_Bp_post, 2],
-    "Ds_preE_tau3mu": [True, MC2022_Ds_pre, 3],
-    "Ds_postE_tau3mu": [True, MC2022_Ds_post, 3],
-    "C_control": [False, control_Run2022C, 0],
-    "D_control": [False, control_Run2022D, 0],
-    "E_control": [False, control_Run2022E, 0],
-    "F_control": [False, control_Run2022F, 0],
-    "G_control": [False, control_Run2022G, 0],
-    "DsPhiPi_preE_control": [False, MC2022_DsPhiPi_pre, 4],
-    "DsPhiPi_postE_control": [False, MC2022_DsPhiPi_post, 4]
+    "C_tau3mu": [tau3mu_Run2022C, 0],
+    "D_tau3mu": [tau3mu_Run2022D, 0],
+    "E_tau3mu": [tau3mu_Run2022E, 0],
+    "F_tau3mu": [tau3mu_Run2022F, 0],
+    "G_tau3mu": [tau3mu_Run2022G, 0],
+    "B0_preE_tau3mu": [MC2022_B0_pre, 1],
+    "B0_postE_tau3mu": [MC2022_B0_post, 1],
+    "Bp_preE_tau3mu": [MC2022_Bp_pre, 2],
+    "Bp_postE_tau3mu": [MC2022_Bp_post, 2],
+    "Ds_preE_tau3mu": [MC2022_Ds_pre, 3],
+    "Ds_postE_tau3mu": [MC2022_Ds_post, 3],
+    "C_control": [control_Run2022C, 0],
+    "D_control": [control_Run2022D, 0],
+    "E_control": [control_Run2022E, 0],
+    "F_control": [control_Run2022F, 0],
+    "G_control": [control_Run2022G, 0],
+    "DsPhiPi_preE_control": [MC2022_DsPhiPi_pre, 4],
+    "DsPhiPi_postE_control": [MC2022_DsPhiPi_post, 4]
 }
+
+xsection_Bp_preE = 3.508e+9
+xsection_Bp_postE = 3.538e+9
+xsection_Ds_preE = 9.827e+9
+xsection_Ds_postE = 9.815e+9
+xsection_B0_preE = 3.520e+9
+xsection_B0_postE = 3.525e+9
+xsection_DsPhiPi_preE = 1.106e+10
+xsection_DsPhiPi_postE = 1.103e+10
+
+lumi_tau3mu_preE = 8.052
+lumi_tau3mu_postE = 26.758
+lumi_control_preE = 0.397
+lumi_control_postE = 1.33
+
+BR_tau3mu = 1.0e-7
+BR_control = 1.29e-5
+
+BR_Dstau = 5.48e-2
+BR_DsPhiPi = 1.3e-5
+BR_Bptau = 3.33e-2
+BR_B0tau = 3.35e-2
+
+N_Bp_preE = 515160
+N_Bp_postE = 1627733
+N_Ds_preE = 2077873
+N_Ds_postE = 7428463
+N_B0_preE = 837468
+N_B0_postE = 2702174
+N_DsPhiPi_preE = 297926
+N_DsPhiPi_postE = 1199059
+
+weight_CC_preE = 0.77
+weight_CC_postE = 1.03
+weight_CC_preE_err = 0.09
+weight_CC_postE_err = 0.05
 
 def load_data(tau3mu, file_name):
     """Load ROOT data and turn tree into a pd dataframe"""
     #print("Loading data from", file_name)
     f = uproot.open(file_name)
     tree = f["FinalTree"]
-    if tau3mu == True:
+    if tau3mu == "tau3mu":
         br = branches + branches_tau3mu
     else:
         br = branches
@@ -56,8 +92,8 @@ def load_dfs(dict, string):
     dfs = []
     for key, value in dict.items():
         if string in key:
-            df = load_data(value[0], value[1])
-            df['isMC'] = value[2]
+            df = load_data(string, value[0])
+            df['isMC'] = value[1]
             df['ID'] = key
             dfs.append(df)
     df_all = pd.concat(dfs, ignore_index=True)
@@ -123,22 +159,98 @@ def add_weight_MuonSF(df_all, tau3mu=True):
                 info = None  
             if info is not None:
                 for k in range(2+int(tau3mu)):
-                    bin = SFs[info].FindBin(row["Ptmu"+str(k+1)], row["Etamu"+str(k+1)])
-                    scale = SFs[info].GetBinContent(bin)
-                    scale_err = SFs[info].GetBinError(bin)
+                    ipt = SFs[info].GetYaxis().FindBin(row["Ptmu"+str(k+1)])
+                    ieta = SFs[info].GetXaxis().FindBin(abs(row["Etamu"+str(k+1)]))
+                    scale = SFs[info].GetBinContent(ieta, ipt)
+                    scale_err = SFs[info].GetBinError(ieta, ipt)
                     df_all.at[index, "Muon"+str(k+1)+"_SF"] = scale
-                    df_all.at[index, "Muon"+str(k+1)+"_SF"] = scale_err
+                    df_all.at[index, "Muon"+str(k+1)+"_SF_err"] = scale_err
 
     return df_all
 
+def add_weight_CC(df_all):
+    df_all["weight_CC"] = 1
+    df_all["weight_CC_err"] = 0
+    le = len(df_all)
+    with tqdm(total=le) as pbar:
+        for index, row in df_all.iterrows():
+            pbar.update(1)
+            if ("preE" in row['ID']):
+                df_all.at[index, "weight_CC"] = weight_CC_preE
+                df_all.at[index, "weight_CC_err"] =weight_CC_preE_err
+            elif ("postE" in row['ID']):
+                df_all.at[index, "weight_CC"] = weight_CC_postE
+                df_all.at[index, "weight_CC_err"] =weight_CC_postE_err
+    return df_all
+
+def add_weight(df_all):
+    df_all["weight"] = 1
+    df_all["weight_MC"] = 1
+    le = len(df_all)
+    weights = {
+        "Ds_preE": xsection_Ds_preE*lumi_tau3mu_preE*BR_tau3mu*BR_Dstau/N_Ds_preE
+        "Ds_postE": xsection_Ds_postE*lumi_tau3mu_postE*BR_tau3mu*BR_Dstau/N_Ds_postE
+        "B0_preE": xsection_B0_preE*lumi_tau3mu_preE*BR_tau3mu*BR_B0tau/N_B0_preE
+        "B0_postE": xsection_B0_postE*lumi_tau3mu_postE*BR_tau3mu*BR_B0tau/N_B0_postE
+        "Bp_preE": xsection_Bp_preE*lumi_tau3mu_preE*BR_tau3mu*BR_Bptau/N_Bp_preE
+        "Bp_postE": xsection_Bp_postE*lumi_tau3mu_postE*BR_tau3mu*BR_Bptau/N_Bp_postE
+        "DsPhiPi_preE": xsection_DsPhiPi_preE*lumi_control_preE*BR_control*BR_DsPhiPi/N_DsPhiPi_preE
+        "DsPhiPi_postE": xsection_DsPhiPi_postE*lumi_control_postE*BR_control*BR_DsPhiPi/N_DsPhiPi_postE
+    }
+    weights_MC = {
+        "Ds_preE": (N_Bp_preE/N_Ds_preE)*(BR_Dstau/BR_Bptau)
+        "Ds_postE": (N_Bp_postE/N_Ds_postE)*(BR_Dstau/BR_Bptau)
+        "B0_preE": (N_Bp_preE/N_B0_preE)*(BR_B0tau/BR_Bptau)
+        "B0_postE": (N_Bp_postE/N_B0_postE)*(BR_B0tau/BR_Bptau)
+        "Bp_preE": (N_Bp_preE/N_Bp_preE)*(BR_Bptau/BR_Bptau)
+        "Bp_postE": (N_Bp_postE/N_Bp_postE)*(BR_Bptau/BR_Bptau)
+    }
+    with tqdm(total=le) as pbar:
+        for index, row in df_all.iterrows():
+            pbar.update(1)
+            name = row['ID'].split('_')[0] + "_" + row['ID'].split('_')[1]
+            if name in weights:
+                df_all.at[index, "weight"] = weights[name]
+            if name in weights_MC:
+                df_all.at[index, "weight_MC"] = weights_MC[name]
+    return df_all
+
+def add_weight_final(df_all, full == True, tau3mu=True):
+    if full==True and tau3mu==True:
+        df_all['weight_final'] = df_all['weight'] * df_all['weight_MC'] * df_all['weight_CC'] * df_all['Muon3_SF'] * df_all['weight_nVtx']
+    elif full==True and tau3mu==False:
+        df_all['weight_final'] = df_all['weight'] * df_all['weight_nVtx']
+    elif full==False and tau3mu==True:
+        df_all['weight_final'] = df_all['weight'] * df_all['weight_MC']
+    elif full==False and tau3mu==False:
+        df_all['weight_final'] = df_all['weight']
+    return df_all
+
 if __name__ == "__main__":
-    print("Load tau3mu files:")
-    df_tau3mu = load_dfs(dict, "tau3mu")
-    print("Done!\nAdd 'weight_nVtx':")
-    df_tau3mu = add_weight_nVtx(df_tau3mu)
-    print("Done!\nAdd 'weight_MuonSFs':")
-    df_tau3mu = add_weight_MuonSF(df_tau3mu)
-    print(df_tau3mu["weight_nVtx"][df_tau3mu["weight_nVtx"]<1])
+    
+    tau3mu=True
+    full=True
+    
+    if tau3mu==True:
+        print("Load tau3mu files:")
+        df_tau3mu = load_dfs(dict, "tau3mu")
+    else:
+        print("Load control files:")
+        df_tau3mu = load_dfs(dict, "control")
+    
+    print("Done!\nAdd 'weights':")
+    df_tau3mu = add_weight(df_tau3mu)
+    
+    if full == True:
+        print("Done!\nAdd 'weight_nVtx':")
+        df_tau3mu = add_weight_nVtx(df_tau3mu)
+        print("Done!\nAdd 'MuonSFs':")
+        df_tau3mu = add_weight_MuonSF(df_tau3mu, tau3mu)
+        print("Done!\nAdd 'weight_CC':")
+        df_tau3mu = add_weight_CC(df_tau3mu)
+    
+    print("Done!\nAdd 'weight_final':")
+    df_tau3mu = add_weight_final(df_tau3mu, full, tau3mu)
     
     
 
