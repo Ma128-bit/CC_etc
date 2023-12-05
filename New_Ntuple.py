@@ -244,10 +244,12 @@ if __name__ == "__main__":
     if full == True:
         print("Done!\nAdd 'weight_nVtx':")
         df_tau3mu = add_weight_nVtx(df_tau3mu)
-        print("Done!\nAdd 'MuonSFs':")
-        df_tau3mu = add_weight_MuonSF(df_tau3mu, tau3mu)
-        print("Done!\nAdd 'weight_CC':")
-        df_tau3mu = add_weight_CC(df_tau3mu)
+
+        if tau3mu==True:
+            print("Done!\nAdd 'MuonSFs':")
+            df_tau3mu = add_weight_MuonSF(df_tau3mu, tau3mu)
+            print("Done!\nAdd 'weight_CC':")
+            df_tau3mu = add_weight_CC(df_tau3mu)
     
     print("Done!\nAdd 'weight_final':")
     df_tau3mu = add_weight_final(df_tau3mu, full, tau3mu)
