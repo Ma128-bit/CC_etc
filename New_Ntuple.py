@@ -267,7 +267,7 @@ if __name__ == "__main__":
     print("File CSV saved!")
     """
     rdf = ROOT.RDF.MakeCsvDataFrame("/lustrehome/mbuonsante/Tau_3mu/CC_etc/CMSSW_13_0_13/src/"+fileName+".csv")
-    rdf.Mean("isMC")
+    print(rdf.Mean("isMC"))
     rdf.Snapshot("FinalTree", "/lustrehome/mbuonsante/Tau_3mu/CC_etc/CMSSW_13_0_13/src/"+fileName+".root")
     print("File ROOT saved!")
 
