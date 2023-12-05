@@ -210,7 +210,6 @@ def add_weight(df_all):
             pbar.update(1)
             name = row['ID'].split('_')[0] + "_" + row['ID'].split('_')[1]
             if name in weights:
-                print(weights[name])
                 df_all.at[index, "weight"] = weights[name]
             if name in weights_MC:
                 df_all.at[index, "weight_MC"] = weights_MC[name]
