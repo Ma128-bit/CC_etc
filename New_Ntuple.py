@@ -216,7 +216,7 @@ def add_weight(df_all):
                 df_all.at[index, "weight_MC"] = weights_MC[name]
     return df_all
 
-def add_weight_final(df_all, full == True, tau3mu=True):
+def add_weight_final(df_all, full=True, tau3mu=True):
     if full==True and tau3mu==True:
         df_all['weight_final'] = df_all['weight'] * df_all['weight_MC'] * df_all['weight_CC'] * df_all['Muon3_SF'] * df_all['weight_nVtx']
     elif full==True and tau3mu==False:
