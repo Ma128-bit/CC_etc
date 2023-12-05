@@ -243,7 +243,7 @@ def convertCSVtoROOT(input_csv, output_root, tree_name):
         # Usa il nome della colonna come nome del branch e crea il branch appropriato
         branch_name = column.strip()
         branches[branch_name] = [0]  # Usa una lista per memorizzare il valore del branch
-        tree.Branch(branch_name, branches[branch_name], f'{branch_name}/{'D' if '.' in column else 'I'}')
+        tree.Branch(branch_name, branches[branch_name], f'{branch_name}/{"D" if "." in column else "I"}')
 
     # Leggi il resto del file CSV e riempi il TTree
     for line in csv_file:
