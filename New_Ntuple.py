@@ -258,7 +258,7 @@ if __name__ == "__main__":
         fileName = "AllData"
     else:
         fileName = "AllControl"
-    model.data.to_csv(fileName+".csv", index=False)
+    df_tau3mu.to_csv(fileName+".csv", index=False)
     print("File CSV saved!")
     rdf = ROOT.RDF.MakeCsvDataFrame(fileName+".csv")
     rdf.Snapshot("FinalTree", fileName+".root")
