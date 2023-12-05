@@ -188,7 +188,7 @@ def add_weight(df_all):
     df_all["weight_MC"] = 1
     le = len(df_all)
     weights = {
-        "Ds_preE": xsection_Ds_preE*lumi_tau3mu_preE*BR_tau3mu*BR_Dstau/N_Ds_preE
+        "Ds_preE": (xsection_Ds_preE*lumi_tau3mu_preE*BR_tau3mu*BR_Dstau/N_Ds_preE)
         "Ds_postE": xsection_Ds_postE*lumi_tau3mu_postE*BR_tau3mu*BR_Dstau/N_Ds_postE
         "B0_preE": xsection_B0_preE*lumi_tau3mu_preE*BR_tau3mu*BR_B0tau/N_B0_preE
         "B0_postE": xsection_B0_postE*lumi_tau3mu_postE*BR_tau3mu*BR_B0tau/N_B0_postE
