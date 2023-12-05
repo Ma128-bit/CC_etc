@@ -189,27 +189,28 @@ def add_weight(df_all):
     le = len(df_all)
     weights = {
         "Ds_preE": (xsection_Ds_preE*lumi_tau3mu_preE*BR_tau3mu*BR_Dstau/N_Ds_preE)
-        "Ds_postE": xsection_Ds_postE*lumi_tau3mu_postE*BR_tau3mu*BR_Dstau/N_Ds_postE
-        "B0_preE": xsection_B0_preE*lumi_tau3mu_preE*BR_tau3mu*BR_B0tau/N_B0_preE
-        "B0_postE": xsection_B0_postE*lumi_tau3mu_postE*BR_tau3mu*BR_B0tau/N_B0_postE
-        "Bp_preE": xsection_Bp_preE*lumi_tau3mu_preE*BR_tau3mu*BR_Bptau/N_Bp_preE
-        "Bp_postE": xsection_Bp_postE*lumi_tau3mu_postE*BR_tau3mu*BR_Bptau/N_Bp_postE
-        "DsPhiPi_preE": xsection_DsPhiPi_preE*lumi_control_preE*BR_control*BR_DsPhiPi/N_DsPhiPi_preE
-        "DsPhiPi_postE": xsection_DsPhiPi_postE*lumi_control_postE*BR_control*BR_DsPhiPi/N_DsPhiPi_postE
+        "Ds_postE": (xsection_Ds_postE*lumi_tau3mu_postE*BR_tau3mu*BR_Dstau/N_Ds_postE)
+        "B0_preE": (xsection_B0_preE*lumi_tau3mu_preE*BR_tau3mu*BR_B0tau/N_B0_preE)
+        "B0_postE": (xsection_B0_postE*lumi_tau3mu_postE*BR_tau3mu*BR_B0tau/N_B0_postE)
+        "Bp_preE": (xsection_Bp_preE*lumi_tau3mu_preE*BR_tau3mu*BR_Bptau/N_Bp_preE)
+        "Bp_postE": (xsection_Bp_postE*lumi_tau3mu_postE*BR_tau3mu*BR_Bptau/N_Bp_postE)
+        "DsPhiPi_preE": (xsection_DsPhiPi_preE*lumi_control_preE*BR_control*BR_DsPhiPi/N_DsPhiPi_preE)
+        "DsPhiPi_postE": (xsection_DsPhiPi_postE*lumi_control_postE*BR_control*BR_DsPhiPi/N_DsPhiPi_postE)
     }
     weights_MC = {
-        "Ds_preE": (N_Bp_preE/N_Ds_preE)*(BR_Dstau/BR_Bptau)
-        "Ds_postE": (N_Bp_postE/N_Ds_postE)*(BR_Dstau/BR_Bptau)
-        "B0_preE": (N_Bp_preE/N_B0_preE)*(BR_B0tau/BR_Bptau)
-        "B0_postE": (N_Bp_postE/N_B0_postE)*(BR_B0tau/BR_Bptau)
-        "Bp_preE": (N_Bp_preE/N_Bp_preE)*(BR_Bptau/BR_Bptau)
-        "Bp_postE": (N_Bp_postE/N_Bp_postE)*(BR_Bptau/BR_Bptau)
+        "Ds_preE": ((N_Bp_preE/N_Ds_preE)*(BR_Dstau/BR_Bptau))
+        "Ds_postE": ((N_Bp_postE/N_Ds_postE)*(BR_Dstau/BR_Bptau))
+        "B0_preE": ((N_Bp_preE/N_B0_preE)*(BR_B0tau/BR_Bptau))
+        "B0_postE": ((N_Bp_postE/N_B0_postE)*(BR_B0tau/BR_Bptau))
+        "Bp_preE": ((N_Bp_preE/N_Bp_preE)*(BR_Bptau/BR_Bptau))
+        "Bp_postE": ((N_Bp_postE/N_Bp_postE)*(BR_Bptau/BR_Bptau))
     }
     with tqdm(total=le) as pbar:
         for index, row in df_all.iterrows():
             pbar.update(1)
             name = row['ID'].split('_')[0] + "_" + row['ID'].split('_')[1]
             if name in weights:
+                print(weights[name])
                 df_all.at[index, "weight"] = weights[name]
             if name in weights_MC:
                 df_all.at[index, "weight_MC"] = weights_MC[name]
