@@ -263,9 +263,9 @@ if __name__ == "__main__":
     df_tau3mu = df_tau3mu.drop('ID', axis=1)
     df_tau3mu.to_csv(fileName+".csv", index=False)
     print("File CSV saved!")
-    rdf = ROOT.RDF.MakeCsvDataFrame("/lustrehome/mbuonsante/Tau_3mu/CC_etc/CMSSW_13_0_13/src"+fileName+".csv")
+    rdf = ROOT.RDF.MakeCsvDataFrame("/lustrehome/mbuonsante/Tau_3mu/CC_etc/CMSSW_13_0_13/src/"+fileName+".csv")
     rdf.Print()
-    rdf.Snapshot("FinalTree", "/lustrehome/mbuonsante/Tau_3mu/CC_etc/CMSSW_13_0_13/src"+fileName+".root")
+    rdf.Snapshot("FinalTree", "/lustrehome/mbuonsante/Tau_3mu/CC_etc/CMSSW_13_0_13/src/"+fileName+".root")
     print("File ROOT saved!")
 
     
