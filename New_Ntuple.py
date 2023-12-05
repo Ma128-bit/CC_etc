@@ -255,9 +255,11 @@ if __name__ == "__main__":
     df_tau3mu = add_weight_final(df_tau3mu, full, tau3mu)
     print("Done!\nMake CSV file:")
     if tau3mu==True:
-        fileName = "AllData"
+        fileName = "ROOTFiles/AllData"
     else:
-        fileName = "AllControl"
+        fileName = "ROOTFiles/AllControl"
+    if not os.path.exists("ROOTFiles"):
+		subprocess.run(["mkdir", "ROOTFiles"])
     df_tau3mu.to_csv(fileName+".csv", index=False)
     print("File CSV saved!")
     rdf = ROOT.RDF.MakeCsvDataFrame(fileName+".csv")
