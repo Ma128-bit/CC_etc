@@ -230,7 +230,7 @@ if __name__ == "__main__":
     
     tau3mu=False
     full=False
-    
+    """
     if tau3mu==True:
         print("Load tau3mu files:")
         df_tau3mu = load_dfs(dict, "tau3mu")
@@ -254,6 +254,7 @@ if __name__ == "__main__":
     print("Done!\nAdd 'weight_final':")
     df_tau3mu = add_weight_final(df_tau3mu, full, tau3mu)
     print("Done!\nMake CSV file:")
+    """
     if tau3mu==True:
         fileName = "ROOTFiles/AllData"
     else:
@@ -264,7 +265,7 @@ if __name__ == "__main__":
     df_tau3mu.to_csv(fileName+".csv", index=False)
     print("File CSV saved!")
     rdf = ROOT.RDF.MakeCsvDataFrame("/lustrehome/mbuonsante/Tau_3mu/CC_etc/CMSSW_13_0_13/src/"+fileName+".csv")
-    rdf.Print()
+    rdf.Show()
     rdf.Snapshot("FinalTree", "/lustrehome/mbuonsante/Tau_3mu/CC_etc/CMSSW_13_0_13/src/"+fileName+".root")
     print("File ROOT saved!")
 
