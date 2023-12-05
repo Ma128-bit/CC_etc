@@ -228,7 +228,7 @@ def add_weight_final(df_all, full=True, tau3mu=True):
 
 if __name__ == "__main__":
     
-    tau3mu=True
+    tau3mu=False
     full=False
     
     if tau3mu==True:
@@ -260,7 +260,7 @@ if __name__ == "__main__":
         fileName = "ROOTFiles/AllControl"
     if not os.path.exists("ROOTFiles"):
         subprocess.run(["mkdir", "ROOTFiles"])
-    df_tau3mu = df.drop('ID', axis=1)
+    df_tau3mu = df_tau3mu.drop('ID', axis=1)
     df_tau3mu.to_csv(fileName+".csv", index=False)
     print("File CSV saved!")
     rdf = ROOT.RDF.MakeCsvDataFrame(fileName+".csv")
