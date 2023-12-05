@@ -260,6 +260,7 @@ if __name__ == "__main__":
         fileName = "ROOTFiles/AllControl"
     if not os.path.exists("ROOTFiles"):
         subprocess.run(["mkdir", "ROOTFiles"])
+    df_tau3mu = df.drop('ID', axis=1)
     df_tau3mu.to_csv(fileName+".csv", index=False)
     print("File CSV saved!")
     rdf = ROOT.RDF.MakeCsvDataFrame(fileName+".csv")
