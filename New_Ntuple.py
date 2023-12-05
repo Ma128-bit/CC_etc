@@ -228,8 +228,8 @@ def add_weight_final(df_all, full=True, tau3mu=True):
 
 if __name__ == "__main__":
     
-    tau3mu=False
-    full=True
+    tau3mu=True
+    full=False
     
     if tau3mu==True:
         print("Load tau3mu files:")
