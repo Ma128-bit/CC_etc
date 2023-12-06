@@ -42,7 +42,7 @@ def load_df(isTau3mu, treename):
 
 ROOT.gInterpreter.Declare(
 """
-int add_weight(unsigned int slot, const ROOT::RDF::RSampleInfo &id){
+double add_weight(unsigned int slot, const ROOT::RDF::RSampleInfo &id){
     double xsection_Bp_preE = 3.508e+9, xsection_Bp_postE = 3.538e+9;
     double xsection_Ds_preE = 9.827e+9, xsection_Ds_postE = 9.815e+9;
     double xsection_B0_preE = 3.520e+9, xsection_B0_postE = 3.525e+9;
@@ -78,7 +78,7 @@ int add_weight(unsigned int slot, const ROOT::RDF::RSampleInfo &id){
 if __name__ == "__main__":
     df = load_df(True, "FinalTree")
     df = df.DefinePerSample("weight", "add_weight(rdfslot_, rdfsampleinfo_)")
-    weight = df.Histo1D(("weight", "weight", 1000, 0, 0.000001), "weight");
+    weight = df.Histo1D(("weight", "weight", 1000, 0, 0.001), "weight");
     canvas = ROOT.TCanvas("c", "c", 800, 800)
     canvas.cd()
     weight.Draw("Hist")
