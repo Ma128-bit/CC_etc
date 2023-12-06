@@ -49,13 +49,15 @@ Files = {
 def load_df(isTau3mu, treename):
     if isTau3mu == True:
         string = "tau3mu"
+        br = branches+branches_tau3mu
     else:
         string = "control"
+        br = branches
     files = []
     for key, value in Files.items():
         if string in key:
             files.append(value[0])
-    frame = RDataFrame(treename, files)
+    frame = RDataFrame(treename, files, br)
     return frame
 
 ROOT.gInterpreter.Declare(
