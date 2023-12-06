@@ -24,7 +24,7 @@ branches_tau3mu =[
     "tripletMassReso", "category", "MVA3", "MVASoft3", "dimu_OS1", "dimu_OS2"
 ]
 
-dict = {
+Files = {
     "C_tau3mu": [tau3mu_Run2022C, 0],
     "D_tau3mu": [tau3mu_Run2022D, 0],
     "E_tau3mu": [tau3mu_Run2022E, 0],
@@ -81,5 +81,8 @@ weight_CC_preE_err = 0.09
 weight_CC_postE_err = 0.05
 
 def load_df(treename, path):
+    for key, value in Files.items():
+        
+        
     frame = RDataFrame(treename, path+"/*.root")
     return data
