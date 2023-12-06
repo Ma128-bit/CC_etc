@@ -7,7 +7,7 @@ import ROOT
 import pickle
 import psutil
 import time
-from utils import *
+from definitions import *
 from tqdm import tqdm
 from ROOT import *
 from file_locations import *
