@@ -227,40 +227,6 @@ def add_weight_final(df_all, full=True, tau3mu=True):
         df_all['weight_final'] = df_all['weight']
     return df_all
 
-import ROOT
-
-def convertCSVtoROOT(input_csv, output_root, tree_name):
-    # Apri il file CSV
-    csv_file = open(input_csv, 'r')
-
-    # Leggi la prima riga per ottenere i nomi delle colonne
-    header = csv_file.readline().strip().split(',')
-
-    # Crea un TTree e aggiungi le colonne
-    tree = ROOT.TTree(tree_name, 'TTree converted from CSV')
-    branches = {}
-    for column in header:
-        # Usa il nome della colonna come nome del branch e crea il branch appropriato
-        branch_name = column.strip()
-        branches[branch_name] = [0]  # Usa una lista per memorizzare il valore del branch
-        tree.Branch(branch_name, branches[branch_name], f'{branch_name}/{"D" if "." in column else "I"}')
-
-    # Leggi il resto del file CSV e riempi il TTree
-    for line in csv_file:
-        values = line.strip().split(',')
-        for column, value in zip(header, values):
-            branch_name = column.strip()
-            branches[branch_name][0] = float(value) if '.' in value else int(value)
-        tree.Fill()
-
-    # Scrivi il TTree nel file ROOT
-    root_file = ROOT.TFile(output_root, 'RECREATE')
-    tree.Write()
-    root_file.Close()
-
-    print('Conversione completata con successo.')
-
-
 if __name__ == "__main__":
     
     tau3mu=False
@@ -301,10 +267,9 @@ if __name__ == "__main__":
     df_tau3mu.to_csv(fileName+".csv", index=False)
     print("File CSV saved!")
     """
-    #rdf = ROOT.RDF.MakeCsvDataFrame("/lustrehome/mbuonsante/Tau_3mu/CC_etc/CMSSW_13_0_13/src/"+fileName+".csv")
+    rdf = ROOT.RDF.MakeCsvDataFrame("/lustrehome/mbuonsante/Tau_3mu/CC_etc/CMSSW_13_0_13/src/"+fileName+".csv")
     #cols = ROOT.vector('string')(); #cols.push_back("isMC"); cols.push_back("weight");
-    #rdf.Snapshot("FinalTree", "pippo.root")
-    convertCSVtoROOT(fileName+'.csv', fileName+'.root', 'FinalTree')
+    rdf.Snapshot("FinalTree", "pippo.root")
     print("File ROOT saved!")
 
     
