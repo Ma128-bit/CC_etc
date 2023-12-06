@@ -11,7 +11,6 @@ from tqdm import tqdm
 from ROOT import RDataFrame
 from ROOT import *
 from file_locations import *
-from values import *
 
 branches = [
     "isMC", "lumi", "run", "evt", "puFactor", "DeltaR_max", "DeltaZ_max", 
