@@ -73,7 +73,7 @@ int MCLable(unsigned int slot, const ROOT::RDF::RSampleInfo &id){
 
 if __name__ == "__main__":
     df = load_df(True, "FinalTree")
-    df.DefinePerSample("isMC2", "MCLable(rdfslot_, rdfsampleinfo_)")
+    df = df.DefinePerSample("isMC2", "MCLable(rdfslot_, rdfsampleinfo_)")
     is_MC = df.Histo1D(("isMC", "isMC", 7, 0, 6), "isMC");
     is_MC2 = df.Histo1D(("isMC2", "isMC2", 7, 0, 6), "isMC2");
     canvas = ROOT.TCanvas("c", "c", 800, 800)
