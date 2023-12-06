@@ -60,7 +60,7 @@ def load_df(isTau3mu, treename):
 
 ROOT.gInterpreter.Declare(
 """
-float MCLable(unsigned int slot, const ROOT::RDF::RSampleInfo &id){
+int MCLable(unsigned int slot, const ROOT::RDF::RSampleInfo &id){
     //std::cout<<"id: "<<id<<std::endl;
     if(id.Contains("Era_")) return 0;
     else if(id.Contains("MC_B0")) return 1;
