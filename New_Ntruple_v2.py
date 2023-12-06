@@ -75,6 +75,9 @@ if __name__ == "__main__":
     df = load_df(True, "FinalTree")
     #df.DefinePerSample("isMC", "MCLable(rdfslot_, rdfsampleinfo_)")
     is_MC = df.Histo1D(("isMC", "isMC", 7, 0, 6), "isMC");
+    canvas = ROOT.TCanvas("c", "c", 800, 800)
+    canvas.cd()
     is_MC.Draw("Hist")
+    canvas.SaveAs("prova.png")
 
 
