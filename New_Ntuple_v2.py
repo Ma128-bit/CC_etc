@@ -77,7 +77,7 @@ int add_weight(unsigned int slot, const ROOT::RDF::RSampleInfo &id){
 if __name__ == "__main__":
     df = load_df(True, "FinalTree")
     df = df.DefinePerSample("weight", "add_weight(rdfslot_, rdfsampleinfo_)")
-    weight = df.Histo1D(("weight", "weight", 70, 0, 0.0015), "weight");
+    weight = df.Histo1D(("weight", "weight", 1000, 0, 0.000001), "weight");
     canvas = ROOT.TCanvas("c", "c", 800, 800)
     canvas.cd()
     weight.Draw("Hist")
