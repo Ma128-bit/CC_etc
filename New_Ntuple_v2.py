@@ -76,14 +76,11 @@ int add_weight(unsigned int slot, const ROOT::RDF::RSampleInfo &id){
 
 if __name__ == "__main__":
     df = load_df(True, "FinalTree")
-    df = df.DefinePerSample("isMC2", "MCLable(rdfslot_, rdfsampleinfo_)")
-    is_MC = df.Histo1D(("isMC", "isMC", 7, 0, 6), "isMC");
-    is_MC2 = df.Histo1D(("isMC2", "isMC2", 7, 0, 6), "isMC2");
+    df = df.DefinePerSample("weight", "add_weight(rdfslot_, rdfsampleinfo_)")
+    weight = df.Histo1D(("weight", "weight", 70, 0, 6), "weight");
     canvas = ROOT.TCanvas("c", "c", 800, 800)
     canvas.cd()
-    is_MC.Draw("Hist")
-    is_MC2.SetLineColor(kRed)
-    is_MC2.Draw("Hist Same")
+    weight.Draw("Hist")
     canvas.SaveAs("prova.png")
 
 
