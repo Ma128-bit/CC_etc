@@ -7,10 +7,10 @@ import ROOT
 import pickle
 import psutil
 import time
-from definitions import *
 from tqdm import tqdm
 from ROOT import *
 from file_locations import *
+from definitions import *
 
 branches = [
     "isMC", "lumi", "run", "evt", "puFactor", "DeltaR_max", "DeltaZ_max", 
