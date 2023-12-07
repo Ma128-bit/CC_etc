@@ -62,9 +62,7 @@ if __name__ == "__main__":
     SF_pre = SF_f1.Get("NUM_GlobalMuons_PF_DEN_genTracks_abseta_pt")
     SF_post = SF_f2.Get("NUM_GlobalMuons_PF_DEN_genTracks_abseta_pt")
 
-    weights_function = lambda ID, pt, eta: ROOT.WeightsComputer(SF_pre, SF_post, False)(ID, pt, eta)
-    df = df.Define("Muon1_SF", weights_function, ["ID", "Ptmu1", "Etamu1"])
-    #df = df.Define("Muon1_SF", ROOT.WeightsComputer(SF_pre, SF_post, False), ["ID", "Ptmu1", "Etamu1"])
+    df = df.Define("Muon1_SF", ROOT.WeightsComputer(SF_pre, SF_post, False), ["ID", "Ptmu1", "Etamu1"])
     
     weight = df.Histo1D(("Muon1_SF", "Muon1_SF", 100), "Muon1_SF");
     canvas = ROOT.TCanvas("c", "c", 800, 800)
