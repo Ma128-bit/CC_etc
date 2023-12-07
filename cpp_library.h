@@ -80,6 +80,7 @@ double get_MuonSF(const TString& ID, const double pt, const double eta, TH2F* SF
     TH2F* SF = nullptr;
     if (ID.Contains("preE")) { SF = SF_pre;} 
     else if (ID.Contains("postE")) {SF = SF_post;}
+    else if (ID.Contains("Data")) {return 1;}
     else return 1;
     int ipt = SF->GetYaxis()->FindBin(pt);
     int ieta = SF->GetXaxis()->FindBin(std::abs(eta));
@@ -89,7 +90,8 @@ double get_MuonSF_err(const TString& ID, const double pt, const double eta, TH2F
     TH2F* SF = nullptr;
     if (ID.Contains("preE")) { SF = SF_pre;} 
     else if (ID.Contains("postE")) {SF = SF_post;}
-    else return 1;
+    else if (ID.Contains("Data")) {return 0;}
+    else return 0;
     int ipt = SF->GetYaxis()->FindBin(pt);
     int ieta = SF->GetXaxis()->FindBin(std::abs(eta));
     return SF->GetBinError(ieta, ipt);
