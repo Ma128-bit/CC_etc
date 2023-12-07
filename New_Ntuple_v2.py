@@ -44,7 +44,7 @@ def load_df(isTau3mu, treename):
 ROOT.gInterpreter.Declare(
 """
 """)
-ROOT.gSystem.Load("cpp_library.so")
+ROOT.gSystem.Load("cpp_library.cpp")
 
 if __name__ == "__main__":
     df = load_df(True, "FinalTree")
