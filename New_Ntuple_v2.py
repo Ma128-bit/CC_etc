@@ -50,8 +50,8 @@ if __name__ == "__main__":
     isTau3mu = True
     print("Starting ...")
     df = load_df(isTau3mu, "FinalTree")
-    entries = df.Count()
-    print("total ",entries.GetValue())
+    #entries = df.Count()
+    #print("total ",entries.GetValue())
     df = df.DefinePerSample("ID", "add_ID(rdfslot_, rdfsampleinfo_)")
     #df = df.DefinePerSample("weight", "add_weight(rdfslot_, rdfsampleinfo_)")
     #df = df.DefinePerSample("weight_MC", "add_weight_MC(rdfslot_, rdfsampleinfo_)")
