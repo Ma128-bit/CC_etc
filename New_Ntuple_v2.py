@@ -91,9 +91,9 @@ double add_weight_MC(unsigned int slot, const ROOT::RDF::RSampleInfo &id){
 """)
 
 if __name__ == "__main__":
+    df = load_df(True, "FinalTree")
     entries = df.Count()
     print("total ",entries.GetValue())
-    df = load_df(True, "FinalTree")
     df = df.DefinePerSample("weight", "add_weight(rdfslot_, rdfsampleinfo_)")
     df = df.DefinePerSample("weight_MC", "add_weight_MC(rdfslot_, rdfsampleinfo_)")
     df = df.DefinePerSample("weight_CC", "add_weight_CC(rdfslot_, rdfsampleinfo_)")
