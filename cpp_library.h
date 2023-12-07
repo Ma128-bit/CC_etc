@@ -80,7 +80,8 @@ double add_weight_MC(unsigned int slot, const ROOT::RDF::RSampleInfo &id){
 double get_MuonSF(const TString& ID, const double pt, const double eta, TH2F* SF_pre, TH2F* SF_post){
     TH2F* SF = nullptr;
     if (ID.Contains("preE")) { SF = SF_pre;} 
-    else {SF = SF_post;}
+    if else (ID.Contains("postE")) {SF = SF_post;}
+    else return 1;
     int ipt = SF->GetYaxis()->FindBin(pt);
     int ieta = SF->GetXaxis()->FindBin(std::abs(eta));
     return SF->GetBinContent(ieta, ipt);
@@ -88,7 +89,8 @@ double get_MuonSF(const TString& ID, const double pt, const double eta, TH2F* SF
 double get_MuonSF_err(const TString& ID, const double pt, const double eta, TH2F* SF_pre, TH2F* SF_post){
     TH2F* SF = nullptr;
     if (ID.Contains("preE")) { SF = SF_pre;} 
-    else {SF = SF_post;}
+    if else (ID.Contains("postE")) {SF = SF_post;}
+    else return 1;
     int ipt = SF->GetYaxis()->FindBin(pt);
     int ieta = SF->GetXaxis()->FindBin(std::abs(eta));
     return SF->GetBinError(ieta, ipt);
