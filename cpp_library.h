@@ -77,7 +77,7 @@ double add_weight_MC(unsigned int slot, const ROOT::RDF::RSampleInfo &id){
     else if(id.Contains("MC_Bp_postE.root")) return ((N_Bp_postE/N_Bp_postE)*(BR_Bptau/BR_Bptau));
     else return 1;
 }
-double get_MuonSF(const TString& ID, const float pt, const float eta, TH2F* SF_pre, TH2F* SF_post){
+double get_MuonSF(const TString& ID, const double pt, const double eta, TH2F* SF_pre, TH2F* SF_post){
     TH2F* SF = nullptr;
     if (ID.Contains("preE")) { SF = SF_pre;} 
     else {SF = SF_post;}
@@ -85,7 +85,7 @@ double get_MuonSF(const TString& ID, const float pt, const float eta, TH2F* SF_p
     int ieta = SF->GetXaxis()->FindBin(std::abs(eta));
     return SF->GetBinContent(ieta, ipt);
 }
-double get_MuonSF_err(const TString& ID, const float pt, const float eta, TH2F* SF_pre, TH2F* SF_post){
+double get_MuonSF_err(const TString& ID, const double pt, const double eta, TH2F* SF_pre, TH2F* SF_post){
     TH2F* SF = nullptr;
     if (ID.Contains("preE")) { SF = SF_pre;} 
     else {SF = SF_post;}
@@ -98,7 +98,7 @@ struct WeightsComputer{
     TH2F *h2D_2;
     bool flag;
     WeightsComputer(TH2F *h1, TH2F *h2, bool f) : h2D_1(h1), h2D_2(h2), flag(f)  {}
-    float operator()(const TString& ID, const float pt, const float eta) {
+    float operator()(const TString& ID, const double pt, const double eta) {
         if (!flag) return get_MuonSF(ID, pt, eta, h2D_1, h2D_2);
         else return get_MuonSF_err(ID, pt, eta, h2D_1, h2D_2);
     }
