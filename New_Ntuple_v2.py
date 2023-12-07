@@ -71,7 +71,8 @@ if __name__ == "__main__":
     canvas.cd()
     weight.Draw("Hist")
     canvas.SaveAs("prova.png")
-    
+
+    df.Snapshot("FinalTree", "AllData.root")
     print("performed ",df.GetNRuns()," loops")
     end = time.time()
     print('execution time ', end-start)
