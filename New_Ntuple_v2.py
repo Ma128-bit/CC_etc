@@ -41,8 +41,9 @@ def load_df(isTau3mu, treename):
     frame = RDataFrame(treename, files, br)
     return frame
 
-#ROOT.gInterpreter.Declare(
-ROOT.gSystem.Load("cpp_library.so")
+ROOT.gInterpreter.Declare("""
+    #include "cpp_library.cpp"
+"""
 
 if __name__ == "__main__":
     df = load_df(True, "FinalTree")
