@@ -57,17 +57,21 @@ if __name__ == "__main__":
     df = df.DefinePerSample("weight_MC", "add_weight_MC(rdfslot_, rdfsampleinfo_)")
     df = df.DefinePerSample("weight_CC", "add_weight_CC(rdfslot_, rdfsampleinfo_)")
     df = df.DefinePerSample("weight_CC_err", "add_weight_CC_err(rdfslot_, rdfsampleinfo_)")
-    """
+
     SF_f1 = TFile.Open("/lustrehome/mbuonsante/Tau_3mu/CMSSW_12_4_11_patch3/src/MacroAnalysis/GM_PF_SF/SF_preE.root")
     SF_f2 = TFile.Open("/lustrehome/mbuonsante/Tau_3mu/CMSSW_12_4_11_patch3/src/MacroAnalysis/GM_PF_SF/SF_postE.root")
     SF_pre = SF_f1.Get("NUM_GlobalMuons_PF_DEN_genTracks_abseta_pt")
     SF_post = SF_f2.Get("NUM_GlobalMuons_PF_DEN_genTracks_abseta_pt")
 
-    df = df.Define("Muon1_SF", ROOT.WeightsComputer(SF_pre, SF_post, 0), ["ID", "Ptmu1", "Etamu1"])
-    df = df.Define("Muon2_SF", ROOT.WeightsComputer(SF_pre, SF_post, 0), ["ID", "Ptmu2", "Etamu2"])
+    df = df.Define("Muon1_SF", ROOT.WeightsComputer(SF_pre, SF_post, False), ["ID", "Ptmu1", "Etamu1"])
+    df = df.Define("Muon2_SF", ROOT.WeightsComputer(SF_pre, SF_post, False), ["ID", "Ptmu2", "Etamu2"])
+    df = df.Define("Muon1_SF_err", ROOT.WeightsComputer(SF_pre, SF_post, True), ["ID", "Ptmu1", "Etamu1"])
+    df = df.Define("Muon2_SF_err", ROOT.WeightsComputer(SF_pre, SF_post, True), ["ID", "Ptmu2", "Etamu2"])
     if(isTau3mu==True):
-        df = df.Define("Muon3_SF", ROOT.WeightsComputer(SF_pre, SF_post, 0), ["ID", "Ptmu3", "Etamu3"])
-    
+        df = df.Define("Muon3_SF", ROOT.WeightsComputer(SF_pre, SF_post, False), ["ID", "Ptmu3", "Etamu3"])
+        df = df.Define("Muon3_SF_err", ROOT.WeightsComputer(SF_pre, SF_post, True), ["ID", "Ptmu3", "Etamu3"])
+
+    """
     weight = df.Histo1D(("Muon1_SF", "Muon1_SF", 100, 0, 1.2), "Muon1_SF");
     canvas = ROOT.TCanvas("c", "c", 800, 800)
     canvas.cd()
