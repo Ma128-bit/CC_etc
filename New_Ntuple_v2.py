@@ -52,7 +52,6 @@ if __name__ == "__main__":
     df = load_df(isTau3mu, "FinalTree")
     #entries = df.Count()
     #print("total ",entries.GetValue())
-    df = df.DefinePerSample("Test", "rdfsampleinfo_.Contains(\"MC_Ds_preE.root\") ? true : false")
     df = df.DefinePerSample("ID", "add_ID(rdfslot_, rdfsampleinfo_)")
     #df = df.DefinePerSample("weight", "add_weight(rdfslot_, rdfsampleinfo_)")
     #df = df.DefinePerSample("weight_MC", "add_weight_MC(rdfslot_, rdfsampleinfo_)")
