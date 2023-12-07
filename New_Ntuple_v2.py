@@ -12,6 +12,7 @@ from ROOT import *
 from file_locations import *
 
 ROOT.gROOT.SetBatch(True)
+ROOT.ROOT.EnableImplicitMT()
 
 ROOT.gInterpreter.Declare("""
     #include "cpp_library.h"
