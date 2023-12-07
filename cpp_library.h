@@ -117,12 +117,12 @@ struct PV_WeightsComputer{
     PV_WeightsComputer(std::map<TString, TH1F*>& histograms, bool f): histMap(histograms), flag(f) {}
     float operator()(const TString& ID, const double nVtx) {
         if (!flag){
-            int histMap[ID] = h1->GetXaxis()->FindBin(nVtx);
-            return h1->GetBinContent(nV);
+            int nV = histMap[ID]->GetXaxis()->FindBin(nVtx);
+            return histMap[ID]->GetBinContent(nV);
         }
         else{
             int nV = histMap[ID]->GetXaxis()->FindBin(nVtx);
-            return h1->GetBinError(nV);
+            return histMap[ID]->GetBinError(nV);
         }   
     }
 };
