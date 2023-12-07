@@ -64,7 +64,7 @@ if __name__ == "__main__":
 
     df = df.Define("Muon1_SF", ROOT.WeightsComputer(SF_pre, SF_post, 0), ["ID", "Ptmu1", "Etamu1"])
     
-    weight = df.Histo1D(("Muon1_SF", "Muon1_SF", 1000, 0, 10), "Muon1_SF");
+    weight = df.Histo1D(("Muon1_SF", "Muon1_SF", 100, 0, 1.2), "Muon1_SF");
     canvas = ROOT.TCanvas("c", "c", 800, 800)
     canvas.cd()
     weight.Draw("Hist")
