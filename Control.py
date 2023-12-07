@@ -1,5 +1,6 @@
 import os
 import ROOT
+ROOT.gROOT.SetBatch(True)
 import subprocess
 import pandas as pd
 from ROOT import *
