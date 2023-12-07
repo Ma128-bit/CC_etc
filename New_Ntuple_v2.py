@@ -48,6 +48,7 @@ def load_df(isTau3mu, treename):
 
 if __name__ == "__main__":
     isTau3mu = True
+    print("Starting ...")
     df = load_df(isTau3mu, "FinalTree")
     entries = df.Count()
     print("total ",entries.GetValue())
