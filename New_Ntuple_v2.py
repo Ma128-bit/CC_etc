@@ -44,28 +44,6 @@ def load_df(isTau3mu, treename):
     frame = RDataFrame(treename, files, br)
     return frame
 
-SF_f1 = TFile.Open("/lustrehome/mbuonsante/Tau_3mu/CMSSW_12_4_11_patch3/src/MacroAnalysis/GM_PF_SF/SF_preE.root")
-SF_f2 = TFile.Open("/lustrehome/mbuonsante/Tau_3mu/CMSSW_12_4_11_patch3/src/MacroAnalysis/GM_PF_SF/SF_postE.root")
-SF_pre = SF_f1.Get("NUM_GlobalMuons_PF_DEN_genTracks_abseta_pt")
-SF_post = SF_f2.Get("NUM_GlobalMuons_PF_DEN_genTracks_abseta_pt")
-
-def get_MuonSF(ID, pt, eta):
-    if "preE" in ID:
-        SF = SF_pre
-    else:
-        SF = SF_post
-    ipt = SF.GetYaxis().FindBin(pt)
-    ieta = SF.GetXaxis().FindBin(abs(eta))
-    return SF.GetBinContent(ieta, ipt)
-
-def get_MuonSF_err(ID, pt, eta):
-    if "preE" in ID:
-        SF = SF_pre
-    else:
-        SF = SF_post
-    ipt = SF.GetYaxis().FindBin(pt)
-    ieta = SF.GetXaxis().FindBin(abs(eta))
-    return SF.GetBinError(ieta, ipt)
 
 if __name__ == "__main__":
     start = time.time()
