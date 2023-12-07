@@ -42,7 +42,7 @@ def load_df(isTau3mu, treename):
     return frame
 
 ROOT.gInterpreter.Declare("""
-    #include "cpp_library.cpp"
+    #include "cpp_library.h"
 """)
 
 if __name__ == "__main__":
