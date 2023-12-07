@@ -76,7 +76,7 @@ double add_weight_MC(unsigned int slot, const ROOT::RDF::RSampleInfo &id){
     if(id.Contains("MC_B0_postE.root")) return ((N_Bp_postE/N_B0_postE)*(BR_B0tau/BR_Bptau));
     if(id.Contains("MC_Bp_preE.root")) return ((N_Bp_preE/N_Bp_preE)*(BR_Bptau/BR_Bptau));
     if(id.Contains("MC_Bp_postE.root")) return ((N_Bp_postE/N_Bp_postE)*(BR_Bptau/BR_Bptau));
-    if(id.Contains("Era_")) return 1;
+    if(id.Contains("Era_") || id.Contains("DsPhiPi")) return 1;
     else return -1;
 }
 double get_MuonSF(const TString& ID, const double pt, const double eta, TH2F* SF_pre, TH2F* SF_post){
