@@ -75,3 +75,26 @@ double add_weight_MC(unsigned int slot, const ROOT::RDF::RSampleInfo &id){
     else if(id.Contains("MC_Bp_postE.root")) return ((N_Bp_postE/N_Bp_postE)*(BR_Bptau/BR_Bptau));
     else return 1;
 }
+TFile* SF_f1 = TFile::Open("/lustrehome/mbuonsante/Tau_3mu/CMSSW_12_4_11_patch3/src/MacroAnalysis/GM_PF_SF/SF_preE.root");
+TFile* SF_f2 = TFile::Open("/lustrehome/mbuonsante/Tau_3mu/CMSSW_12_4_11_patch3/src/MacroAnalysis/GM_PF_SF/SF_postE.root");
+
+// Estrai gli istogrammi TH2F dai file
+TH2F* SF_pre = dynamic_cast<TH2F*>(SF_f1->Get("NUM_GlobalMuons_PF_DEN_genTracks_abseta_pt"));
+TH2F* SF_post = dynamic_cast<TH2F*>(SF_f2->Get("NUM_GlobalMuons_PF_DEN_genTracks_abseta_pt"));
+
+double get_MuonSF(TString ID, double pt, double eta):
+    TH2F* SF = nullptr;
+    if (ID.find("preE") != std::string::npos) { SF = SF_pre;} 
+    else {SF = SF_post;}
+    int ipt = SF->GetYaxis()->FindBin(pt);
+    int ieta = SF->GetXaxis()->FindBin(std::abs(eta));
+    return SF->GetBinContent(ieta, ipt);
+}
+double get_MuonSF_err(ID, pt, eta):
+    TH2F* SF = nullptr;
+    if (ID.find("preE") != std::string::npos) { SF = SF_pre;} 
+    else {SF = SF_post;}
+    int ipt = SF->GetYaxis()->FindBin(pt);
+    int ieta = SF->GetXaxis()->FindBin(std::abs(eta));
+    return SF->GetBinError(ieta, ipt);
+}
