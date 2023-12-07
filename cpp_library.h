@@ -45,8 +45,7 @@ double add_weight_CC_err(unsigned int slot, const ROOT::RDF::RSampleInfo &id){
     else return 1;
 }
 TString add_ID(unsigned int slot, const ROOT::RDF::RSampleInfo &id){
-    std::cout<<"id: "<<id.AsString()<<std::endl;
-    if(id.Contains("MC_Ds_preE.root")) return "Ds_preE"; //isMC=1
+    if(id.Contains("MC_Ds_preE.root")) {std::cout<<"id: "<<id.AsString()<<std::endl; return "Ds_preE";} //isMC=1
     else if(id.Contains("MC_Ds_postE.root")) return "Ds_postE"; //isMC=1
     else if(id.Contains("MC_B0_preE.root")) return "B0_preE"; //isMC=3
     else if(id.Contains("MC_B0_postE.root")) return "B0_postE"; //isMC=3
