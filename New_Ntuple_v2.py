@@ -5,7 +5,6 @@ import pandas as pd
 import uproot
 import ROOT
 import pickle
-import psutil
 import time
 from tqdm import tqdm
 from ROOT import RDataFrame
@@ -13,6 +12,10 @@ from ROOT import *
 from file_locations import *
 
 ROOT.gROOT.SetBatch(True)
+
+ROOT.gInterpreter.Declare("""
+    #include "cpp_library.h"
+""")
 
 branches = [
     "isMC", "lumi", "run", "evt", "puFactor", "DeltaR_max", "DeltaZ_max", 
@@ -41,24 +44,49 @@ def load_df(isTau3mu, treename):
     frame = RDataFrame(treename, files, br)
     return frame
 
-ROOT.gInterpreter.Declare("""
-    #include "cpp_library.h"
-""")
+SF_pre = TFile.Open("/lustrehome/mbuonsante/Tau_3mu/CMSSW_12_4_11_patch3/src/MacroAnalysis/GM_PF_SF/SF_preE.root")
+SF_post = TFile.Open("/lustrehome/mbuonsante/Tau_3mu/CMSSW_12_4_11_patch3/src/MacroAnalysis/GM_PF_SF/SF_postE.root")
+
+def get_MuonSF(ID, pt, eta):
+    if "preE" in ID:
+        SF = SF_pre
+    else:
+        SF = SF_post
+    ipt = SF.GetYaxis().FindBin(pt)
+    ieta = SF.GetXaxis().FindBin(abs(eta))
+    return SF.GetBinContent(ieta, ipt)
+
+def get_MuonSF_err(ID, pt, eta):
+    if "preE" in ID:
+        SF = SF_pre
+    else:
+        SF = SF_post
+    ipt = SF.GetYaxis().FindBin(pt)
+    ieta = SF.GetXaxis().FindBin(abs(eta))
+    return SF.GetBinError(ieta, ipt)
 
 if __name__ == "__main__":
+    start = time.time()
+    
     df = load_df(True, "FinalTree")
     entries = df.Count()
     print("total ",entries.GetValue())
+    df = df.DefinePerSample("ID", "add_ID(rdfslot_, rdfsampleinfo_)")
     df = df.DefinePerSample("weight", "add_weight(rdfslot_, rdfsampleinfo_)")
     df = df.DefinePerSample("weight_MC", "add_weight_MC(rdfslot_, rdfsampleinfo_)")
     df = df.DefinePerSample("weight_CC", "add_weight_CC(rdfslot_, rdfsampleinfo_)")
     df = df.DefinePerSample("weight_CC_err", "add_weight_CC_err(rdfslot_, rdfsampleinfo_)")
-    weight = df.Histo1D(("weight", "weight", 1000, 0, 0.001), "weight");
+    df = df.Define("Muon1_SF", "get_MuonSF(ID, Ptmu1, Etamu1)")
+    
+    weight = df.Histo1D(("Muon1_SF", "Muon1_SF", 100), "Muon1_SF");
     canvas = ROOT.TCanvas("c", "c", 800, 800)
     canvas.cd()
     weight.Draw("Hist")
     canvas.SaveAs("prova.png")
+    
     print("performed ",df.GetNRuns()," loops")
+    end = time.time()
+    print('execution time ', end-start)
 
 
 
