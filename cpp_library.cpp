@@ -1,6 +1,5 @@
 #include <iostream>
 #include <ROOT/RDataFrame.hxx>
-#include <ROOT/RDF/RSampleInfo.hxx>
 
 double xsection_Bp_preE = 3.508e+9, xsection_Bp_postE = 3.538e+9;
 double xsection_Ds_preE = 9.827e+9, xsection_Ds_postE = 9.815e+9;
