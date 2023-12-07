@@ -229,7 +229,7 @@ def add_weight_final(df_all, full=True, tau3mu=True):
 if __name__ == "__main__":
     tau3mu=False
     full=False
-    """
+
     if tau3mu==True:
         print("Load tau3mu files:")
         df_tau3mu = load_dfs(dict, "tau3mu")
@@ -253,18 +253,18 @@ if __name__ == "__main__":
     print("Done!\nAdd 'weight_final':")
     df_tau3mu = add_weight_final(df_tau3mu, full, tau3mu)
     print("Done!\nMake CSV file:")
-    """
+    
     if tau3mu==True:
         fileName = "ROOTFiles/AllData"
     else:
         fileName = "ROOTFiles/AllControl"
     if not os.path.exists("ROOTFiles"):
         subprocess.run(["mkdir", "ROOTFiles"])
-    """
+    
     df_tau3mu = df_tau3mu.drop('ID', axis=1)
     df_tau3mu.to_csv(fileName+".csv", index=False)
     print("File CSV saved!")
-    """
+    
     rdf = ROOT.RDF.MakeCsvDataFrame("/lustrehome/mbuonsante/Tau_3mu/CC_etc/CMSSW_13_0_13/src/"+fileName+".csv")
     #cols = ROOT.vector('string')(); #cols.push_back("isMC"); cols.push_back("weight");
     rdf.Snapshot("FinalTree", "pippo.root")
