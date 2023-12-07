@@ -12,6 +12,8 @@ from ROOT import RDataFrame
 from ROOT import *
 from file_locations import *
 
+ROOT.gROOT.SetBatch(True)
+
 branches = [
     "isMC", "lumi", "run", "evt", "puFactor", "DeltaR_max", "DeltaZ_max", 
     "Pmu3", "cLP", "tKink", "segmComp", "tripletMass", "fv_nC", "fv_dphi3D", 
