@@ -59,3 +59,6 @@ double add_weight_MC(unsigned int slot, const ROOT::RDF::RSampleInfo &id){
     else if(id.Contains("MC_Bp_postE.root")) return ((N_Bp_postE/N_Bp_postE)*(BR_Bptau/BR_Bptau));
     else return 1;
 }
+int main() {
+    return 0;
+}
