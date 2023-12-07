@@ -99,7 +99,7 @@ struct WeightsComputer{
     bool flag;
     WeightsComputer(TH2D *h1, TH2D *h2, bool f) : h2D_1(h1), h2D_2(h2), flag(f)  {}
     float operator()(const TString& ID, const float pt, const float eta) {
-        if (!flag) return get_MuonSF(ID, pt, eta, SF_pre, SF_post);
-        else return get_MuonSF_err(ID, pt, eta, SF_pre, SF_post);
+        if (!flag) return get_MuonSF(ID, pt, eta, h2D_1, h2D_2);
+        else return get_MuonSF_err(ID, pt, eta, h2D_1, h2D_2);
     }
 };
