@@ -103,7 +103,7 @@ if __name__ == "__main__":
     canvas.cd()
     weight.Draw("Hist")
     canvas.SaveAs("prova.png")
-    print("performed ",df_sig.GetNRuns()," loops")
+    print("performed ",df.GetNRuns()," loops")
 
 
 
