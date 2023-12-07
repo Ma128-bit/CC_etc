@@ -94,7 +94,6 @@ def load_dfs(dict, string):
     for key, value in dict.items():
         if string in key:
             df = load_data(string, value[0])
-            df['isMC'] = value[1]
             df['ID'] = key
             dfs.append(df)
     df_all = pd.concat(dfs, ignore_index=True)
