@@ -46,14 +46,14 @@ double add_weight_CC_err(unsigned int slot, const ROOT::RDF::RSampleInfo &id){
 }
 TString add_ID(unsigned int slot, const ROOT::RDF::RSampleInfo &id){
     std::cout<<"id: "<<id.AsString()<<std::endl;
-    if(id.Contains("MC_Ds_preE.root")) return "Ds_preE";
-    else if(id.Contains("MC_Ds_postE.root")) return "Ds_postE";
-    else if(id.Contains("MC_B0_preE.root")) return "B0_preE";
-    else if(id.Contains("MC_B0_postE.root")) return "B0_postE";
-    else if(id.Contains("MC_Bp_preE.root")) return "Bp_preE";
-    else if(id.Contains("MC_Bp_postE.root")) return "Bp_postE";
-    else if(id.Contains("MC_DsPhiPi_preE.root")) return "DsPhiPi_preE";
-    else if(id.Contains("MC_DsPhiPi_postE.root")) return "DsPhiPi_psotE";
+    if(id.Contains("MC_Ds_preE.root")) return "Ds_preE"; //isMC=1
+    else if(id.AsString().Contains("MC_Ds_postE.root")) return "Ds_postE"; //isMC=1
+    else if(id.AsString().Contains("MC_B0_preE.root")) return "B0_preE"; //isMC=3
+    else if(id.AsString().Contains("MC_B0_postE.root")) return "B0_postE"; //isMC=3
+    else if(id.AsString().Contains("MC_Bp_preE.root")) return "Bp_preE"; //isMC=2
+    else if(id.AsString().Contains("MC_Bp_postE.root")) return "Bp_postE"; //isMC=2
+    else if(id.AsString().Contains("MC_DsPhiPi_preE.root")) return "DsPhiPi_preE";
+    else if(id.AsString().Contains("MC_DsPhiPi_postE.root")) return "DsPhiPi_psotE";
     else return "Data";
 }
 double add_weight(unsigned int slot, const ROOT::RDF::RSampleInfo &id){
