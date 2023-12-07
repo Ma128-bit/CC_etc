@@ -36,12 +36,12 @@ double weight_CC_preE_err = 0.09, weight_CC_postE_err = 0.05;
 
 double add_weight_CC(unsigned int slot, const ROOT::RDF::RSampleInfo &id){
     if(id.Contains("_preE") && !(id.Contains("DsPhiPi"))) return weight_CC_preE;
-    else if(id.Contains("_postE") && !(id.Contains("DsPhiPi"))) return weight_CC_postE;
+    if(id.Contains("_postE") && !(id.Contains("DsPhiPi"))) return weight_CC_postE;
     else return 1;
 }
 double add_weight_CC_err(unsigned int slot, const ROOT::RDF::RSampleInfo &id){
     if(id.Contains("_preE") && !(id.Contains("DsPhiPi"))) return weight_CC_preE_err;
-    else if(id.Contains("_postE") && !(id.Contains("DsPhiPi"))) return weight_CC_postE_err;
+    if(id.Contains("_postE") && !(id.Contains("DsPhiPi"))) return weight_CC_postE_err;
     else return 1;
 }
 TString add_ID(unsigned int slot, const ROOT::RDF::RSampleInfo &id){
