@@ -55,6 +55,7 @@ TString add_ID(unsigned int slot, const ROOT::RDF::RSampleInfo &id){
     if(id.Contains("MC_DsPhiPi_preE.root")) return "DsPhiPi_preE";
     if(id.Contains("MC_DsPhiPi_postE.root")) return "DsPhiPi_postE";
     if(id.Contains("Era_")) return "Data";
+    else return "None";
 }
 double add_weight(unsigned int slot, const ROOT::RDF::RSampleInfo &id){
     if(id.Contains("MC_Ds_preE.root")) return (xsection_Ds_preE*lumi_tau3mu_preE*BR_tau3mu*BR_Dstau/N_Ds_preE);
