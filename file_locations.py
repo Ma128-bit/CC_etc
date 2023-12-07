@@ -1,3 +1,7 @@
+single_mu_SF_preE = "/lustrehome/mbuonsante/Tau_3mu/CMSSW_12_4_11_patch3/src/MacroAnalysis/GM_PF_SF/SF_preE.root"
+single_mu_SF_postE = "/lustrehome/mbuonsante/Tau_3mu/CMSSW_12_4_11_patch3/src/MacroAnalysis/GM_PF_SF/SF_postE.root"
+PV_SFs = "/lustrehome/mbuonsante/Tau_3mu/CC_etc/CMSSW_13_0_13/src/PV_Histo/histogram_ratio.root"
+
 data_path = "/lustrehome/mbuonsante/Tau_3mu/Ntuple/CMSSW_13_0_13/src/Analysis/JobAdd_perEra/"
     
 tau3mu_Run2022C = data_path + "Era_C_tau3mu.root"
