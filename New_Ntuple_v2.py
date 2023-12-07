@@ -1,11 +1,11 @@
 import sys, os, subprocess, json
-from datetime import datetime
+import time
+start = time.time()
 import numpy as np
 import pandas as pd
 import uproot
 import ROOT
 import pickle
-import time
 from tqdm import tqdm
 from ROOT import RDataFrame
 from ROOT import *
@@ -46,9 +46,8 @@ def load_df(isTau3mu, treename):
 
 
 if __name__ == "__main__":
-    start = time.time()
-    
-    df = load_df(True, "FinalTree")
+    isTau3mu = True
+    df = load_df(isTau3mu, "FinalTree")
     entries = df.Count()
     print("total ",entries.GetValue())
     df = df.DefinePerSample("ID", "add_ID(rdfslot_, rdfsampleinfo_)")
@@ -63,6 +62,9 @@ if __name__ == "__main__":
     SF_post = SF_f2.Get("NUM_GlobalMuons_PF_DEN_genTracks_abseta_pt")
 
     df = df.Define("Muon1_SF", ROOT.WeightsComputer(SF_pre, SF_post, 0), ["ID", "Ptmu1", "Etamu1"])
+    df = df.Define("Muon2_SF", ROOT.WeightsComputer(SF_pre, SF_post, 0), ["ID", "Ptmu2", "Etamu2"])
+    if(isTau3mu==True):
+        df = df.Define("Muon3_SF", ROOT.WeightsComputer(SF_pre, SF_post, 0), ["ID", "Ptmu3", "Etamu3"])
     
     weight = df.Histo1D(("Muon1_SF", "Muon1_SF", 100, 0, 1.2), "Muon1_SF");
     canvas = ROOT.TCanvas("c", "c", 800, 800)
