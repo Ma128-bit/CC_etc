@@ -42,7 +42,7 @@ double add_weight_CC_err(unsigned int slot, const ROOT::RDF::RSampleInfo &id){
     else if(id.Contains("_postE") && !(id.Contains("DsPhiPi"))) return weight_CC_postE_err;
     else return 1;
 }
-double add_ID(unsigned int slot, const ROOT::RDF::RSampleInfo &id){
+TString add_ID(unsigned int slot, const ROOT::RDF::RSampleInfo &id){
     std::cout<<"id: "<<id.AsString()<<std::endl;
     if(id.Contains("MC_Ds_preE.root")) return "Ds_preE";
     else if(id.Contains("MC_Ds_postE.root")) return "Ds_postE";
