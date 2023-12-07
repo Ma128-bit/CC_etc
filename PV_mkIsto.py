@@ -7,6 +7,8 @@ import glob
 import random
 import array as ary
 import numpy as np
+import ROOT
+ROOT.gROOT.SetBatch(True)
 from ROOT import *
 from file_locations import *
 from multiprocessing import Pool
