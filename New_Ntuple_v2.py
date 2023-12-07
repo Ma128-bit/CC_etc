@@ -56,7 +56,13 @@ if __name__ == "__main__":
     #df = df.DefinePerSample("weight_MC", "add_weight_MC(rdfslot_, rdfsampleinfo_)")
     #df = df.DefinePerSample("weight_CC", "add_weight_CC(rdfslot_, rdfsampleinfo_)")
     #df = df.DefinePerSample("weight_CC_err", "add_weight_CC_err(rdfslot_, rdfsampleinfo_)")
-    df = df.Define("Muon1_SF", "get_MuonSF", ["ID", "Ptmu1", "Etamu1"])
+    
+    SF_f1 = TFile.Open("/lustrehome/mbuonsante/Tau_3mu/CMSSW_12_4_11_patch3/src/MacroAnalysis/GM_PF_SF/SF_preE.root")
+    SF_f2 = TFile.Open("/lustrehome/mbuonsante/Tau_3mu/CMSSW_12_4_11_patch3/src/MacroAnalysis/GM_PF_SF/SF_postE.root")
+    SF_pre = SF_f1.Get("NUM_GlobalMuons_PF_DEN_genTracks_abseta_pt")
+    SF_post = SF_f2.Get("NUM_GlobalMuons_PF_DEN_genTracks_abseta_pt")
+
+    df = df.Define("Muon1_SF", ROOT.WeightsComputer(SF_pre, SF_post), ["ID", "Ptmu1", "Etamu1"])
     
     weight = df.Histo1D(("Muon1_SF", "Muon1_SF", 100), "Muon1_SF");
     canvas = ROOT.TCanvas("c", "c", 800, 800)
