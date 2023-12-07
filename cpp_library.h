@@ -11,6 +11,8 @@
 #include <TStyle.h>
 #include <TROOT.h>
 #include <TSystem.h>
+#include <TString.h>
+#include <TH2F.h>
 
 double xsection_Bp_preE = 3.508e+9, xsection_Bp_postE = 3.538e+9;
 double xsection_Ds_preE = 9.827e+9, xsection_Ds_postE = 9.815e+9;
@@ -75,26 +77,29 @@ double add_weight_MC(unsigned int slot, const ROOT::RDF::RSampleInfo &id){
     else if(id.Contains("MC_Bp_postE.root")) return ((N_Bp_postE/N_Bp_postE)*(BR_Bptau/BR_Bptau));
     else return 1;
 }
-TFile* SF_f1 = TFile::Open("/lustrehome/mbuonsante/Tau_3mu/CMSSW_12_4_11_patch3/src/MacroAnalysis/GM_PF_SF/SF_preE.root");
-TFile* SF_f2 = TFile::Open("/lustrehome/mbuonsante/Tau_3mu/CMSSW_12_4_11_patch3/src/MacroAnalysis/GM_PF_SF/SF_postE.root");
-
-// Estrai gli istogrammi TH2F dai file
-TH2F* SF_pre = dynamic_cast<TH2F*>(SF_f1->Get("NUM_GlobalMuons_PF_DEN_genTracks_abseta_pt"));
-TH2F* SF_post = dynamic_cast<TH2F*>(SF_f2->Get("NUM_GlobalMuons_PF_DEN_genTracks_abseta_pt"));
-
-double get_MuonSF(TString ID, double pt, double eta):
+double get_MuonSF(const TString& ID, const float pt, const float eta, TH2D* SF_pre, TH2D* SF_post):
     TH2F* SF = nullptr;
-    if (ID.find("preE") != std::string::npos) { SF = SF_pre;} 
+    if (ID.Contains("preE")) { SF = SF_pre;} 
     else {SF = SF_post;}
     int ipt = SF->GetYaxis()->FindBin(pt);
     int ieta = SF->GetXaxis()->FindBin(std::abs(eta));
     return SF->GetBinContent(ieta, ipt);
 }
-double get_MuonSF_err(ID, pt, eta):
+double get_MuonSF_err(const TString& ID, const float pt, const float eta, TH2D* SF_pre, TH2D* SF_post):
     TH2F* SF = nullptr;
-    if (ID.find("preE") != std::string::npos) { SF = SF_pre;} 
+    if (ID.Contains("preE")) { SF = SF_pre;} 
     else {SF = SF_post;}
     int ipt = SF->GetYaxis()->FindBin(pt);
     int ieta = SF->GetXaxis()->FindBin(std::abs(eta));
     return SF->GetBinError(ieta, ipt);
 }
+struct WeightsComputer{
+    TH2D *h2D_1;
+    TH2D *h2D_2;
+    bool flag;
+    WeightsComputer(TH2D *h1, TH2D *h2, bool f) : h2D_1(h1), h2D_2(h2), flag(f)  {}
+    float operator()(const TString& ID, const float pt, const float eta) {
+        if (!flag) return get_MuonSF(ID, pt, eta, SF_pre, SF_post);
+        else return get_MuonSF_err(ID, pt, eta, SF_pre, SF_post);
+    }
+};
