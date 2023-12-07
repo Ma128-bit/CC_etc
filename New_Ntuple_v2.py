@@ -58,19 +58,35 @@ if __name__ == "__main__":
     df = df.DefinePerSample("weight_CC", "add_weight_CC(rdfslot_, rdfsampleinfo_)")
     df = df.DefinePerSample("weight_CC_err", "add_weight_CC_err(rdfslot_, rdfsampleinfo_)")
 
-    SF_f1 = TFile.Open("/lustrehome/mbuonsante/Tau_3mu/CMSSW_12_4_11_patch3/src/MacroAnalysis/GM_PF_SF/SF_preE.root")
-    SF_f2 = TFile.Open("/lustrehome/mbuonsante/Tau_3mu/CMSSW_12_4_11_patch3/src/MacroAnalysis/GM_PF_SF/SF_postE.root")
+    SF_f1 = TFile.Open(single_mu_SF_preE)
+    SF_f2 = TFile.Open(single_mu_SF_postE)
     SF_pre = SF_f1.Get("NUM_GlobalMuons_PF_DEN_genTracks_abseta_pt")
     SF_post = SF_f2.Get("NUM_GlobalMuons_PF_DEN_genTracks_abseta_pt")
 
-    df = df.Define("Muon1_SF", ROOT.WeightsComputer(SF_pre, SF_post, False), ["ID", "Ptmu1", "Etamu1"])
-    df = df.Define("Muon2_SF", ROOT.WeightsComputer(SF_pre, SF_post, False), ["ID", "Ptmu2", "Etamu2"])
-    df = df.Define("Muon1_SF_err", ROOT.WeightsComputer(SF_pre, SF_post, True), ["ID", "Ptmu1", "Etamu1"])
-    df = df.Define("Muon2_SF_err", ROOT.WeightsComputer(SF_pre, SF_post, True), ["ID", "Ptmu2", "Etamu2"])
+    df = df.Define("Muon1_SF", ROOT.SF_WeightsComputer(SF_pre, SF_post, False), ["ID", "Ptmu1", "Etamu1"])
+    df = df.Define("Muon2_SF", ROOT.SF_WeightsComputer(SF_pre, SF_post, False), ["ID", "Ptmu2", "Etamu2"])
+    df = df.Define("Muon1_SF_err", ROOT.SF_WeightsComputer(SF_pre, SF_post, True), ["ID", "Ptmu1", "Etamu1"])
+    df = df.Define("Muon2_SF_err", ROOT.SF_WeightsComputer(SF_pre, SF_post, True), ["ID", "Ptmu2", "Etamu2"])
     if(isTau3mu==True):
-        df = df.Define("Muon3_SF", ROOT.WeightsComputer(SF_pre, SF_post, False), ["ID", "Ptmu3", "Etamu3"])
-        df = df.Define("Muon3_SF_err", ROOT.WeightsComputer(SF_pre, SF_post, True), ["ID", "Ptmu3", "Etamu3"])
+        df = df.Define("Muon3_SF", ROOT.SF_WeightsComputer(SF_pre, SF_post, False), ["ID", "Ptmu3", "Etamu3"])
+        df = df.Define("Muon3_SF_err", ROOT.SF_WeightsComputer(SF_pre, SF_post, True), ["ID", "Ptmu3", "Etamu3"])
 
+    histo_file = TFile.Open(PV_SFs)
+    histo = {
+        "B0_preE": None,
+        "B0_postE": None,
+        "Bp_preE": None,
+        "Bp_postE": None,
+        "Ds_preE": None,
+        "Ds_postE": None,
+        "DsPhiPi_preE": None,
+        "DsPhiPi_postE": None,
+    }
+    for key in histo:
+        histo[key] = histo_file.Get("ratio_h_" + key)
+    
+    df = df.Define("weight_nVtx", ROOT.PV_WeightsComputer(histo, False), ["ID", "nVtx"])
+    
     """
     weight = df.Histo1D(("Muon1_SF", "Muon1_SF", 100, 0, 1.2), "Muon1_SF");
     canvas = ROOT.TCanvas("c", "c", 800, 800)
