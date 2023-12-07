@@ -52,11 +52,11 @@ if __name__ == "__main__":
     entries = df.Count()
     print("total ",entries.GetValue())
     df = df.DefinePerSample("ID", "add_ID(rdfslot_, rdfsampleinfo_)")
-    df = df.DefinePerSample("weight", "add_weight(rdfslot_, rdfsampleinfo_)")
-    df = df.DefinePerSample("weight_MC", "add_weight_MC(rdfslot_, rdfsampleinfo_)")
-    df = df.DefinePerSample("weight_CC", "add_weight_CC(rdfslot_, rdfsampleinfo_)")
-    df = df.DefinePerSample("weight_CC_err", "add_weight_CC_err(rdfslot_, rdfsampleinfo_)")
-    df = df.Define("Muon1_SF", "get_MuonSF(ID, Ptmu1, Etamu1)")
+    #df = df.DefinePerSample("weight", "add_weight(rdfslot_, rdfsampleinfo_)")
+    #df = df.DefinePerSample("weight_MC", "add_weight_MC(rdfslot_, rdfsampleinfo_)")
+    #df = df.DefinePerSample("weight_CC", "add_weight_CC(rdfslot_, rdfsampleinfo_)")
+    #df = df.DefinePerSample("weight_CC_err", "add_weight_CC_err(rdfslot_, rdfsampleinfo_)")
+    df = df.Define("Muon1_SF", "get_MuonSF", ["ID", "Ptmu1", "Etamu1"])
     
     weight = df.Histo1D(("Muon1_SF", "Muon1_SF", 100), "Muon1_SF");
     canvas = ROOT.TCanvas("c", "c", 800, 800)
