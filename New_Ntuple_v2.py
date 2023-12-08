@@ -72,7 +72,7 @@ if __name__ == "__main__":
         df = df.Define("Muon3_SF_err", ROOT.SF_WeightsComputer(SF_pre, SF_post, True), ["ID", "Ptmu3", "Etamu3"])
 
     histo_file = TFile.Open(PV_SFs)
-    histMap = std.map(TString, TH1F)()
+    histMap = std.map(ROOT.TString, ROOT.TH1F)()
     h_names = ["B0_preE", "B0_postE", "Bp_preE", "Bp_postE", "Ds_preE", "Ds_postE", "DsPhiPi_preE", "DsPhiPi_postE"]
     for key in h_names:
         histMap[key] = histo_file.Get("ratio_h_" + key)
