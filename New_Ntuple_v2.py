@@ -73,13 +73,15 @@ if __name__ == "__main__":
 
     histo_file = TFile.Open(PV_SFs)
     h_vectors = ROOT.std.vector(ROOT.TH1F)()
+    h_name = ROOT.std.vector(ROOT.TString)()
     h_names = ["B0_preE", "B0_postE", "Bp_preE", "Bp_postE", "Ds_preE", "Ds_postE", "DsPhiPi_preE", "DsPhiPi_postE"]
     for key in h_names:
         h_vectors.push_back(histo_file.Get("ratio_h_" + key))
+        h_name.push_back(key)
 
     print(h_vectors)
     
-    df = df.Define("weight_nVtx", ROOT.PV_WeightsComputer(h_names, h_vectors, False), ["ID", "nVtx"])
+    df = df.Define("weight_nVtx", ROOT.PV_WeightsComputer(h_name, h_vectors, False), ["ID", "nVtx"])
     
     """
     weight = df.Histo1D(("Muon1_SF", "Muon1_SF", 100, 0, 1.2), "Muon1_SF");
