@@ -78,19 +78,10 @@ if __name__ == "__main__":
     for key in h_names:
         h_vectors.push_back(histo_file.Get("ratio_h_" + key))
         h_name.push_back(key)
-
-    print(h_vectors)
-    
     df = df.Define("weight_nVtx", ROOT.PV_WeightsComputer(h_name, h_vectors, False), ["ID", "nVtx"])
     
-    """
-    weight = df.Histo1D(("Muon1_SF", "Muon1_SF", 100, 0, 1.2), "Muon1_SF");
-    canvas = ROOT.TCanvas("c", "c", 800, 800)
-    canvas.cd()
-    weight.Draw("Hist")
-    canvas.SaveAs("prova.png")
-    """
     df.Snapshot("FinalTree", "AllData.root")
+    
     print("performed ",df.GetNRuns()," loops")
     end = time.time()
     print('execution time ', end-start)
