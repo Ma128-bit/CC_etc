@@ -117,7 +117,6 @@ struct PV_WeightsComputer{
     TH1F *h;
     bool flag;
     PV_WeightsComputer(std::vector<TString>& s, const std::vector<TH1F*>& histograms, bool f): name(s), histo(histograms), flag(f) {}
-    //PV_WeightsComputer(std::vector<TH1DF*>& histograms, bool f): histo(histograms), flag(f) {}
     //PV_WeightsComputer(const std::vector<TH1F*> &histograms, bool f): histo(histograms), flag(f) {}
     
     float operator()(const TString& ID, const double nVtx) {
