@@ -114,7 +114,6 @@ struct SF_WeightsComputer{
 struct PV_WeightsComputer{
     std::vector<TString> name;
     std::vector<TH1F*> histo;
-    TH1F *h;
     bool flag;
     PV_WeightsComputer(std::vector<TString>& s, const std::vector<TH1F*>& histograms, bool f): name(s), histo(histograms), flag(f) {}
     float operator()(const TString& ID, const double nVtx) {
@@ -122,7 +121,7 @@ struct PV_WeightsComputer{
         if (it != name.end()) {
             int indx = std::distance(name.begin(), it);
             int nV = histo[indx]->GetXaxis()->FindBin(nVtx);
-            std::cout<<name[indx]<<std::endl;
+            //std::cout<<name[indx]<<std::endl;
             if (!flag) { return histo[indx]->GetBinContent(nV);}
             else { return histo[indx]->GetBinError(nV);}
         } else {
