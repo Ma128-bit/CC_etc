@@ -112,27 +112,21 @@ struct SF_WeightsComputer{
     }
 };
 struct PV_WeightsComputer{
-    //std::vector<TString> histVector;
-    std::vector<std::tuple<TString, TH1F*>> histVector;
-    //std::map<TString, TH1F*> histMap;
+    std::vector<TString> name;
+    std::vector<TH1F*> hiso;
     bool flag;
-    //PV_WeightsComputer(std::map<TString, TH1F*> & histograms, bool f): histMap(histograms), flag(f) {}
-    PV_WeightsComputer(std::vector<std::tuple<TString, TH1F*>>& histograms, bool f): histVector(histograms), flag(f) {}
-    /*
+    PV_WeightsComputer(std::vector<TString>& s, std::vector<TH1F*>& histograms, bool f): name(s), hiso(histograms), flag(f) {}
     float operator()(const TString& ID, const double nVtx) {
-        if (!flag) {
-            int nV = (*histMap)[ID]->GetXaxis()->FindBin(nVtx);
-            return (*histMap)[ID]->GetBinContent(nV);
+        auto it = std::find(name.begin(), name.end(), ID);
+        if (it != name.end()) {
+            int indx = std::distance(vettore.begin(), it);
+            int nV = hiso[indx]->GetXaxis()->FindBin(nVtx);
+            if (!flag) { return hiso[indx]->GetBinContent(nV);}
+            else { return hiso[indx]->GetBinError(nV);}
         } else {
-            int nV = (*histMap)[ID]->GetXaxis()->FindBin(nVtx);
-            return (*histMap)[ID]->GetBinError(nV);
+            if (!flag) { return 1;}
+            else { return 0;}
         }
-    }
-    */
-    float operator()(const TString& ID, const double nVtx) {
-        //std::cout<<histMap[ID]->GetEntries()<<std::endl;
-        std::cout<<std::get<1>(histVector[0])<<std::endl;
-        return 0;
     }
 };
 
