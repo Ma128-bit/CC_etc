@@ -72,19 +72,14 @@ if __name__ == "__main__":
         df = df.Define("Muon3_SF_err", ROOT.SF_WeightsComputer(SF_pre, SF_post, True), ["ID", "Ptmu3", "Etamu3"])
 
     histo_file = TFile.Open(PV_SFs)
-    histMap = std.map(ROOT.TString, ROOT.TH1F)()
-    h_vectors = std.vector(ROOT.TH1F)()
-    h_str = std.vector(ROOT.TString)()
+    h_vectors = std.vector(std.pair(ROOT.TString, ROOT.TH1F))()
     h_names = ["B0_preE", "B0_postE", "Bp_preE", "Bp_postE", "Ds_preE", "Ds_postE", "DsPhiPi_preE", "DsPhiPi_postE"]
     for key in h_names:
-        histMap[key] = histo_file.Get("ratio_h_" + key)
-        h_vectors.push_back(histo_file.Get("ratio_h_" + key))
-        h_str.push_back(key)
+        h_vectors.push_back(std::make_pair(key, histo_file.Get("ratio_h_" + key)));
 
-    print(histMap)
     print(h_vectors)
     
-    df = df.Define("weight_nVtx", ROOT.PV_WeightsComputer(h_str, False), ["ID", "nVtx"])
+    df = df.Define("weight_nVtx", ROOT.PV_WeightsComputer(h_vectors, False), ["ID", "nVtx"])
     
     """
     weight = df.Histo1D(("Muon1_SF", "Muon1_SF", 100, 0, 1.2), "Muon1_SF");
