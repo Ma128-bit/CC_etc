@@ -133,7 +133,7 @@ struct PV_WeightsComputer{
     }
     */
     float operator()(const TString& ID, const double nVtx) {
-        std::cout<<histo[0]->GetEntries()std::endl;
+        std::cout<<histo[0]->GetEntries()<<std::endl;
         return 0;
     }
 
