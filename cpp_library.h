@@ -113,11 +113,11 @@ struct SF_WeightsComputer{
 };
 struct PV_WeightsComputer{
     //std::vector<TString> histVector;
-    std::vector<std::pair<TString, TH1F*>> histVector;
+    std::vector<std::tuple<TString, TH1F*>> histVector;
     //std::map<TString, TH1F*> histMap;
     bool flag;
     //PV_WeightsComputer(std::map<TString, TH1F*> & histograms, bool f): histMap(histograms), flag(f) {}
-    PV_WeightsComputer(std::vector<std::pair<TString, TH1F*>>& histograms, bool f): histVector(histograms), flag(f) {}
+    PV_WeightsComputer(std::vector<std::tuple<TString, TH1F*>>& histograms, bool f): histVector(histograms), flag(f) {}
     /*
     float operator()(const TString& ID, const double nVtx) {
         if (!flag) {
@@ -131,7 +131,7 @@ struct PV_WeightsComputer{
     */
     float operator()(const TString& ID, const double nVtx) {
         //std::cout<<histMap[ID]->GetEntries()<<std::endl;
-        std::cout<<histVector[0].first<<std::endl;
+        std::cout<<std::get<1>(histVector[0])<<std::endl;
         return 0;
     }
 };
