@@ -119,8 +119,9 @@ struct PV_WeightsComputer{
     float operator()(const TString& ID, const double nVtx) {
         auto it = std::find(name.begin(), name.end(), ID);
         if (it != name.end()) {
-            int indx = std::distance(vettore.begin(), it);
+            int indx = std::distance(name.begin(), it);
             int nV = hiso[indx]->GetXaxis()->FindBin(nVtx);
+            std::cout<<name[indx]<<std::endl;
             if (!flag) { return hiso[indx]->GetBinContent(nV);}
             else { return hiso[indx]->GetBinError(nV);}
         } else {
