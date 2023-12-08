@@ -116,10 +116,10 @@ struct PV_WeightsComputer{
     std::vector<TH1F*> histo;
     TH1F *h;
     bool flag;
-    //PV_WeightsComputer(std::vector<TString>& s, std::vector<TH1F*>& histograms, bool f): name(s), histo(histograms), flag(f) {}
+    PV_WeightsComputer(std::vector<TString>& s, const std::vector<TH1F*>& histograms, bool f): name(s), histo(histograms), flag(f) {}
     //PV_WeightsComputer(std::vector<TH1DF*>& histograms, bool f): histo(histograms), flag(f) {}
-    PV_WeightsComputer(const std::vector<TH1F*> &histograms, bool f): histo(histograms), flag(f) {}
-    /*
+    //PV_WeightsComputer(const std::vector<TH1F*> &histograms, bool f): histo(histograms), flag(f) {}
+    
     float operator()(const TString& ID, const double nVtx) {
         auto it = std::find(name.begin(), name.end(), ID);
         if (it != name.end()) {
@@ -133,12 +133,12 @@ struct PV_WeightsComputer{
             else { return 0;}
         }
     }
-    */
+    /*
     float operator()(const TString& ID, const double nVtx) {
         std::cout<<histo[1]->GetEntries()<<std::endl;
         return 0;
     }
-
+    */
 };
 
 
