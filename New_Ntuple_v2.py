@@ -80,6 +80,7 @@ if __name__ == "__main__":
         h_vectors.push_back(histo_file.Get("ratio_h_" + key))
 
     print(histMap)
+    print(h_vectors)
     
     df = df.Define("weight_nVtx", ROOT.PV_WeightsComputer(histMap, False), ["ID", "nVtx"])
     
