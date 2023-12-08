@@ -77,6 +77,8 @@ if __name__ == "__main__":
     for key in h_names:
         histMap[key] = histo_file.Get("ratio_h_" + key)
 
+    print(histMap)
+    
     df = df.Define("weight_nVtx", ROOT.PV_WeightsComputer(histMap, False), ["ID", "nVtx"])
     
     """
