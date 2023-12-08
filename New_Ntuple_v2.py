@@ -75,8 +75,7 @@ if __name__ == "__main__":
     histMap = std.map(TString, TH1F)()
     h_names = ["B0_preE", "B0_postE", "Bp_preE", "Bp_postE", "Ds_preE", "Ds_postE", "DsPhiPi_preE", "DsPhiPi_postE"]
     for key in h_names:
-        tstring_key = ROOT.TString(key)
-        histMap[tstring_key] = histo_file.Get("ratio_h_" + key)
+        histMap[key] = histo_file.Get("ratio_h_" + key)
 
     df = df.Define("weight_nVtx", ROOT.PV_WeightsComputer(histMap, False), ["ID", "nVtx"])
     
