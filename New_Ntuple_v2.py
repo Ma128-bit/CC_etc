@@ -81,7 +81,7 @@ if __name__ == "__main__":
 
     print(histMap)
     
-    df = df.Define("weight_nVtx", ROOT.PV_WeightsComputer(h_vectors, False), ["ID", "nVtx"])
+    df = df.Define("weight_nVtx", ROOT.PV_WeightsComputer(histMap, False), ["ID", "nVtx"])
     
     """
     weight = df.Histo1D(("Muon1_SF", "Muon1_SF", 100, 0, 1.2), "Muon1_SF");
