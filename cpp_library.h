@@ -113,19 +113,19 @@ struct SF_WeightsComputer{
 };
 struct PV_WeightsComputer{
     std::vector<TString> name;
-    std::vector<TH1F*> hiso;
+    std::vector<TH1F*> histo;
     bool flag;
-    //PV_WeightsComputer(std::vector<TString>& s, std::vector<TH1F*>& histograms, bool f): name(s), hiso(histograms), flag(f) {}
-    PV_WeightsComputer(std::vector<TH1F*>& histograms, bool f): hiso(histograms), flag(f) {}
+    //PV_WeightsComputer(std::vector<TString>& s, std::vector<TH1F*>& histograms, bool f): name(s), histo(histograms), flag(f) {}
+    PV_WeightsComputer(std::vector<TH1F*>& histograms, bool f): histo(histograms), flag(f) {}
     /*
     float operator()(const TString& ID, const double nVtx) {
         auto it = std::find(name.begin(), name.end(), ID);
         if (it != name.end()) {
             int indx = std::distance(name.begin(), it);
-            int nV = hiso[indx]->GetXaxis()->FindBin(nVtx);
+            int nV = histo[indx]->GetXaxis()->FindBin(nVtx);
             std::cout<<name[indx]<<std::endl;
-            if (!flag) { return hiso[indx]->GetBinContent(nV);}
-            else { return hiso[indx]->GetBinError(nV);}
+            if (!flag) { return histo[indx]->GetBinContent(nV);}
+            else { return histo[indx]->GetBinError(nV);}
         } else {
             if (!flag) { return 1;}
             else { return 0;}
@@ -133,7 +133,7 @@ struct PV_WeightsComputer{
     }
     */
     float operator()(const TString& ID, const double nVtx) {
-        std::cout<<histograms[0]->GetEntries()std::endl;
+        std::cout<<histo[0]->GetEntries()std::endl;
         return 0;
     }
 
