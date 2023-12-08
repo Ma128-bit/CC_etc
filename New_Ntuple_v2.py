@@ -75,7 +75,7 @@ if __name__ == "__main__":
     h_vectors = std.vector(std.pair(ROOT.TString, ROOT.TH1F))()
     h_names = ["B0_preE", "B0_postE", "Bp_preE", "Bp_postE", "Ds_preE", "Ds_postE", "DsPhiPi_preE", "DsPhiPi_postE"]
     for key in h_names:
-        h_vectors.push_back(std.make_pair(key, histo_file.Get("ratio_h_" + key)));
+        h_vectors.push_back(std.make_pair(key, histo_file.Get("ratio_h_" + key)))
 
     print(h_vectors)
     
