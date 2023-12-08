@@ -79,6 +79,7 @@ if __name__ == "__main__":
         h_vectors.push_back(histo_file.Get("ratio_h_" + key))
         h_name.push_back(key)
     df = df.Define("weight_nVtx", ROOT.PV_WeightsComputer(h_name, h_vectors, False), ["ID", "nVtx"])
+    df = df.Define("weight_nVtx_err", ROOT.PV_WeightsComputer(h_name, h_vectors, True), ["ID", "nVtx"])
     
     df.Snapshot("FinalTree", "AllData.root")
     
