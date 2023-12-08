@@ -112,9 +112,12 @@ struct SF_WeightsComputer{
     }
 };
 struct PV_WeightsComputer{
-    std::map<TString, TH1F*> *histMap;
+    std::vector<TH1F*> histVector;
+    //std::map<TString, TH1F*> *histMap;
     bool flag;
-    PV_WeightsComputer(std::map<TString, TH1F*> *histograms, bool f): histMap(histograms), flag(f) {}
+    //PV_WeightsComputer(std::map<TString, TH1F*> *histograms, bool f): histMap(histograms), flag(f) {}
+    PV_WeightsComputer(const std::vector<TH1F*>& histograms, bool f): histVector(histograms), flag(f) {}
+    /*
     float operator()(const TString& ID, const double nVtx) {
         if (!flag) {
             int nV = (*histMap)[ID]->GetXaxis()->FindBin(nVtx);
@@ -123,6 +126,10 @@ struct PV_WeightsComputer{
             int nV = (*histMap)[ID]->GetXaxis()->FindBin(nVtx);
             return (*histMap)[ID]->GetBinError(nV);
         }
+    }
+    */
+    float operator()(const TString& ID, const double nVtx) {
+        std::cout<<histVector[0]->GetEntries()<<std::endl;
     }
 };
 
