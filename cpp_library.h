@@ -113,9 +113,9 @@ struct SF_WeightsComputer{
 };
 struct PV_WeightsComputer{
     //std::vector<TH1F*> histVector;
-    std::map<TString, TH1F*> *histMap;
+    std::map<TString, TH1F*> histMap;
     bool flag;
-    PV_WeightsComputer(std::map<TString, TH1F*> &histograms, bool f): histMap(histograms), flag(f) {}
+    PV_WeightsComputer(std::map<TString, TH1F*> & histograms, bool f): histMap(histograms), flag(f) {}
     //PV_WeightsComputer(const std::vector<TH1F*>& histograms, bool f): histVector(histograms), flag(f) {}
     /*
     float operator()(const TString& ID, const double nVtx) {
