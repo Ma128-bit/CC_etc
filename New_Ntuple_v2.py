@@ -56,7 +56,7 @@ def check_type():
     elif type == "control":
         return False
     else:
-        print("Choose --type between tau3mu and control")
+        print("ERROR: choose --type between tau3mu and control")
         sys.exit()
         
 
