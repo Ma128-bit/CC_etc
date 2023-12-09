@@ -1,4 +1,5 @@
 import ROOT
+ROOT.gROOT.SetBatch(True)
 import pandas as pd
 from file_locations import *
 
