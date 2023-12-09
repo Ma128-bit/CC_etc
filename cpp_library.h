@@ -29,7 +29,7 @@ double BR_Bptau = 3.33e-2, BR_B0tau = 3.35e-2;
 double N_Bp_preE = 515160.0, N_Bp_postE = 1627733.0;
 double N_Ds_preE = 2077873.0, N_Ds_postE = 7428463.0;
 double N_B0_preE = 837468.0, N_B0_postE = 2702174.0;
-double N_DsPhiPi_preE = 297926.0, N_DsPhiPi_postE = 1199059.0;
+double N_DsPhiPi_preE = 290495.0, N_DsPhiPi_postE = 1199193.0;
 
 double weight_CC_preE = 0.77, weight_CC_postE = 1.03;
 double weight_CC_preE_err = 0.09, weight_CC_postE_err = 0.05;
