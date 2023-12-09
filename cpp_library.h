@@ -114,9 +114,7 @@ struct SF_WeightsComputer{
 struct PV_WeightsComputer{
     std::vector<TString> name;
     std::vector<TH1F*> histo;
-    std::map<TString, TH1F*> map;
     bool flag;
-    //PV_WeightsComputer(std::vector<TString>& s, const std::vector<TH1F*>& histograms, const std::map<TString, TH1F*> &m, bool f): name(s), histo(histograms), map(m), flag(f) {}
     PV_WeightsComputer(std::vector<TString>& s, const std::vector<TH1F*>& histograms, bool f): name(s), histo(histograms), flag(f) {}
     float operator()(const TString& ID, const double nVtx) {
         auto it = std::find(name.begin(), name.end(), ID);
