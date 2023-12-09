@@ -63,10 +63,12 @@ def MC_y(era_name, file_name):
     c1.cd(1)  # qui il grafico con il fit
     ROOT.gPad.SetPad(0., 0.3, 1., 1.)
     xframe.Draw()
+    c1.SaveAs("MC_"+era_name+".png")
+    
 
     # Integrale
     x.setRange("signal", 1.93, 2.01)
-    sig_int = sig2CBPdf.createIntegral(x, ROOT.RooFit.NormSet(x), ROOT.RooFit.Range("signal"))    
+    sig_int = sig2CBPdf.createIntegral(x, ROOT.RooFit.NormSet(x), ROOT.RooFit.Range("signal"))
     ysig = sig_int.getVal() * nSig.getVal()
     ysig_e2 = pow(sig_int.getPropagatedError(r) * nSig.getVal(), 2) + pow(sig_int.getVal() * nSig.getError(), 2)
     ysig_e = ROOT.TMath.Sqrt(ysig_e2)
