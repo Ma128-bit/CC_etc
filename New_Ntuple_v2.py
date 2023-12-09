@@ -6,6 +6,7 @@ import pandas as pd
 import uproot
 import ROOT
 import pickle
+import argparse
 from tqdm import tqdm
 from ROOT import RDataFrame
 from ROOT import *
@@ -47,14 +48,25 @@ def load_df(isTau3mu, treename):
 
 
 if __name__ == "__main__":
-    isTau3mu = True
-    print("Starting ...")
+    parser = argparse.ArgumentParser(description="Set tau3mu or control")
+    parser.add_argument("--type", type=str, help="tau3mu or control")
+    args = parser.parse_args()
+    type = args.type
+    if type == "tau3mu":
+        isTau3mu = True
+    elif type == "control":
+        isTau3mu = False
+    else:
+        print("Choose --type between tau3mu and control")
+        return 0
+    
+    print("Starting!")
+    start_2 = time.time()
     df = load_df(isTau3mu, "FinalTree")
-    #entries = df.Count()
-    #print("total ",entries.GetValue())
     df = df.DefinePerSample("ID", "add_ID(rdfslot_, rdfsampleinfo_)")
     df = df.DefinePerSample("weight", "add_weight(rdfslot_, rdfsampleinfo_)")
-    df = df.DefinePerSample("weight_MC", "add_weight_MC(rdfslot_, rdfsampleinfo_)")
+    if isTau3mu==True:
+        df = df.DefinePerSample("weight_MC", "add_weight_MC(rdfslot_, rdfsampleinfo_)")
     df = df.DefinePerSample("weight_CC", "add_weight_CC(rdfslot_, rdfsampleinfo_)")
     df = df.DefinePerSample("weight_CC_err", "add_weight_CC_err(rdfslot_, rdfsampleinfo_)")
 
@@ -67,7 +79,7 @@ if __name__ == "__main__":
     df = df.Define("Muon2_SF", ROOT.SF_WeightsComputer(SF_pre, SF_post, False), ["ID", "Ptmu2", "Etamu2"])
     df = df.Define("Muon1_SF_err", ROOT.SF_WeightsComputer(SF_pre, SF_post, True), ["ID", "Ptmu1", "Etamu1"])
     df = df.Define("Muon2_SF_err", ROOT.SF_WeightsComputer(SF_pre, SF_post, True), ["ID", "Ptmu2", "Etamu2"])
-    if(isTau3mu==True):
+    if isTau3mu==True:
         df = df.Define("Muon3_SF", ROOT.SF_WeightsComputer(SF_pre, SF_post, False), ["ID", "Ptmu3", "Etamu3"])
         df = df.Define("Muon3_SF_err", ROOT.SF_WeightsComputer(SF_pre, SF_post, True), ["ID", "Ptmu3", "Etamu3"])
 
@@ -82,13 +94,17 @@ if __name__ == "__main__":
     df = df.Define("weight_nVtx", ROOT.PV_WeightsComputer(h_name, h_vectors, False), ["ID", "nVtx"])
     df = df.Define("weight_nVtx_err", ROOT.PV_WeightsComputer(h_name, h_vectors, True), ["ID", "nVtx"])
 
-    df = df.Define("training_weight", "weight * weight_MC * weight_CC * Muon3_SF * weight_nVtx")
-    
-    df.Snapshot("FinalTree", "AllData.root")
+    if isTau3mu = True:
+        df = df.Define("training_weight", "weight * weight_MC * weight_CC * Muon3_SF * weight_nVtx")
+        df.Snapshot("FinalTree", "AllData.root")
+    else:
+        df = df.Define("control_weight", "weight * weight_nVtx")
+        df.Snapshot("FinalTree", "AllControl.root")
     
     print("Performed ",df.GetNRuns()," loops")
     end = time.time()
-    print('Execution time ', end-start)
+    print('Partial execution time ', end-start_2)
+    print('Total execution time ', end-start)
 
 
 
