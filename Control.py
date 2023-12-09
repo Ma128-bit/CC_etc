@@ -212,14 +212,13 @@ def fit(tree, year, lumi, era):
         lable_era = "Data\ " + era
         start_lax = 0.62
     elif (era == "Post_EE") or (era == "Pre_EE"):
-        lable_era = "Data\ " + era.split('_')[0]
-        lable_era = lable_era + "\text{_EE}"
-        start_lax = 0.55
+        lable_era = "Data\ " + era.split('_')[0] +  era.split('_')[1]
+        start_lax = 0.5
     else: #C, D, etc
         lable_era = "Data\ Era\ " + era
         start_lax = 0.62
         
-    text = ROOT.TLatex(start_lax, 0.91, lable_era + "\ \  \mathscr{L} = " + lumi + "fb^{-1}")
+    text = ROOT.TLatex(start_lax, 0.91, lable_era + "\ \ \  \mathscr{L} = " + lumi + "fb^{-1}")
     text.SetNDC(ROOT.kTRUE)
     text.SetTextSize(0.032)
     text.SetTextFont(42)
