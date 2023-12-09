@@ -1,5 +1,5 @@
 import ROOT
-form file_locations import *
+from file_locations import *
 
 def MC_y(era_name, file_name):
     tmc = ROOT.TChain("FinalTree")
