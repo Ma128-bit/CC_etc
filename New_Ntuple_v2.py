@@ -57,8 +57,8 @@ def check_type():
         return False
     else:
         print("Choose --type between tau3mu and control")
-        return -1
         sys.exit()
+        
 
 
 if __name__ == "__main__":
