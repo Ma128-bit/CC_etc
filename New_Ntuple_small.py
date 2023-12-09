@@ -75,13 +75,16 @@ if __name__ == "__main__":
     df = df.DefinePerSample("weight_CC_err", "add_weight_CC_err(rdfslot_, rdfsampleinfo_)")
 
     # No muon scale factors and pile-up reweighing!
-    
+
+    if not os.path.exists("ROOTFiles"):
+        subprocess.run(["mkdir", "ROOTFiles"])
+
     if isTau3mu==True:
         df = df.Define("training_weight", "weight * weight_MC * weight_CC")
-        df.Snapshot("FinalTree", "AllData.root")
+        df.Snapshot("FinalTree", "ROOTFiles/AllData.root")
     else:
         df = df.Define("control_weight", "weight")
-        df.Snapshot("FinalTree", "AllControl.root")
+        df.Snapshot("FinalTree", "ROOTFiles/AllControl.root")
     
     print("Performed ",df.GetNRuns()," loops")
     end = time.time()
