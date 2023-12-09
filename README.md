@@ -27,3 +27,12 @@ scram b -j20
   * Run as: `python3 Control.py`
   * Out: Control_Plots directory and Mass_Fits
   * Description: It is used to create Control plots and invariant mass fits
+
+* `PV_mkIsto.py`
+  * Run as: `python3 PV_mkIsto.py`
+  * Out: PV_Histo directory with nVTx histograms for data and MC and their ratio
+ 
+* `New_Ntuple.py` or `New_Ntuple_small.py`
+  * Run as: `python3 New_Ntuple.py --type X`
+    * with X = tau3mu or control
+  * Out: ROOTFiles directory with merged analysis files and weights used as input to XGBoost 
