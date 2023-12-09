@@ -83,9 +83,9 @@ if __name__ == "__main__":
     
     df.Snapshot("FinalTree", "AllData.root")
     
-    print("performed ",df.GetNRuns()," loops")
+    print("Performed ",df.GetNRuns()," loops")
     end = time.time()
-    print('execution time ', end-start)
+    print('Execution time ', end-start)
 
 
 
