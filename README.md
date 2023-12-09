@@ -20,8 +20,7 @@ scram b -j20
 
 * `Control.py`
   * Run as: `python3 Control.py`
-  * Out: Control_Plots directory and Mass_Fits
-  * Description: It is used to create Control plots and invariant mass fits
+  * Out: Control_Plots and Mass_Fits directories with Control plots and invariant mass fits
 
 * `PV_mkIsto.py`
   * Run as: `python3 PV_mkIsto.py`
