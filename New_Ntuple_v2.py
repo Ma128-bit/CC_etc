@@ -74,17 +74,15 @@ if __name__ == "__main__":
     histo_file = TFile.Open(PV_SFs)
     h_vectors = ROOT.std.vector(ROOT.TH1F)()
     h_name = ROOT.std.vector(ROOT.TString)()
-    h_map = ROOT.std.map(ROOT.TString, ROOT.TH1F)()
     h_names = ["B0_preE", "B0_postE", "Bp_preE", "Bp_postE", "Ds_preE", "Ds_postE", "DsPhiPi_preE", "DsPhiPi_postE"]
-    j = 0
     for key in h_names:
         h_vectors.push_back(histo_file.Get("ratio_h_" + key))
         h_name.push_back(key)
-        h_map[h_name[j]]=histo_file.Get("ratio_h_" + key)
-        j=j+1
     
     df = df.Define("weight_nVtx", ROOT.PV_WeightsComputer(h_name, h_vectors, False), ["ID", "nVtx"])
-    #df = df.Define("weight_nVtx_err", ROOT.PV_WeightsComputer(h_name, h_vectors, True), ["ID", "nVtx"])
+    df = df.Define("weight_nVtx_err", ROOT.PV_WeightsComputer(h_name, h_vectors, True), ["ID", "nVtx"])
+
+    df = df.Define("training_weight", "weight * weight_MC * weight_CC * Muon3_SF * weight_nVtx")
     
     df.Snapshot("FinalTree", "AllData.root")
     
