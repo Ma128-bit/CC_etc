@@ -3,12 +3,12 @@ ROOT.gROOT.SetBatch(True)
 import pandas as pd
 from file_locations import *
 
-def MC_y(era_name, file_name):
+def MC_y(era_name):
     tmc = ROOT.TChain("FinalTree")
-    tmc.Add(file_name)
+    tmc.Add("ROOTFiles/AllControl.root")
     
     h_MC = ROOT.TH1F("h_MC", "h_MC", 42, 1.65, 2.05)
-    tmc.Draw("tripletMass>>h_MC", "", "N")
+    tmc.Draw("control_weight*tripletMass>>h_MC", "ID=="era_name, "N")
     
     xMin = h_MC.GetXaxis().GetXmin()
     xMax = h_MC.GetXaxis().GetXmax()
@@ -82,10 +82,10 @@ def MC_y(era_name, file_name):
 if __name__ == "__main__":
     df = pd.DataFrame(columns=['MC', 'Yield', 'Error'])
     
-    new_line = MC_y("Pre_EE", MC2022_DsPhiPi_pre)
+    new_line = MC_y("DsPhiPi_preE")
     df = pd.concat([df, new_line], ignore_index=True)
     
-    new_line = MC_y("Post_EE", MC2022_DsPhiPi_post)
+    new_line = MC_y("DsPhiPi_postE")
     df = pd.concat([df, new_line], ignore_index=True)
     
     df.to_csv('Mass_Fits/Yield_MC.csv', index=False)
