@@ -74,35 +74,13 @@ if __name__ == "__main__":
     df = df.DefinePerSample("weight_CC", "add_weight_CC(rdfslot_, rdfsampleinfo_)")
     df = df.DefinePerSample("weight_CC_err", "add_weight_CC_err(rdfslot_, rdfsampleinfo_)")
 
-    SF_f1 = TFile.Open(single_mu_SF_preE)
-    SF_f2 = TFile.Open(single_mu_SF_postE)
-    SF_pre = SF_f1.Get("NUM_GlobalMuons_PF_DEN_genTracks_abseta_pt")
-    SF_post = SF_f2.Get("NUM_GlobalMuons_PF_DEN_genTracks_abseta_pt")
-
-    df = df.Define("Muon1_SF", ROOT.SF_WeightsComputer(SF_pre, SF_post, False), ["ID", "Ptmu1", "Etamu1"])
-    df = df.Define("Muon2_SF", ROOT.SF_WeightsComputer(SF_pre, SF_post, False), ["ID", "Ptmu2", "Etamu2"])
-    df = df.Define("Muon1_SF_err", ROOT.SF_WeightsComputer(SF_pre, SF_post, True), ["ID", "Ptmu1", "Etamu1"])
-    df = df.Define("Muon2_SF_err", ROOT.SF_WeightsComputer(SF_pre, SF_post, True), ["ID", "Ptmu2", "Etamu2"])
-    if isTau3mu==True:
-        df = df.Define("Muon3_SF", ROOT.SF_WeightsComputer(SF_pre, SF_post, False), ["ID", "Ptmu3", "Etamu3"])
-        df = df.Define("Muon3_SF_err", ROOT.SF_WeightsComputer(SF_pre, SF_post, True), ["ID", "Ptmu3", "Etamu3"])
-
-    histo_file = TFile.Open(PV_SFs)
-    h_vectors = ROOT.std.vector(ROOT.TH1F)()
-    h_name = ROOT.std.vector(ROOT.TString)()
-    h_names = ["B0_preE", "B0_postE", "Bp_preE", "Bp_postE", "Ds_preE", "Ds_postE", "DsPhiPi_preE", "DsPhiPi_postE"]
-    for key in h_names:
-        h_vectors.push_back(histo_file.Get("ratio_h_" + key))
-        h_name.push_back(key)
+    # No muon scale factors and pile-up reweighing!
     
-    df = df.Define("weight_nVtx", ROOT.PV_WeightsComputer(h_name, h_vectors, False), ["ID", "nVtx"])
-    df = df.Define("weight_nVtx_err", ROOT.PV_WeightsComputer(h_name, h_vectors, True), ["ID", "nVtx"])
-
     if isTau3mu==True:
-        df = df.Define("training_weight", "weight * weight_MC * weight_CC * Muon3_SF * weight_nVtx")
+        df = df.Define("training_weight", "weight * weight_MC * weight_CC")
         df.Snapshot("FinalTree", "AllData.root")
     else:
-        df = df.Define("control_weight", "weight * weight_nVtx")
+        df = df.Define("control_weight", "weight")
         df.Snapshot("FinalTree", "AllControl.root")
     
     print("Performed ",df.GetNRuns()," loops")
