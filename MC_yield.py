@@ -8,7 +8,7 @@ def MC_y(era_name):
     tmc.Add("ROOTFiles/AllControl.root")
     
     h_MC = ROOT.TH1F("h_MC", "h_MC", 42, 1.65, 2.05)
-    tmc.Draw("tripletMass>>h_MC", "control_weight*(ID==\""+era_name+"\")", "N")
+    tmc.Draw("tripletMass>>h_MC", "weight*(ID==\""+era_name+"\")", "N")
     
     xMin = h_MC.GetXaxis().GetXmin()
     xMax = h_MC.GetXaxis().GetXmax()
