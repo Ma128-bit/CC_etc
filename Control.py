@@ -215,8 +215,8 @@ def fit(tree, year, lumi, era):
         lable_era = "Data\ " + era.split('_')[0] +  era.split('_')[1]
         start_lax = 0.56
     else: #C, D, etc
-        lable_era = "Data\ Era\ " + era
-        start_lax = 0.6
+        lable_era = "Data\ era\ " + era
+        start_lax = 0.59
         
     text = ROOT.TLatex(start_lax, 0.91, lable_era + "\ \ \ \mathscr{L} = " + lumi + "fb^{-1}")
     text.SetNDC(ROOT.kTRUE)
