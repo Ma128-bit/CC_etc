@@ -19,7 +19,7 @@ double xsection_Ds_preE = 9.827e+9, xsection_Ds_postE = 9.815e+9;
 double xsection_B0_preE = 3.520e+9, xsection_B0_postE = 3.525e+9;
 double xsection_DsPhiPi_preE = 1.106e+10, xsection_DsPhiPi_postE = 1.103e+10;
 
-double lumi_tau3mu_preE = 8.052, lumi_tau3mu_postE = 26.758;
+double lumi_tau3mu_preE = 7.848, lumi_tau3mu_postE = 26.332;
 double lumi_control_preE = 0.399, lumi_control_postE = 1.317;
 
 double BR_tau3mu = 1.0e-7, BR_control = 1.29e-5;
