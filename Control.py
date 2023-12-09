@@ -208,14 +208,14 @@ def fit(tree, year, lumi, era):
     xframe.Draw()
     
     lable_era = ""
-    if era != year:
-        lable_era = "Data\ Era\ " + era
+    if era == year:  
+        lable_era = "Data\ " + era
         start_lax = 0.62
-    elif era == "Post_EE" or era == "Pre_EE":
+    elif (era == "Post_EE") or (era == "Pre_EE"):
         lable_era = "Data\ " + era.split('_')[0] +"\_EE"
         start_lax = 0.52
-    else:
-        lable_era = "Data\ " + era
+    else: #C, D, etc
+        lable_era = "Data\ Era\ " + era
         start_lax = 0.62
         
     text = ROOT.TLatex(start_lax, 0.91, lable_era + "\ \  \mathscr{L} = " + lumi + "fb^{-1}")
