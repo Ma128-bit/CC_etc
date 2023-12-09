@@ -12,6 +12,8 @@ invmass_SB = "(tripletMass<1.8 && tripletMass>1.65)"
 invmass_peak = "(tripletMass<2.01 && tripletMass>1.93)"
 binning_mass = "(65, 1.60, 2.02)"
 
+n_evtMC = [290495.0, 1199193.0] #Initial enevnts in MC DsPhiPi 
+
 year = "2022"
 weight_in_plots = False
 Era2022 = {
@@ -332,12 +334,10 @@ def control_plots(scale=False):
         ch_data.Add(data)
 
     treeMC = []
-    n_evtMC = []
     j = 0
     for MC, data in MC2022.items():
         treeMC.append(TChain("FinalTree"))
         treeMC[j].Add(data)
-        n_evtMC.append(treeMC[j].GetEntries())
         j=j+1
     
     print("n_evtMC: ", n_evtMC)
