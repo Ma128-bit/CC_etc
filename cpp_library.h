@@ -23,7 +23,7 @@ double lumi_tau3mu_preE = 7.848, lumi_tau3mu_postE = 26.332;
 double lumi_control_preE = 0.399, lumi_control_postE = 1.317;
 
 double BR_tau3mu = 1.0e-7, BR_control = 1.29e-5;
-double BR_Dstau = 5.48e-2, BR_DsPhiPi = 1.3e-5;
+double BR_Dstau = 5.48e-2, BR_DsPhiPi = 4.5e-2;
 double BR_Bptau = 3.33e-2, BR_B0tau = 3.35e-2;
 
 double N_Bp_preE = 510862.0, N_Bp_postE = 1623692.0;
