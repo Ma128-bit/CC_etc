@@ -13,7 +13,7 @@ invmass_SB = "(tripletMass<1.8 && tripletMass>1.65)"
 invmass_peak = "(tripletMass<2.01 && tripletMass>1.93)"
 binning_mass = "(65, 1.60, 2.02)"
 
-n_evtMC = [290495.0, 1199193.0] #Initial enevnts in MC DsPhiPi 
+n_evtMC = [290495.0, 1199193.0] #Initial events in MC DsPhiPi 
 
 year = "2022"
 weight_in_plots = False
@@ -209,11 +209,12 @@ def fit(tree, year, lumi, era):
     
     lable_era = ""
     if era != year:
-        lable_era = "Data Era " + era
+        lable_era = "Data\ Era\ " + era
     else:
         lable_era = "Data\ " + era
-    if era == "Post\_EE" or era == "Pre\_EE":
-        lable_era = "Data\ " + era
+    if era == "Post_EE" or era == "Pre_EE":
+        lable_era = "Data\ " + era.split('_')[0] +"\_EE"
+    
     text = ROOT.TLatex(0.62, 0.91, lable_era + "\ \ \ \   \mathscr{L} = " + lumi + "fb^{-1}")
     text.SetNDC(ROOT.kTRUE)
     text.SetTextSize(0.032)
