@@ -22,9 +22,9 @@ double xsection_DsPhiPi_preE = 1.106e+10, xsection_DsPhiPi_postE = 1.103e+10;
 double lumi_tau3mu_preE = 7.848, lumi_tau3mu_postE = 26.332;
 double lumi_control_preE = 0.399, lumi_control_postE = 1.317;
 
-double BR_tau3mu = 1.0e-7, BR_control = 1.29e-5;
-double BR_Dstau = 5.48e-2, BR_DsPhiPi = 4.5e-2;
-double BR_Bptau = 3.33e-2, BR_B0tau = 3.35e-2;
+double BR_DsPhiPi = 4.5e-2, BR_Phi2mu = 2.85e-4;
+double BR_Dstau = 5.48e-2, BR_Bptau = 3.33e-2, BR_B0tau = 3.35e-2;
+double BR_tau3mu = 1.0e-7;
 
 double N_Bp_preE = 510862.0, N_Bp_postE = 1623692.0;
 double N_Ds_preE = 2053049.0, N_Ds_postE = 7121988.0;
@@ -64,8 +64,8 @@ double add_weight(unsigned int slot, const ROOT::RDF::RSampleInfo &id){
     if(id.Contains("MC_B0_postE.root")) return (xsection_B0_postE*lumi_tau3mu_postE*BR_tau3mu*BR_B0tau/N_B0_postE);
     if(id.Contains("MC_Bp_preE.root")) return (xsection_Bp_preE*lumi_tau3mu_preE*BR_tau3mu*BR_Bptau/N_Bp_preE);
     if(id.Contains("MC_Bp_postE.root")) return (xsection_Bp_postE*lumi_tau3mu_postE*BR_tau3mu*BR_Bptau/N_Bp_postE);
-    if(id.Contains("MC_DsPhiPi_preE.root")) return (xsection_DsPhiPi_preE*lumi_control_preE*BR_control*BR_DsPhiPi/N_DsPhiPi_preE);
-    if(id.Contains("MC_DsPhiPi_postE.root")) return (xsection_DsPhiPi_postE*lumi_control_postE*BR_control*BR_DsPhiPi/N_DsPhiPi_postE);
+    if(id.Contains("MC_DsPhiPi_preE.root")) return (xsection_DsPhiPi_preE*lumi_control_preE*BR_Phi2mu*BR_DsPhiPi/N_DsPhiPi_preE);
+    if(id.Contains("MC_DsPhiPi_postE.root")) return (xsection_DsPhiPi_postE*lumi_control_postE*BR_Phi2mu*BR_DsPhiPi/N_DsPhiPi_postE);
     if(id.Contains("Era_")) return 1;
     else return -1;
 }
