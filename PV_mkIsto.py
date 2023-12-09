@@ -124,14 +124,16 @@ if __name__=='__main__':
     f.Close()
     f2 = TFile("PV_Histo/histogram_nVTx_MC.root", "RECREATE")
     f2.Close()
+    print("Start with the MCs ...")
     fit_era('MC','Ds_preE')
     fit_era('MC','Ds_postE')
     fit_era('MC','Bp_preE')
     fit_era('MC','Bp_postE')
     fit_era('MC','B0_preE')
     fit_era('MC','B0_postE')
-    fit_era('MC','DsPhiPi_preE')
-    fit_era('MC','DsPhiPi_postE')
+    fit_era('MC_CC','DsPhiPi_preE')
+    fit_era('MC_CC','DsPhiPi_postE')
+    print("Done MCs!\nNow run on data in parallel, it will take a bit 'of time ...")
     """
     with Pool() as p:
         p.starmap(fit_era, [('data','C'), ('data','D'), ('data','E'), ('data','F1'), ('data','F2'), ('data','G'), ('data_control','C'), ('data_control','D'), ('data_control','E'), ('data_control','F1'), ('data_control','F2'), ('data_control','G')])
