@@ -20,16 +20,16 @@ def MC_y(era_name, file_name):
     data = ROOT.RooDataHist("data", h_MC.GetTitle(), ROOT.RooArgSet(x), ROOT.RooFit.Import(h_MC, False))
     
     mGCB = ROOT.RooRealVar("mean", "meanCB", 1.97, 1.95, 2.0)
-    sigma1CB = ROOT.RooRealVar("#sigma_{CB}", "sigma1CB", 0.02, 0.001, 0.1)
+    sigma1CB = ROOT.RooRealVar("#sigma_{CB}", "sigma1CB", 0.02, 0.01, 0.1)
     sig2CBPdf = ROOT.RooGaussian("sig2CBPdf", "sig2CBPdf", x, mGCB, sigma1CB)
     
-    nSig = ROOT.RooRealVar("nSig", "Number of signal candidates", 1., 1e+6)
+    nSig = ROOT.RooRealVar("nSig", "Number of signal candidates", h_MC.GetEntries(), 1., 1e+6)
     
     # Fondo:
     d1 = ROOT.RooRealVar("d_{1}", "d1", -0.1, -10, 10)
     d2 = ROOT.RooRealVar("d_{2}", "d2", -0.1, -10, 10)
     bkgPDF = ROOT.RooChebychev("bkgPDF", "bkgPDF", x, ROOT.RooArgSet(d1, d2))
-    nBkg = ROOT.RooRealVar("nBkg", "Bkg component", 1., 1e+6)
+    nBkg = ROOT.RooRealVar("nBkg", "Bkg component", 1., 1., 1e+6)
     
     totalPDF = ROOT.RooAddPdf("totalPDF", "totalPDF", ROOT.RooArgList(sig2CBPdf, bkgPDF), ROOT.RooArgList(nSig, nBkg))
     
