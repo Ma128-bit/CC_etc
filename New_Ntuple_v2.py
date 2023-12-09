@@ -46,19 +46,23 @@ def load_df(isTau3mu, treename):
     frame = RDataFrame(treename, files, br)
     return frame
 
-
-if __name__ == "__main__":
+def check_type():
     parser = argparse.ArgumentParser(description="Set tau3mu or control")
     parser.add_argument("--type", type=str, help="tau3mu or control")
     args = parser.parse_args()
     type = args.type
     if type == "tau3mu":
-        isTau3mu = True
+        return True
     elif type == "control":
-        isTau3mu = False
+        return False
     else:
         print("Choose --type between tau3mu and control")
-        return 0
+        return -1
+        sys.exit()
+
+
+if __name__ == "__main__":
+    isTau3mu = check_type()
     
     print("Starting!")
     start_2 = time.time()
