@@ -26,9 +26,9 @@ double BR_tau3mu = 1.0e-7, BR_control = 1.29e-5;
 double BR_Dstau = 5.48e-2, BR_DsPhiPi = 1.3e-5;
 double BR_Bptau = 3.33e-2, BR_B0tau = 3.35e-2;
 
-double N_Bp_preE = 515160.0, N_Bp_postE = 1627733.0;
-double N_Ds_preE = 2077873.0, N_Ds_postE = 7428463.0;
-double N_B0_preE = 837468.0, N_B0_postE = 2702174.0;
+double N_Bp_preE = 510862.0, N_Bp_postE = 1623692.0;
+double N_Ds_preE = 2053049.0, N_Ds_postE = 7121988.0;
+double N_B0_preE = 808162.0, N_B0_postE = 2687450.0;
 double N_DsPhiPi_preE = 290495.0, N_DsPhiPi_postE = 1199193.0;
 
 double weight_CC_preE = 0.77, weight_CC_postE = 1.03;
