@@ -2,6 +2,7 @@ import os
 import ROOT
 ROOT.gROOT.SetBatch(True)
 import subprocess
+import argparse
 import pandas as pd
 from ROOT import *
 from file_locations import *
@@ -548,6 +549,11 @@ def control_plots(scale=False):
             hMC_sgn2.Delete();
 
 if __name__ == "__main__": 
+    parser = argparse.ArgumentParser(description="--plots for control plots")
+    parser.add_argument("--plots", action="store_true", help="plots")
+    args = parser.parse_args()
+    do_plots = args.plots
     Fit_inv_mass()
-    control_plots(weight_in_plots)
+    if do_plots:
+        control_plots(weight_in_plots)
     
