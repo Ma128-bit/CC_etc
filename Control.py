@@ -69,7 +69,7 @@ connection_values = [0. , 0.]
 def histo_from_df(df, year):
     gStyle.SetOptFit(0)
     gStyle.SetOptStat(0)
-    histo = ROOT.TH1F("histo", year+ " Ds#rightarrow#phi(#mu#mu)#pi yeald per Era" , 7, 0, 7)
+    histo = ROOT.TH1F("histo", year+ " Ds#rightarrow#phi(#mu#mu)#pi yield per Era" , 7, 0, 7)
     lumi = {}
     if year == "2022":
         lumi = lumi2022
@@ -79,9 +79,9 @@ def histo_from_df(df, year):
     index = 1
     max = 0
     for i in range(N_eras):
-        histo.SetBinContent(i, df['Yeald'][i]/float(lumi[df['Era'][i]]))
+        histo.SetBinContent(i, df['Yield'][i]/float(lumi[df['Era'][i]]))
         histo.SetBinError(i, df['Error'][i]/float(lumi[df['Era'][i]]))
-        sum = (df['Yeald'][i]/float(lumi[df['Era'][i]]) + df['Error'][i]/float(lumi[df['Era'][i]]))
+        sum = (df['Yield'][i]/float(lumi[df['Era'][i]]) + df['Error'][i]/float(lumi[df['Era'][i]]))
         if sum > max:
             max = sum
         histo.GetXaxis().ChangeLabel(index,-1,-1,-1,-1,-1," ")
@@ -90,7 +90,7 @@ def histo_from_df(df, year):
         index = index +1
     histo.GetXaxis().ChangeLabel(index,-1,-1,-1,-1,-1," ")
     histo.GetXaxis().SetTitle(year+" Era")
-    histo.GetYaxis().SetTitle("Entries/fb^{-1}")
+    histo.GetYaxis().SetTitle("Yield/fb^{-1}")
     #histo.SetMarkerStyle(20)
     #histo.SetMarkerColor(14)
     #histo.SetMarkerSize(1.2)
@@ -247,7 +247,7 @@ def fit(tree, year, lumi, era):
     
     # Save in pd dataframe
     new_line = pd.DataFrame({'Era': [era], 
-                             'Yeald': [nsigevents], 
+                             'Yield': [nsigevents], 
                              'Error': [nsig_err]})
     
     chi2 = totalPDF.createChi2(data).getVal()
@@ -273,7 +273,7 @@ def fit(tree, year, lumi, era):
 def Fit_inv_mass():
     if not os.path.exists("Mass_Fits"):
         subprocess.run(["mkdir", "Mass_Fits"])
-    df = pd.DataFrame(columns=['Era', 'Yeald', 'Error'])
+    df = pd.DataFrame(columns=['Era', 'Yield', 'Error'])
     ch_data = TChain("FinalTree")
     
     if year == "2022":
@@ -307,7 +307,7 @@ def Fit_inv_mass():
         df = pd.concat([df, new_line], ignore_index=True)
         del ch_data_post
     
-    df.to_csv('Mass_Fits/Yeald.csv', index=False)
+    df.to_csv('Mass_Fits/Yield.csv', index=False)
     del ch_data
 
 def control_plots(scale=False):
