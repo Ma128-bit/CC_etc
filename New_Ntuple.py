@@ -103,7 +103,7 @@ if __name__ == "__main__":
         
     if isTau3mu==True:
         df = df.Define("training_weight", "weight_MC * weight_CC * Muon3_SF * weight_nVtx")
-        df = df.Define("combine_weight", "weight * weight_MC * weight_CC * Muon3_SF * weight_nVtx")
+        df = df.Define("combine_weight", "weight * weight_CC * Muon3_SF * weight_nVtx")
         df.Snapshot("FinalTree", "ROOTFiles/AllData.root", branches+branches_tau3mu)
     else:
         df = df.Define("control_weight", "weight * weight_nVtx")
