@@ -42,7 +42,7 @@ double add_weight_CC(unsigned int slot, const ROOT::RDF::RSampleInfo &id){
 double add_weight_CC_err(unsigned int slot, const ROOT::RDF::RSampleInfo &id){
     if(id.Contains("_preE") && !(id.Contains("DsPhiPi"))) return weight_CC_preE_err;
     if(id.Contains("_postE") && !(id.Contains("DsPhiPi"))) return weight_CC_postE_err;
-    else return 1;
+    else return 0;
 }
 TString add_ID(unsigned int slot, const ROOT::RDF::RSampleInfo &id){
     //std::cout<<"id: "<<id.AsString()<<std::endl;
