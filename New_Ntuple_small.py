@@ -83,11 +83,11 @@ if __name__ == "__main__":
         b_weights = ["weight", "weight_MC", "weight_CC", "training_weight", "combine_weight"]
         df = df.Define("training_weight", "weight_MC * weight_CC")
         df = df.Define("combine_weight", "weight * weight_CC")
-        df.Snapshot("FinalTree", "ROOTFiles/AllData.root", branches+branches_tau3mu)
+        df.Snapshot("FinalTree", "ROOTFiles/AllData.root", branches+branches_tau3mu+b_weights)
     else:
         b_weights = ["weight", "weight_MC", "control_weight"]
         df = df.Define("control_weight", "weight")
-        df.Snapshot("FinalTree", "ROOTFiles/AllControl.root",branches)
+        df.Snapshot("FinalTree", "ROOTFiles/AllControl.root",branches+b_weights)
     
     print("Performed ",df.GetNRuns()," loops")
     end = time.time()
