@@ -14,10 +14,10 @@
 #include <TString.h>
 #include <TH2F.h>
 
-double xsection_Bp_preE = 3.508e+9, xsection_Bp_postE = 3.538e+9;
-double xsection_Ds_preE = 9.827e+9, xsection_Ds_postE = 9.815e+9;
-double xsection_B0_preE = 3.520e+9, xsection_B0_postE = 3.525e+9;
-double xsection_DsPhiPi_preE = 1.106e+10, xsection_DsPhiPi_postE = 1.103e+10;
+double xsection_Bp_preE = 3.5e+9, xsection_Bp_postE = 3.538e+9;
+double xsection_Ds_preE = 9.8e+9, xsection_Ds_postE = 9.8e+9;
+double xsection_B0_preE = 3.5e+9, xsection_B0_postE = 3.5e+9;
+double xsection_DsPhiPi_preE = 1.1e+10, xsection_DsPhiPi_postE = 1.1e+10;
 
 double lumi_tau3mu_preE = 7.848, lumi_tau3mu_postE = 26.332;
 double lumi_control_preE = 0.399, lumi_control_postE = 1.317;
