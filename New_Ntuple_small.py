@@ -81,10 +81,10 @@ if __name__ == "__main__":
 
     if isTau3mu==True:
         df = df.Define("training_weight", "weight * weight_MC * weight_CC")
-        df.Snapshot("FinalTree", "ROOTFiles/AllData.root")
+        df.Snapshot("FinalTree", "ROOTFiles/AllData.root", branches+branches_tau3mu)
     else:
         df = df.Define("control_weight", "weight")
-        df.Snapshot("FinalTree", "ROOTFiles/AllControl.root")
+        df.Snapshot("FinalTree", "ROOTFiles/AllControl.root",branches)
     
     print("Performed ",df.GetNRuns()," loops")
     end = time.time()
