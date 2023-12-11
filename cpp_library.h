@@ -14,7 +14,7 @@
 #include <TString.h>
 #include <TH2F.h>
 
-double xsection_Bp_preE = 3.5e+9, xsection_Bp_postE = 3.538e+9;
+double xsection_Bp_preE = 3.5e+9, xsection_Bp_postE = 3.5e+9;
 double xsection_Ds_preE = 9.8e+9, xsection_Ds_postE = 9.8e+9;
 double xsection_B0_preE = 3.5e+9, xsection_B0_postE = 3.5e+9;
 double xsection_DsPhiPi_preE = 1.1e+10, xsection_DsPhiPi_postE = 1.1e+10;
