@@ -80,7 +80,8 @@ if __name__ == "__main__":
         subprocess.run(["mkdir", "ROOTFiles"])
 
     if isTau3mu==True:
-        df = df.Define("training_weight", "weight * weight_MC * weight_CC")
+        df = df.Define("training_weight", "weight_MC * weight_CC")
+         df = df.Define("combine_weight", "weight * weight_CC")
         df.Snapshot("FinalTree", "ROOTFiles/AllData.root", branches+branches_tau3mu)
     else:
         df = df.Define("control_weight", "weight")
