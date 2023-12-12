@@ -70,8 +70,9 @@ void fitDimu_OS() {
     TString cat[3] = {"0","1","2"};
     TString OS1_2[2] = {"1","2"};
 
-    for(int i=0; i<3;i++){
-        for(int k=0; k<2;k++){
+    for(int i=0; i<1;i++){
+        for(int k=0; k<1;k++){
+            std::cout<<i<<std::endl;
             TH1F *h_OS = new TH1F("h_OS"+OS1_2[k], "Dimu_OS Distribution", 200, 0.90, 1.10);    
             tree->Draw("dimu_OS1>>h_OS"+OS1_2[k], "isMC==0 && category=="+cat[i]);
             single_fit(cat[i], OS1_2[k] , h_OS);
