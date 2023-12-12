@@ -64,9 +64,7 @@ void fitDimu_OS() {
         file->Close();
         return;
     }
-    TH1F *h_OS1 = new TH1F("h_OS1", "Dimu_OS1 Distribution", 100, 0.96, 1.06);
-    TH1F *h_OS2 = new TH1F("h_OS2", "Dimu_OS1 Distribution", 100, 0.96, 1.06);
-
+    
     TString cat[3] = {"0","1","2"};
     TString OS1_2[2] = {"1","2"};
 
