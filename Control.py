@@ -178,9 +178,10 @@ def fit(tree, year, lumi, era):
 
     totalPDF = RooAddPdf("totalPDF", "totalPDF", RooArgList(sig_right, sig_left, exp_bkg), RooArgList(nSig_right, nSig_left, nBkg))
 
-    #r = totalPDF.fitTo(data, RooFit.Extended(ROOT.kTRUE), RooFit.Save(ROOT.kTRUE), ROOT.RooFit.Minimizer("Minuit2", "Migrad"))
-    r = totalPDF.fitTo(data, RooFit.Extended(ROOT.kTRUE), RooFit.Save(ROOT.kTRUE))
-    
+    if (era == year) or (era == "Post_EE") or (era == "Pre_EE"):  
+        r = totalPDF.fitTo(data, RooFit.Extended(ROOT.kTRUE), RooFit.Save(ROOT.kTRUE), ROOT.RooFit.Minimizer("Minuit2", "Migrad"))
+    else: #C, D, etc
+        r = totalPDF.fitTo(data, RooFit.Extended(ROOT.kTRUE), RooFit.Save(ROOT.kTRUE))    
 
     xframe = x.frame()
     xframe.SetTitle("")
