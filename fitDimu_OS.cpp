@@ -8,7 +8,7 @@
 #include <RooGaussian.h>
 #include <RooFitResult.h>
 
-using namespace RooFit
+using namespace RooFit;
 
 void single_fit(TString cat, TString lable, TH1F* histo){
     // Crea una variabile RooRealVar per dimu_OS1
