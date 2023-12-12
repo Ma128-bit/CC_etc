@@ -48,6 +48,7 @@ void single_fit(TString cat, TString lable, TH1F* histo){
     TCanvas *canvas = new TCanvas("canvas", "Fit Result");
     xframe->Draw();
     canvas->SaveAs("Fit_"+lable+"_cat_"+cat+".png");
+    std::cout<<"Fit_"+lable+"_cat_"+cat+".png  Saved!"<<std::endl;
     delete canvas;
 }
 
