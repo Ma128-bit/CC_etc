@@ -39,14 +39,14 @@ void single_fit(TString cat, TString lable, TH1F* histo){
     // Crea un frame per visualizzare il fit
     RooPlot *xframe = x.frame();
     model.paramOn(xframe, Parameters(RooArgSet(mean,sigma,lambda,nbkg,nsig)), Layout(0.6,0.9,0.9));
-    data.plotOn(frame);
-    totalPDF.plotOn(xframe, Components(RooArgSet(gauss)), LineColor(kRed), LineStyle(kDashed));
-    totalPDF.plotOn(xframe, Components(RooArgSet(exp)), LineColor(kGreen), LineStyle(kDashed) );
-    totalPDF.plotOn(xframe);
+    data.plotOn(xframe);
+    model.plotOn(xframe, Components(RooArgSet(gauss)), LineColor(kRed), LineStyle(kDashed));
+    model.plotOn(xframe, Components(RooArgSet(exp)), LineColor(kGreen), LineStyle(kDashed) );
+    model.plotOn(xframe);
 
     // Visualizza il frame
     TCanvas *canvas = new TCanvas("canvas", "Fit Result");
-    frame->Draw();
+    xframe->Draw();
     canvas->SaveAs("Fit_"+lable+"_cat_"+cat+".png");
     delete canvas;
 }
@@ -75,6 +75,8 @@ void fitDimu_OS() {
             tree->Draw("dimu_OS1>>h_OS"+OS1_2[k], "isMC==0 && category=="+cat[i]);
             single_fit(cat[i], OS1_2[k] , h_OS);
             delete h_OS;
+        }
+    }
                 
     delete file;
 }
