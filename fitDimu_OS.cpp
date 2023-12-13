@@ -110,13 +110,14 @@ void fitDimu_OS() {
         std::cerr << "Error opening file." << std::endl;
         return;
     }
+    std::cerr << "Open file." << std::endl;
     TTree *tree = dynamic_cast<TTree*>(file->Get("FinalTree"));
     if (!tree) {
         std::cerr << "Error loading the Tree." << std::endl;
         file->Close();
         return;
     }
-    
+    std::cerr << "Load the Tree." << std::endl;
     TString cat[3] = {"0","1","2"};
     TString OS1_2[2] = {"1","2"};
 
