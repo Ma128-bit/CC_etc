@@ -121,6 +121,7 @@ void fitDimu_OS() {
     TString cat[3] = {"0","1","2"};
     TString OS1_2[2] = {"1","2"};
 
+    TCanvas *c = new TCanvas("c", "c");
     for(int i=0; i<3;i++){
         for(int k=0; k<2;k++){
             TH1F *h_OS = new TH1F("h_OS"+OS1_2[k], "Dimu_OS Distribution", 100, 0.90, 1.10);
@@ -133,6 +134,6 @@ void fitDimu_OS() {
             delete h_omega;
         }
     }
-                
+    delete c;
     delete file;
 }
