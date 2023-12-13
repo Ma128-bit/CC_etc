@@ -108,7 +108,7 @@ def histo_from_df(df, year):
     #histo.SetMarkerSize(1.2)
     histo.SetLineWidth(0)
     histo.SetFillColor(18)
-    histo.GetYaxis().SetRangeUser(0, max*1.1)
+    histo.GetYaxis().SetRangeUser(0, max*1.3)
     fit_func = ROOT.TF1("fit_func", "pol0", -1, N_eras-1)
     fit_func.SetLineColor(38)
     histo.Fit(fit_func, "R")
