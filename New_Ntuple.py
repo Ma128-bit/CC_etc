@@ -96,12 +96,18 @@ if __name__ == "__main__":
         h_name.push_back(key)
     
     df = df.Define("weight_nVtx", ROOT.PV_WeightsComputer(h_name, h_vectors, False), ["ID", "nVtx"])
-    df = df.Define("weight_nVtx_err", ROOT.PV_WeightsComputer(h_name, h_vectors, True), ["ID", "nVtx"])
+    df = df.Define("weight_nVtx_err", ROOT.PV_WeightsComputer(h_name, h_vectors, True), ["ID", "nVtx"])    
 
     if not os.path.exists("ROOTFiles"):
         subprocess.run(["mkdir", "ROOTFiles"])
 
     if isTau3mu==True:
+        #Filters for omega and phi:
+        df = df.Filter("(abs(dimu_OS1-0.782)>0.033 && category==0) || (abs(dimu_OS1-0.782)>0.045 && category==1) || (abs(dimu_OS1-0.782)>0.054 && category==2)")
+        df = df.Filter("(abs(dimu_OS2-0.782)>0.033 && category==0) || (abs(dimu_OS2-0.782)>0.045 && category==1) || (abs(dimu_OS2-0.782)>0.054 && category==2)")
+        df = df.Filter("(abs(dimu_OS1-1.019)>0.033 && category==0) || (abs(dimu_OS1-1.019)>0.048 && category==1) || (abs(dimu_OS1-1.019)>0.066 && category==2)")
+        df = df.Filter("(abs(dimu_OS2-1.019)>0.033 && category==0) || (abs(dimu_OS2-1.019)>0.048 && category==1) || (abs(dimu_OS2-1.019)>0.066 && category==2)")
+        
         b_weights = ["ID", "weight", "weight_MC", "weight_CC", "weight_CC_err", "Muon3_SF","Muon2_SF","Muon1_SF","Muon3_SF_err","Muon2_SF_err","Muon1_SF_err","weight_nVtx", "weight_nVtx_err", "training_weight", "combine_weight"]
         df = df.Define("training_weight", "weight_MC * weight_CC * Muon3_SF * weight_nVtx")
         df = df.Define("combine_weight", "weight * weight_CC * Muon3_SF * weight_nVtx")
