@@ -93,6 +93,7 @@ def histo_from_df(df, year):
     for i in range(N_eras):
         histo.SetBinContent(i, df['Yield'][i]/float(lumi[df['Era'][i]]))
         histo.SetBinError(i, df['Error'][i]/float(lumi[df['Era'][i]]))
+        histo.SetBinWidth(i, 1.5 * float(lumi[df['Era'][i]]))
         sum = (df['Yield'][i]/float(lumi[df['Era'][i]]) + df['Error'][i]/float(lumi[df['Era'][i]]))
         if sum > max:
             max = sum
@@ -127,7 +128,7 @@ def histo_from_df(df, year):
     #box.SetLineStyle(2)    
     #box.SetLineWidth(3)     
     box.SetTextAlign(11)
-    box.AddText("#bf{CMS Preliminary}")
+    box.AddText("CMS Preliminary")
     box.AddText("#chi^{2}/NDOF = %.2f" % chi2_value)
     box.AddText("p_{0} = %.2f #pm %.2f" % (p0_value, p0_error))
    
