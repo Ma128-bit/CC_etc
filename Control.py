@@ -13,7 +13,7 @@ invmass_SB = "(tripletMass<1.8 && tripletMass>1.65)"
 invmass_peak = "(tripletMass<2.01 && tripletMass>1.93)"
 binning_mass = "(65, 1.60, 2.02)"
 
-n_evtMC = [290495.0, 1199193.0] #Initial events in MC DsPhiPi 
+n_evtMC22 = [290495.0, 1199193.0] #Initial events in MC DsPhiPi 
 
 year = "2022"
 weight_in_plots = False
@@ -363,8 +363,8 @@ def control_plots(scale=False):
         treeMC[j].Add(data)
         j=j+1
     
-    print("n_evtMC: ", n_evtMC)
-    N_MC = sum(n_evtMC)
+    print("n_evtMC22: ", n_evtMC22)
+    N_MC = sum(n_evtMC22)
     print("N_MC: ", N_MC)
 
     for k in range(len(var)):
