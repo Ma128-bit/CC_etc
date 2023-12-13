@@ -137,7 +137,7 @@ def histo_from_df(df, year):
     histoClone.SetLineColor(1)
     histoClone.Draw("E1 same")
     box.Draw("same")
-    c3.SaveAs("Mass_Fits/Plot_yield.png", "png -dpi 600")
+    c3.SaveAs("Mass_Fits/Plot_yield_"+year+".png", "png -dpi 600")
     del c3
 
 def fit(tree, year, lumi, era):
@@ -285,7 +285,7 @@ def fit(tree, year, lumi, era):
         connection_values[0] = fsigregion_bkg.getVal()
         connection_values[1] = nBkg.getVal()
 
-    c1.SaveAs("Mass_Fits/Fit_{}.png".format(era), "png -dpi 600")
+    c1.SaveAs("Mass_Fits/Fit_{}_{}.png".format(era, year), "png -dpi 600")
     c1.Clear()
     return new_line
 
@@ -330,7 +330,7 @@ def Fit_inv_mass(year):
         df = pd.concat([df, new_line], ignore_index=True)
         del ch_data_post
     
-    df.to_csv('Mass_Fits/Yield.csv', index=False)
+    df.to_csv("Mass_Fits/Yield_"+year+".csv", index=False)
     del ch_data
 
 def control_plots(year, scale=False):
@@ -559,7 +559,7 @@ def control_plots(year, scale=False):
 
         c2.cd()
         c2.Update()
-        c2.SaveAs("Control_Plots/" + varname + ".png")
+        c2.SaveAs("Control_Plots/" + varname + "_"+year+".png")
         del c2
         del pad2
         del pad1
