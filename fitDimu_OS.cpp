@@ -7,6 +7,7 @@
 #include <RooPlot.h>
 #include <RooGaussian.h>
 #include <RooFitResult.h>
+#include <cstdlib>
 
 using namespace RooFit;
 
@@ -120,7 +121,7 @@ void fitDimu_OS() {
     std::cerr << "Load the Tree." << std::endl;
     TString cat[3] = {"0","1","2"};
     TString OS1_2[2] = {"1","2"};
-
+    system("mkdir Fit");
     TCanvas *c = new TCanvas("c", "c");
     for(int i=0; i<3;i++){
         for(int k=0; k<2;k++){
