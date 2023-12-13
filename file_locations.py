@@ -26,6 +26,12 @@ MC2022_Ds_post = data_path + "MC_Ds_postE.root"
 MC2022_DsPhiPi_pre = data_path + "MC_DsPhiPi_preE.root"
 MC2022_DsPhiPi_post = data_path + "MC_DsPhiPi_postE.root"
 
+data_path2023 = "/lustrehome/mbuonsante/Tau_3mu/CMSSW_13_0_10/src/Analysis/JobAdd_perEra/"
+
+control_Run2023C = data_path2023 + "Era_C_control.root"
+control_Run2023D = data_path2023 + "Era_D_control.root"
+
+
 data_path2 = "/lustre/cms/store/user/mbuonsan/"
 
 tau3mu_files_MC = [
