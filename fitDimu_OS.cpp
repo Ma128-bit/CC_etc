@@ -105,7 +105,7 @@ void Omega_fit(TString cat, TString lable, TH1F* histo, int i){
 }
 
 void fitDimu_OS() {
-    TFile *file = TFile::Open("AllData.root");
+    TFile *file = TFile::Open("ROOTFiles/AllData.root");
     if (!file) {
         std::cerr << "Error opening file." << std::endl;
         return;
