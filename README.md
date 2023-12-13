@@ -19,7 +19,8 @@ scram b -j20
   * Description: It is used to obtain the selection efficiencies starting from data after Ntuplizer/Analysis
 
 * `Control.py`
-  * Run as: `python3 Control.py`
+  * Run as: `python3 Control.py --year 2022`
+  * Options: `--year` : `2022` or `2023` and `--plot` for control plots
   * Out: Control_Plots and Mass_Fits directories with Control plots and invariant mass fits
 
 * `PV_mkIsto.py`
