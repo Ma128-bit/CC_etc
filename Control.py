@@ -25,6 +25,11 @@ Era2022 = {
     "G": control_Run2022G
 }
 
+Era2023 = {
+    "C": control_Run2023C,
+    "D": control_Run2023D,
+}
+
 MC2022 = {
     "Pre_EE": MC2022_DsPhiPi_pre,
     "Post_EE": MC2022_DsPhiPi_post
@@ -39,6 +44,12 @@ lumi2022 = {
     "ToT": "1.716",
     "Pre_EE": "0.399",
     "Post_EE": "1.317"
+}
+
+lumi2023 = {
+    "C": "0.842",
+    "D": "0.462",
+    "ToT": "1.304",
 }
 
 binning_dict = {
@@ -288,6 +299,10 @@ def Fit_inv_mass():
         Lumi_values = lumi2022
         ch_data_pre = TChain("FinalTree")
         ch_data_post = TChain("FinalTree")
+
+    if year == "2023":
+        Eras = Era2023
+        Lumi_values = lumi2023
     
     for era, data in Eras.items():
         file = ROOT.TFile(data, "READ")
