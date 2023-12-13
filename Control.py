@@ -26,7 +26,7 @@ Era2022 = {
 
 Era2023 = {
     "C": control_Run2023C,
-    "D": control_Run2023D,
+    "D": control_Run2023D
 }
 
 MC2022 = {
@@ -83,6 +83,8 @@ def histo_from_df(df, year):
     lumi = {}
     if year == "2022":
         lumi = lumi2022
+    if year == "2023":
+        lumi = lumi2023
     N_eras = len(df['Era'])
     histo.GetXaxis().SetRangeUser(-1, N_eras-1)
     histo.GetXaxis().SetNdivisions(N_eras*2 +1)
