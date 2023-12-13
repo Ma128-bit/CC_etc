@@ -126,10 +126,10 @@ void fitDimu_OS() {
     for(int i=0; i<3;i++){
         for(int k=0; k<2;k++){
             TH1F *h_OS = new TH1F("h_OS"+OS1_2[k], "Dimu_OS Distribution", 100, 0.90, 1.10);
-            tree->Draw("dimu_OS"+OS1_2[k]+">>h_OS"+OS1_2[k], "isMC==0 && category=="+cat[i]);
+            tree->Draw("dimu_OS"+OS1_2[k]+">>h_OS"+OS1_2[k], "(tripletMass<1.73 || tripletMass>1.83) && isMC==0 && category=="+cat[i]);
             Phi_fit(cat[i], OS1_2[k] , h_OS);
             TH1F *h_omega = new TH1F("h_omega"+OS1_2[k], "omega mass", 30, 0.67,0.88);
-            tree->Draw("dimu_OS"+OS1_2[k]+">>h_omega"+OS1_2[k], "isMC==0 && category=="+cat[i]);
+            tree->Draw("dimu_OS"+OS1_2[k]+">>h_omega"+OS1_2[k], "(tripletMass<1.73 || tripletMass>1.83) && isMC==0 && category=="+cat[i]);
             Omega_fit(cat[i], OS1_2[k] , h_omega, i);
             delete h_OS;
             delete h_omega;
