@@ -15,7 +15,6 @@ binning_mass = "(65, 1.60, 2.02)"
 
 n_evtMC22 = [290495.0, 1199193.0] #Initial events in MC DsPhiPi 
 
-year = "2022"
 weight_in_plots = False
 Era2022 = {
     "C": control_Run2022C,
@@ -288,7 +287,7 @@ def fit(tree, year, lumi, era):
     c1.Clear()
     return new_line
 
-def Fit_inv_mass():
+def Fit_inv_mass(year):
     if not os.path.exists("Mass_Fits"):
         subprocess.run(["mkdir", "Mass_Fits"])
     df = pd.DataFrame(columns=['Era', 'Yield', 'Error'])
@@ -332,7 +331,7 @@ def Fit_inv_mass():
     df.to_csv('Mass_Fits/Yield.csv', index=False)
     del ch_data
 
-def control_plots(scale=False):
+def control_plots(year, scale=False):
     if not os.path.exists("Control_Plots"):
         subprocess.run(["mkdir", "Control_Plots"])
     if year == "2022":
@@ -573,9 +572,11 @@ def control_plots(scale=False):
 if __name__ == "__main__": 
     parser = argparse.ArgumentParser(description="--plots for control plots")
     parser.add_argument("--plots", action="store_true", help="plots")
+    parser.add_argument("--year", type=str, help="year (2022 or 2023)")
     args = parser.parse_args()
     do_plots = args.plots
-    Fit_inv_mass()
+    year = args.year
+    Fit_inv_mass(year)
     if do_plots:
-        control_plots(weight_in_plots)
+        control_plots(year, weight_in_plots)
     
