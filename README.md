@@ -20,7 +20,7 @@ scram b -j20
 
 * `Control.py`
   * Run as: `python3 Control.py --year 2022`
-  * Options: `--year` : `2022` or `2023` and `--plot` for control plots
+  * Options: `--year` : `2022` or `2023` and `--plots` for control plots
   * Out: Control_Plots and Mass_Fits directories with Control plots and invariant mass fits
 
 * `PV_mkIsto.py`
