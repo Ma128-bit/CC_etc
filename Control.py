@@ -9,7 +9,7 @@ from file_locations import *
 
 var = ["cLP", "tKink", "segmComp", "fv_nC", "d0sig", "fv_dphi3D", "fv_d3Dsig", "mindca_iso", "trkRel", "d0sig_max", "MVASoft1", "MVASoft2"]
 
-invmass_SB = "(tripletMass<1.8 && tripletMass>1.65)"
+invmass_SB = "(tripletMass<1.8 && tripletMass>1.70)"
 invmass_peak = "(tripletMass<2.01 && tripletMass>1.93)"
 binning_mass = "(65, 1.60, 2.02)"
 
@@ -161,11 +161,11 @@ def fit(tree, year, lumi, era):
     tree.Draw("tripletMass>>h_tripletmass_sign"+binning_mass, invmass_peak + "&&" + selez)
     h_tripletmass_sign = ROOT.gDirectory.Get("h_tripletmass_sign")
 
-    x = RooRealVar("x", "2mu+1trk inv. mass (GeV)", 1.65, 2.05)
+    x = RooRealVar("x", "2mu+1trk inv. mass (GeV)", 1.70, 2.05)
     x.setBins(int(binning_mass.split(',')[0][1:]))
     data = RooDataHist("data", h_tripletmass.GetTitle(), RooArgSet(x), RooFit.Import(h_tripletmass, ROOT.kFALSE))
 
-    x.setRange("R1", 1.65, 1.80)
+    x.setRange("R1", 1.70, 1.80)
     x.setRange("R2", 1.89, 1.925)
     x.setRange("R3", 1.99, 2.02)
 
@@ -247,7 +247,7 @@ def fit(tree, year, lumi, era):
     text2.Draw("same")
 
     x.setRange("signal", 1.93, 2.01)
-    x.setRange("sideband", 1.65, 1.8)
+    x.setRange("sideband", 1.70, 1.8)
 
     fsigregion_model = totalPDF.createIntegral(x, RooFit.NormSet(x), RooFit.Range("signal"))
     fs = fsigregion_model.getVal()
