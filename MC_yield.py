@@ -20,10 +20,14 @@ def MC_y(era_name):
     data = ROOT.RooDataHist("data", h_MC.GetTitle(), ROOT.RooArgSet(x), ROOT.RooFit.Import(h_MC, False))
     
     mGCB = ROOT.RooRealVar("mean", "meanCB", 1.97, 1.95, 2.0)
-    sigma1CB = ROOT.RooRealVar("#sigma_{CB}", "sigma1CB", 0.02, 0.01, 0.1)
-    sig2CBPdf = ROOT.RooGaussian("sig2CBPdf", "sig2CBPdf", x, mGCB, sigma1CB)
+    sigma1CB = ROOT.RooRealVar("#sigma_{CB}", "sigma1CB", 0.01, 0.005, 0.05)
+    sig1CBPdf = ROOT.RooGaussian("sig1CBPdf", "sig1CBPdf", x, mGCB, sigma1CB)
+
+    sigma2CB = ROOT.RooRealVar("#sigma2_{CB}", "sigma2CB", 0.03, 0.005, 0.05)
+    sig2CBPdf = ROOT.RooGaussian("sig2CBPdf", "sig2CBPdf", x, mGCB, sigma2CB)
     
     nSig = ROOT.RooRealVar("nSig", "Number of signal candidates", h_MC.GetEntries(), 1., 1e+6)
+    nSig2 = ROOT.RooRealVar("nSi2g", "Number of signal candidates2", h_MC.GetEntries(), 1., 1e+6)
     
     # Fondo:
     d1 = ROOT.RooRealVar("d_{1}", "d1", -0.1, -10, 10)
@@ -31,7 +35,7 @@ def MC_y(era_name):
     bkgPDF = ROOT.RooChebychev("bkgPDF", "bkgPDF", x, ROOT.RooArgSet(d1, d2))
     nBkg = ROOT.RooRealVar("nBkg", "Bkg component", 1., 1., 1e+6)
     
-    totalPDF = ROOT.RooAddPdf("totalPDF", "totalPDF", ROOT.RooArgList(sig2CBPdf, bkgPDF), ROOT.RooArgList(nSig, nBkg))
+    totalPDF = ROOT.RooAddPdf("totalPDF", "totalPDF", ROOT.RooArgList(sig1CBPdf, sig2CBPdf, bkgPDF), ROOT.RooArgList(nSig, nSig2, nBkg))
     #totalPDF = ROOT.RooAddPdf("totalPDF", "totalPDF", ROOT.RooArgList(sig2CBPdf), ROOT.RooArgList(nSig))
     r = totalPDF.fitTo(data, ROOT.RooFit.Extended(True), ROOT.RooFit.Save(True), ROOT.RooFit.Minimizer("Minuit2", "Migrad"))
     
@@ -68,14 +72,19 @@ def MC_y(era_name):
 
     # Integrale
     x.setRange("signal", 1.93, 2.01)
-    sig_int = sig2CBPdf.createIntegral(x, ROOT.RooFit.NormSet(x), ROOT.RooFit.Range("signal"))
+    sig_int = sig1CBPdf.createIntegral(x, ROOT.RooFit.NormSet(x), ROOT.RooFit.Range("signal"))
     ysig = sig_int.getVal() * nSig.getVal()
     ysig_e2 = pow(sig_int.getPropagatedError(r) * nSig.getVal(), 2) + pow(sig_int.getVal() * nSig.getError(), 2)
     ysig_e = ROOT.TMath.Sqrt(ysig_e2)
 
+    sig_int2 = sig2CBPdf.createIntegral(x, ROOT.RooFit.NormSet(x), ROOT.RooFit.Range("signal"))
+    ysig2 = sig_int2.getVal() * nSig2.getVal()
+    ysig_e22 = pow(sig_int2.getPropagatedError(r) * nSig2.getVal(), 2) + pow(sig_int2.getVal() * nSig2.getError(), 2)
+    ysig_e_2 = ROOT.TMath.Sqrt(ysig_e22)
+    
     new_line = pd.DataFrame({'MC': [era_name], 
-                             'Yield': [ysig], 
-                             'Error': [ysig_e]})
+                             'Yield': [ysig+ysig2], 
+                             'Error': [ysig_e+ysig_e_2]})
 
     return new_line
 
