@@ -259,10 +259,10 @@ def fit(tree, year, lumi, era):
     fb = fsigregion_bkg.getVal()
     fb_err = fsigregion_bkg.getPropagatedError(r)
 
-    //nsigevents = fs * (nSig_right.getVal() + nSig_left.getVal() + nBkg.getVal()) - fb * nBkg.getVal()
-    nsig_err = ROOT.TMath.Sqrt(fs_err**2 * (nSig_right.getVal() + nSig_left.getVal() + nBkg.getVal())**2 +
-                               (nSig_right.getPropagatedError(r)**2 + nSig_left.getPropagatedError(r)**2 + nBkg.getPropagatedError(r)**2) * fs**2 + 
-                               fb_err**2 * nBkg.getVal()**2 + nBkg.getPropagatedError(r)**2 * fb**2 )
+    #nsigevents = fs * (nSig_right.getVal() + nSig_left.getVal() + nBkg.getVal()) - fb * nBkg.getVal()
+    #nsig_err = ROOT.TMath.Sqrt(fs_err**2 * (nSig_right.getVal() + nSig_left.getVal() + nBkg.getVal())**2 +
+    #                           (nSig_right.getPropagatedError(r)**2 + nSig_left.getPropagatedError(r)**2 + nBkg.getPropagatedError(r)**2) * fs**2 + 
+    #                           fb_err**2 * nBkg.getVal()**2 + nBkg.getPropagatedError(r)**2 * fb**2 )
 
     nsigevents = fs * (nSig_right.getVal())
     nsig_err = ROOT.TMath.Sqrt(fs_err**2 * (nSig_right.getVal())**2 + fs**2 * nSig_right.getPropagatedError(r)**2)
