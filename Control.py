@@ -472,6 +472,7 @@ def control_plots(year, scale=False):
         hMC_sgn.GetYaxis().SetRangeUser(0, Y_max)
 
         hMC_sgn.GetYaxis().SetTitle("a.u.")
+        hMC_sgn.GetXaxis().SetTitle(varname)
         hMC_sgn.GetYaxis().SetTitleSize(22)
         hMC_sgn.GetYaxis().SetTitleFont(43)
         hMC_sgn.GetYaxis().SetTitleOffset(1.25)
@@ -484,9 +485,6 @@ def control_plots(year, scale=False):
         hdata_sgn.SetLineWidth(3)
         hdata_sgn.SetFillStyle(3005)
         hdata_sgn.SetFillColor(kRed)
-
-        hMC_sgn.Draw("hist")
-        hdata_sgn.Draw("hist same")
 
         hMC_sgn.SetStats(0)
         x_leg_left = 0.55
@@ -558,6 +556,10 @@ def control_plots(year, scale=False):
         line.SetLineColor(kRed)
         line.DrawLine(float(binning.split(',')[1]), 1, h_x_ratio.GetXaxis().GetXmax(), 1)
         h_x_ratio.Draw("same")
+
+        pad1.cd()
+        hMC_sgn.Draw("hist")
+        hdata_sgn.Draw("hist same")
 
         c2.cd()
         c2.Update()
