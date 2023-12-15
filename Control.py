@@ -428,7 +428,7 @@ def control_plots(year, scale=False):
                 hMC_sgn2 = TH1F(gDirectory.Get("hMC_sgn2" + s))
 
         c2 = TCanvas("c2", "c2", 150, 10, 990, 660)
-        pad1 = TPad("pad1", "pad1", 0, 0.35, 1, 1.0)
+        pad1 = TPad("pad1", "pad1", 0, 0.3, 1, 1.0)
         pad1.SetBottomMargin(0)
         pad1.SetGridx()
         pad1.Draw()
