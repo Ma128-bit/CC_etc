@@ -486,6 +486,9 @@ def control_plots(year, scale=False):
         hdata_sgn.SetFillStyle(3005)
         hdata_sgn.SetFillColor(kRed)
 
+        hMC_sgn.Draw("hist")
+        hdata_sgn.Draw("hist same")
+
         hMC_sgn.SetStats(0)
         x_leg_left = 0.55
         x_leg_right = 0.90
@@ -556,10 +559,6 @@ def control_plots(year, scale=False):
         line.SetLineColor(kRed)
         line.DrawLine(float(binning.split(',')[1]), 1, h_x_ratio.GetXaxis().GetXmax(), 1)
         h_x_ratio.Draw("same")
-
-        pad1.cd()
-        hMC_sgn.Draw("hist")
-        hdata_sgn.Draw("hist same")
 
         c2.cd()
         c2.Update()
