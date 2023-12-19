@@ -25,7 +25,10 @@ branches = [
     "fv_d3D", "fv_d3Dsig", "d0", "d0sig", "d0sig_max", "mindca_iso", "trkRel", 
     "Ptmu1", "Etamu1", "Ptmu2", "Etamu2", "Ptmu3", "Etamu3", "Pmu1", "Pmu2", 
     "P_tripl", "Pt_tripl", "Eta_tripl", "MVA1", "MVA2", "MVASoft1", "MVASoft2", 
-    "ChargeMu1", "ChargeMu2", "ChargeMu3", "nVtx"
+    "ChargeMu1", "ChargeMu2", "ChargeMu3", "nVtx", 
+    "L1_DoubleMu0_er1p5", "L1_DoubleMu0_er1p4","L1_DoubleMu4_dR1p2","L1_DoubleMu4p5_dR1p2",
+    "L1_DoubleMu0_er2p0","L1_DoubleMu0_er2p0_bk","L1_TripleMu_5SQ_3SQ_0","L1_TripleMu_5SQ_3SQ_0OQ",
+    "L1_TripleMu_3SQ_2p5SQ_0OQ_Mass_Max12","L1_TripleMu_2SQ_1p5SQ_0OQ_Mass_Max12"
 ]
 branches_tau3mu =[
     "tripletMassReso", "category", "MVA3", "MVASoft3", "dimu_OS1", "dimu_OS2"
