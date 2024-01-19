@@ -6,7 +6,7 @@ import pickle
 import argparse
 from tqdm import tqdm
 from ROOT import RDataFrame, gROOT, EnableImplicitMT, gInterpreter, TH1F, TString, std, TFile
-from ROOT import *
+#from ROOT import *
 from file_locations import *
 
 gROOT.SetBatch(True)
@@ -26,7 +26,7 @@ branches = [
     "P_tripl", "Pt_tripl", "Eta_tripl", "MVA1", "MVA2", "MVASoft1", "MVASoft2", 
     "ChargeMu1", "ChargeMu2", "ChargeMu3", "nVtx", 
     "L1_DoubleMu0_er1p5", "L1_DoubleMu0_er1p4","L1_DoubleMu4_dR1p2","L1_DoubleMu4p5_dR1p2",
-    "L1_DoubleMu0_er2p0","L1_DoubleMu0_er2p0_bk", "Pt_tripl"
+    "L1_DoubleMu0_er2p0","L1_DoubleMu0_er2p0_bk"
 ]
 branches_tau3mu =[
     "tripletMassReso", "category", "MVA3", "MVASoft3", "dimu_OS1", "dimu_OS2", 
