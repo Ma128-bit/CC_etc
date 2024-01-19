@@ -1,21 +1,20 @@
 import sys, os, subprocess, json
 import time
 start = time.time()
-import numpy as np
-import pandas as pd
-import uproot
-import ROOT
+#import ROOT
 import pickle
 import argparse
 from tqdm import tqdm
-from ROOT import RDataFrame
-from ROOT import *
+from ROOT import RDataFrame, gROOT, EnableImplicitMT, gInterpreter, TH1F, TString, std, TFile
+#from ROOT import *
 from file_locations import *
 
-ROOT.gROOT.SetBatch(True)
-ROOT.ROOT.EnableImplicitMT()
+gROOT.SetBatch(True)
+EnableImplicitMT()
 
-ROOT.gInterpreter.Declare("""
+from ROOT import SF_WeightsComputer, PV_WeightsComputer
+
+gInterpreter.Declare("""
     #include "cpp_library.h"
 """)
 
@@ -27,7 +26,7 @@ branches = [
     "P_tripl", "Pt_tripl", "Eta_tripl", "MVA1", "MVA2", "MVASoft1", "MVASoft2", 
     "ChargeMu1", "ChargeMu2", "ChargeMu3", "nVtx", 
     "L1_DoubleMu0_er1p5", "L1_DoubleMu0_er1p4","L1_DoubleMu4_dR1p2","L1_DoubleMu4p5_dR1p2",
-    "L1_DoubleMu0_er2p0","L1_DoubleMu0_er2p0_bk"
+    "L1_DoubleMu0_er2p0","L1_DoubleMu0_er2p0_bk", "Pt_tripl"
 ]
 branches_tau3mu =[
     "tripletMassReso", "category", "MVA3", "MVASoft3", "dimu_OS1", "dimu_OS2", 
@@ -83,24 +82,24 @@ if __name__ == "__main__":
     SF_pre = SF_f1.Get("NUM_GlobalMuons_PF_DEN_genTracks_abseta_pt")
     SF_post = SF_f2.Get("NUM_GlobalMuons_PF_DEN_genTracks_abseta_pt")
 
-    df = df.Define("Muon1_SF", ROOT.SF_WeightsComputer(SF_pre, SF_post, False), ["ID", "Ptmu1", "Etamu1"])
-    df = df.Define("Muon2_SF", ROOT.SF_WeightsComputer(SF_pre, SF_post, False), ["ID", "Ptmu2", "Etamu2"])
-    df = df.Define("Muon1_SF_err", ROOT.SF_WeightsComputer(SF_pre, SF_post, True), ["ID", "Ptmu1", "Etamu1"])
-    df = df.Define("Muon2_SF_err", ROOT.SF_WeightsComputer(SF_pre, SF_post, True), ["ID", "Ptmu2", "Etamu2"])
+    df = df.Define("Muon1_SF", SF_WeightsComputer(SF_pre, SF_post, False), ["ID", "Ptmu1", "Etamu1"])
+    df = df.Define("Muon2_SF", SF_WeightsComputer(SF_pre, SF_post, False), ["ID", "Ptmu2", "Etamu2"])
+    df = df.Define("Muon1_SF_err", SF_WeightsComputer(SF_pre, SF_post, True), ["ID", "Ptmu1", "Etamu1"])
+    df = df.Define("Muon2_SF_err", SF_WeightsComputer(SF_pre, SF_post, True), ["ID", "Ptmu2", "Etamu2"])
     if isTau3mu==True:
-        df = df.Define("Muon3_SF", ROOT.SF_WeightsComputer(SF_pre, SF_post, False), ["ID", "Ptmu3", "Etamu3"])
-        df = df.Define("Muon3_SF_err", ROOT.SF_WeightsComputer(SF_pre, SF_post, True), ["ID", "Ptmu3", "Etamu3"])
+        df = df.Define("Muon3_SF", SF_WeightsComputer(SF_pre, SF_post, False), ["ID", "Ptmu3", "Etamu3"])
+        df = df.Define("Muon3_SF_err", SF_WeightsComputer(SF_pre, SF_post, True), ["ID", "Ptmu3", "Etamu3"])
 
     histo_file = TFile.Open(PV_SFs)
-    h_vectors = ROOT.std.vector(ROOT.TH1F)()
-    h_name = ROOT.std.vector(ROOT.TString)()
+    h_vectors = std.vector(TH1F)()
+    h_name = std.vector(TString)()
     h_names = ["B0_preE", "B0_postE", "Bp_preE", "Bp_postE", "Ds_preE", "Ds_postE", "DsPhiPi_preE", "DsPhiPi_postE"]
     for key in h_names:
         h_vectors.push_back(histo_file.Get("ratio_h_" + key))
         h_name.push_back(key)
     
-    df = df.Define("weight_nVtx", ROOT.PV_WeightsComputer(h_name, h_vectors, False), ["ID", "nVtx"])
-    df = df.Define("weight_nVtx_err", ROOT.PV_WeightsComputer(h_name, h_vectors, True), ["ID", "nVtx"])    
+    df = df.Define("weight_nVtx", PV_WeightsComputer(h_name, h_vectors, False), ["ID", "nVtx"])
+    df = df.Define("weight_nVtx_err", PV_WeightsComputer(h_name, h_vectors, True), ["ID", "nVtx"])    
 
     if not os.path.exists("ROOTFiles"):
         subprocess.run(["mkdir", "ROOTFiles"])
