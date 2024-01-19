@@ -6,7 +6,7 @@ import pickle
 import argparse
 from tqdm import tqdm
 from ROOT import RDataFrame, gROOT, EnableImplicitMT, gInterpreter, TH1F, TString, std, TFile
-#from ROOT import *
+from ROOT import *
 from file_locations import *
 
 gROOT.SetBatch(True)
