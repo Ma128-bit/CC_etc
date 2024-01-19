@@ -12,11 +12,11 @@ from file_locations import *
 gROOT.SetBatch(True)
 EnableImplicitMT()
 
-from ROOT import SF_WeightsComputer, PV_WeightsComputer
-
 gInterpreter.Declare("""
     #include "cpp_library.h"
 """)
+
+from ROOT import SF_WeightsComputer, PV_WeightsComputer
 
 branches = [
     "isMC", "lumi", "run", "evt", "puFactor", "DeltaR_max", "DeltaZ_max", 
