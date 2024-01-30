@@ -17,6 +17,9 @@ scram b -j20
   * Default: MC - Control channel. Pass `--tau3mu` and/or `--data`
   * Out: .csv file with number of events per era and per cut
   * Description: It is used to obtain the selection efficiencies starting from data after Ntuplizer/Analysis
+* `Small_SelEffNtuple.py`
+  * Run as: `python3 Small_SelEffNtuple`
+  * Is a smaller version or SelEffNtuple.py, it runs on a subsample of data (only tau3mu)
 
 * `Control.py`
   * Run as: `python3 Control.py --year 2022`
