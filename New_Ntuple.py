@@ -28,8 +28,11 @@ branches = [
     "L1_DoubleMu0_er1p5", "L1_DoubleMu0_er1p4","L1_DoubleMu4_dR1p2","L1_DoubleMu4p5_dR1p2",
     "L1_DoubleMu0_er2p0","L1_DoubleMu0_er2p0_bk"
 ]
+
 branches_tau3mu =[
     "tripletMassReso", "category", "MVA3", "MVASoft3", "dimu_OS1", "dimu_OS2", 
+    "nTracks03_mu1", "nTracks03_mu2", "nTracks03_mu3", "nTracks05_mu1", "nTracks05_mu2", "nTracks05_mu3",
+    "sumPt03_mu1", "sumPt03_mu2", "sumPt03_mu3", "sumPt05_mu1", "sumPt05_mu2", "sumPt05_mu3",
     "L1_TripleMu_5SQ_3SQ_0","L1_TripleMu_5SQ_3SQ_0OQ",
     "L1_TripleMu_3SQ_2p5SQ_0OQ_Mass_Max12","L1_TripleMu_2SQ_1p5SQ_0OQ_Mass_Max12"
 ]
@@ -106,10 +109,10 @@ if __name__ == "__main__":
 
     if isTau3mu==True:
         #Filters for omega and phi:
-        df = df.Filter("(abs(dimu_OS1-0.782)>0.033 && category==0) || (abs(dimu_OS1-0.782)>0.048 && category==1) || (abs(dimu_OS1-0.782)>0.066 && category==2)")
-        df = df.Filter("(abs(dimu_OS2-0.782)>0.033 && category==0) || (abs(dimu_OS2-0.782)>0.048 && category==1) || (abs(dimu_OS2-0.782)>0.066 && category==2)")
-        df = df.Filter("(abs(dimu_OS1-1.019)>0.033 && category==0) || (abs(dimu_OS1-1.019)>0.045 && category==1) || (abs(dimu_OS1-1.019)>0.054 && category==2)")
-        df = df.Filter("(abs(dimu_OS2-1.019)>0.033 && category==0) || (abs(dimu_OS2-1.019)>0.045 && category==1) || (abs(dimu_OS2-1.019)>0.054 && category==2)")
+        df = df.Filter("(abs(dimu_OS1-0.782)>0.022 && category==0) || (abs(dimu_OS1-0.782)>0.032 && category==1) || (abs(dimu_OS1-0.782)>0.044 && category==2)")
+        df = df.Filter("(abs(dimu_OS2-0.782)>0.022 && category==0) || (abs(dimu_OS2-0.782)>0.032 && category==1) || (abs(dimu_OS2-0.782)>0.044 && category==2)")
+        df = df.Filter("(abs(dimu_OS1-1.019)>0.022 && category==0) || (abs(dimu_OS1-1.019)>0.030 && category==1) || (abs(dimu_OS1-1.019)>0.036 && category==2)")
+        df = df.Filter("(abs(dimu_OS2-1.019)>0.022 && category==0) || (abs(dimu_OS2-1.019)>0.030 && category==1) || (abs(dimu_OS2-1.019)>0.036 && category==2)")
         
         b_weights = ["ID", "weight", "weight_MC", "weight_CC", "weight_CC_err", "Muon3_SF","Muon2_SF","Muon1_SF","Muon3_SF_err","Muon2_SF_err","Muon1_SF_err","weight_nVtx", "weight_nVtx_err", "training_weight", "combine_weight"]
         df = df.Define("training_weight", "weight_MC * weight_CC * Muon3_SF * weight_nVtx")
