@@ -49,17 +49,14 @@ if __name__ == "__main__":
 		  "/lustrehome/mbuonsante/Tau_3mu/Ntuple/CMSSW_13_0_13/src/Analysis/2022F_5_tau3mu_PromptReco/AnalysedTree_data_2022F_5_tau3mu1.root",
 		  "/lustrehome/mbuonsante/Tau_3mu/Ntuple/CMSSW_13_0_13/src/Analysis/2022F_5_tau3mu_PromptReco/AnalysedTree_data_2022F_5_tau3mu2.root",
 		  "/lustrehome/mbuonsante/Tau_3mu/Ntuple/CMSSW_13_0_13/src/Analysis/2022F_5_tau3mu_PromptReco/AnalysedTree_data_2022F_5_tau3mu3.root",
-		  "/lustrehome/mbuonsante/Tau_3mu/Ntuple/CMSSW_13_0_13/src/Analysis/2022F_5_tau3mu_PromptReco/AnalysedTree_data_2022F_5_tau3mu4.root"
-		 ]
+		  "/lustrehome/mbuonsante/Tau_3mu/Ntuple/CMSSW_13_0_13/src/Analysis/2022F_5_tau3mu_PromptReco/AnalysedTree_data_2022F_5_tau3mu4.root"]
+	
 	MC22 = ["/lustrehome/mbuonsante/Tau_3mu/Ntuple/CMSSW_13_0_13/src/Analysis/JobAdd_perEra/MC_Ds_postE.root",
-		"/lustrehome/mbuonsante/Tau_3mu/Ntuple/CMSSW_13_0_13/src/Analysis/JobAdd_perEra/MC_Ds_preE.root"
-	       ]
+		"/lustrehome/mbuonsante/Tau_3mu/Ntuple/CMSSW_13_0_13/src/Analysis/JobAdd_perEra/MC_Ds_preE.root"]
 	
-	data18 = ["/lustrehome/mbuonsante/Tau_3mu/Ntuple/2018Ntuple/CMSSW_13_0_13/src/Analysis/2018D_tau3mu_Test2018/AnalysedTree_data_2018D_tau3mu0.root"
-		 ]
+	data18 = ["/lustrehome/mbuonsante/Tau_3mu/Ntuple/2018Ntuple/CMSSW_13_0_13/src/Analysis/2018D_tau3mu_Test2018/AnalysedTree_data_2018D_tau3mu"+str(j)+".root" for j in range(15)]
 	
-	MC18 = ["/lustrehome/mbuonsante/Tau_3mu/Ntuple/2018Ntuple/CMSSW_13_0_13/src/Analysis/Ds_2018_tau3mu_Test2018/AnalysedTree_MC_Ds_2018_tau3mu0.root"
-	       ]
+	MC18 = ["/lustrehome/mbuonsante/Tau_3mu/Ntuple/2018Ntuple/CMSSW_13_0_13/src/Analysis/Ds_2018_tau3mu_Test2018/AnalysedTree_MC_Ds_2018_tau3mu0.root"]
 
 	R22_sum = load_data(data22)
 	MC22_sum = load_data(MC22)
