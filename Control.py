@@ -170,9 +170,11 @@ def fit(tree, year, lumi, era):
     x.setRange("R3", 1.99, 2.02)
 
     meanCB = RooRealVar("mean", "meanCB", 1.97, 1.95, 2.0)
+    sigmaG1 = RooRealVar("#sigma_{G}", "sigmaG1", 0.01, 0.001, 0.1)
     sigmaCB1 = RooRealVar("#sigma_{CB}", "sigmaCB1", 0.02, 0.001, 0.1)
     alpha1 = RooRealVar("#alpha1", "alpha1", 1.0, 0.5, 10.0)
     nSigma1 = RooRealVar("n1", "n1", 1.0, 0.1, 25.0)
+    sig_right_gaus = RooGaussian("sig_right_gaus", "sig_right_gaus", x, meanCB, sigmaG1)
     sig_right = RooCBShape("sig_right", "sig_right", x, meanCB, sigmaCB1, alpha1, nSigma1)
 
     meanCB2 = RooRealVar("mean2", "meanCB2", 1.87, 1.84, 1.89)
@@ -185,11 +187,12 @@ def fit(tree, year, lumi, era):
     exp_bkg = RooExponential("exp_bkg", "exp_bkg", x, gamma)
     exp_bkg.fitTo(data, RooFit.Range("R1,R2,R3"))
 
-    nSig_right = RooRealVar("nSig_R", "Number of signal candidates", yields[0], 1.0, 1e+6)
+    nSig_right = RooRealVar("nSig_R", "Number of signal candidates", yields[0]/2, 1.0, 1e+6)
+    nSig_right_gaus = RooRealVar("nSig_R_G", "Number of gauss signal candidates", yields[0]/2, 1.0, 1e+6)
     nSig_left = RooRealVar("nSig_L", "Number of signal 2 candidates", yields[1], 1.0, 1e+6)
     nBkg = RooRealVar("nBkg", "Bkg component", yields[2], 1.0, 1e+6)
 
-    totalPDF = RooAddPdf("totalPDF", "totalPDF", RooArgList(sig_right, sig_left, exp_bkg), RooArgList(nSig_right, nSig_left, nBkg))
+    totalPDF = RooAddPdf("totalPDF", "totalPDF", RooArgList(sig_right, nSig_right_gaus,  sig_left, exp_bkg), RooArgList(nSig_right, sig_right_gaus, nSig_left, nBkg))
 
     #if (era == year) or (era == "Post_EE") or (era == "Pre_EE"):  
     if (era != "F"):
