@@ -52,6 +52,7 @@ if __name__ == "__main__":
     
 	data_2022 = [tau3mu_files_2022C[0], tau3mu_files_2022E[2], tau3mu_files_2022F[5]]
 	data_2022 = [i+"/0000" for i in data_2022]
+	data_2022.append(tau3mu_files_2022F[5]+"/0001")
 	mc_2022 = [tau3mu_files_MC[0], tau3mu_files_MC[1]]
 	mc_2022 = [i+"/0000" for i in mc_2022]
     
