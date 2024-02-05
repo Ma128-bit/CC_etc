@@ -170,8 +170,8 @@ def fit(tree, year, lumi, era):
     x.setRange("R3", 1.99, 2.02)
 
     meanCB = RooRealVar("mean", "meanCB", 1.97, 1.95, 2.0)
-    sigmaG1 = RooRealVar("#sigma_{G}", "sigmaG1", 0.01, 0.001, 0.1)
-    sigmaCB1 = RooRealVar("#sigma_{CB}", "sigmaCB1", 0.02, 0.001, 0.1)
+    sigmaG1 = RooRealVar("#sigma_{G}", "sigmaG1", 0.005, 0.001, 0.1)
+    sigmaCB1 = RooRealVar("#sigma_{CB}", "sigmaCB1", 0.01, 0.001, 0.1)
     alpha1 = RooRealVar("#alpha1", "alpha1", 1.0, 0.5, 10.0)
     nSigma1 = RooRealVar("n1", "n1", 1.0, 0.1, 25.0)
     sig_right_gaus = RooGaussian("sig_right_gaus", "sig_right_gaus", x, meanCB, sigmaG1)
