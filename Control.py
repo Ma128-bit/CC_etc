@@ -192,7 +192,7 @@ def fit(tree, year, lumi, era):
     nSig_left = RooRealVar("nSig_L", "Number of signal 2 candidates", yields[1], 1.0, 1e+6)
     nBkg = RooRealVar("nBkg", "Bkg component", yields[2], 1.0, 1e+6)
 
-    totalPDF = RooAddPdf("totalPDF", "totalPDF", RooArgList(sig_right, nSig_right_gaus,  sig_left, exp_bkg), RooArgList(nSig_right, sig_right_gaus, nSig_left, nBkg))
+    totalPDF = RooAddPdf("totalPDF", "totalPDF", RooArgList(sig_right, sig_right_gaus,  sig_left, exp_bkg), RooArgList(nSig_right, nSig_right_gaus, nSig_left, nBkg))
 
     #if (era == year) or (era == "Post_EE") or (era == "Pre_EE"):  
     if (era != "F"):
