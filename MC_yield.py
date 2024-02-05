@@ -81,10 +81,12 @@ def MC_y(era_name):
     ysig2 = sig_int2.getVal() * nSig2.getVal()
     ysig_e22 = pow(sig_int2.getPropagatedError(r) * nSig2.getVal(), 2) + pow(sig_int2.getVal() * nSig2.getError(), 2)
     ysig_e_2 = ROOT.TMath.Sqrt(ysig_e22)
+
+    ysig_e_tot = ROOT.TMath.Sqrt(ysig_e2+ysig_e22)
     
     new_line = pd.DataFrame({'MC': [era_name], 
                              'Yield': [ysig+ysig2], 
-                             'Error': [ysig_e+ysig_e_2]})
+                             'Error': [ysig_e_tot]})
 
     return new_line
 
