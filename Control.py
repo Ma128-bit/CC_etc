@@ -187,8 +187,8 @@ def fit(tree, year, lumi, era):
     exp_bkg = RooExponential("exp_bkg", "exp_bkg", x, gamma)
     exp_bkg.fitTo(data, RooFit.Range("R1,R2,R3"))
 
-    nSig_right = RooRealVar("nSig_R", "Number of signal candidates", yields[0]/2, 1.0, 1e+6)
-    nSig_right_gaus = RooRealVar("nSig_R_G", "Number of gauss signal candidates", yields[0]/2, 1.0, 1e+6)
+    nSig_right = RooRealVar("nSig_R", "Number of signal candidates", yields[0]/3, 1.0, 1e+6)
+    nSig_right_gaus = RooRealVar("nSig_R_G", "Number of gauss signal candidates", yields[0]/3, 1.0, 1e+6)
     nSig_left = RooRealVar("nSig_L", "Number of signal 2 candidates", yields[1], 1.0, 1e+6)
     nBkg = RooRealVar("nBkg", "Bkg component", yields[2], 1.0, 1e+6)
 
@@ -205,7 +205,7 @@ def fit(tree, year, lumi, era):
     xframe.SetXTitle("2mu +1trk inv. mass (GeV)")
     #totalPDF.paramOn(xframe, RooFit.Parameters(RooArgSet(alpha2, nSigma2, sigmaCB2, meanCB2, nSig_left, nSig_right, nBkg)), RooFit.Layout(0.6, 0.9, 0.9))
     data.plotOn(xframe)
-    totalPDF.plotOn(xframe, RooFit.Components(RooArgSet(sig_right, sig_left)), RooFit.LineColor(ROOT.kRed), RooFit.LineStyle(ROOT.kDashed))
+    totalPDF.plotOn(xframe, RooFit.Components(RooArgSet(sig_right, sig_right_gaus, sig_left)), RooFit.LineColor(ROOT.kRed), RooFit.LineStyle(ROOT.kDashed))
     totalPDF.plotOn(xframe, RooFit.Components(RooArgSet(exp_bkg)), RooFit.LineColor(ROOT.kGreen), RooFit.LineStyle(ROOT.kDashed))
     totalPDF.plotOn(xframe)
 
