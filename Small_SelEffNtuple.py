@@ -55,8 +55,8 @@ if __name__ == "__main__":
 	mc_2022 = [tau3mu_files_MC[0], tau3mu_files_MC[1]]
 	mc_2022 = [i+"/0000" for i in mc_2022]
     
-	data_2018 = ["/lustre/cms/store/user/fsimone/DoubleMuonLowMass/SkimTau3Mu_UL2018_Run2018D_Mini_noHLT/240131_153938/0000"]
-	mc_2018 = ["/lustre/cms/store/user/fsimone/DsToTau_To3Mu_MuFilter_TuneCP5_13TeV-pythia8-evtgen/SkimTau3Mu_Summer20UL18_DsTau3Muv2_noHLT_forSynch/240131_155514/0000/"]
+	data_2018 = ["/lustre/cms/store/user/fsimone/DoubleMuonLowMass/SkimTau3Mu_UL2018_Run2018D_Mini_yesHLT/240202_184932/0000"]
+	mc_2018 = ["/lustre/cms/store/user/fsimone/DsToTau_To3Mu_MuFilter_TuneCP5_13TeV-pythia8-evtgen/SkimTau3Mu_Summer20UL18_DsTau3Muv2_yesHLT_forSynch/240202_190214/0000/"]
 
 	with Pool() as p:
 		list = p.starmap(make_sum, [('data_2022',data_2022, False),('mc_2022',mc_2022, False),('data_2018',data_2018, False),('mc_2018',mc_2018, False)])
@@ -65,7 +65,7 @@ if __name__ == "__main__":
 	df_out['Index'] = ["data_2022", "mc_2022", "data_2018", "mc_2018"]
 	column_order = ['Index'] + [col for col in df_out if col != 'Index']
 	df_out = df_out[column_order]
-	df_out.to_csv('EffResults/Post_Ntuple_Data_tau3mu.csv', index=False)
+	df_out.to_csv('EffResults/Post_Ntuple_tau3mu.csv', index=False)
 	print("EffResults/Post_Ntuple_tau3mu.csv Saved!")
 
 
