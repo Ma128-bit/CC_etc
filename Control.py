@@ -145,7 +145,7 @@ def fit(tree, year, lumi, era):
     ROOT.gROOT.SetBatch(ROOT.kTRUE)  # To run ROOT in batch mode    
     entries = tree.GetEntries()
     print("Total entries era", era, "=", entries)
-    yields = [entries*0.05, entries*0.015, entries*0.7]
+    yields = [entries*0.05, entries*0.015, entries*0.71]
 
     selez = "(Ptmu3 > 1.2 && ((Ptmu1>3.5 && Etamu1<1.2) || (Ptmu1>2.0 && Etamu1>=1.2 && Etamu1<=2.4)) && ((Ptmu2>3.5 && Etamu2<1.2) || (Ptmu2>2.0 && Etamu2>=1.2 && Etamu2<=2.4)))"
 
@@ -171,7 +171,7 @@ def fit(tree, year, lumi, era):
 
     meanCB = RooRealVar("mean", "meanCB", 1.97, 1.95, 2.0)
     sigmaG1 = RooRealVar("#sigma_{G}", "sigmaG1", 0.005, 0.001, 0.1)
-    sigmaCB1 = RooRealVar("#sigma_{CB}", "sigmaCB1", 0.01, 0.001, 0.1)
+    sigmaCB1 = RooRealVar("#sigma_{CB}", "sigmaCB1", 0.005, 0.001, 0.1)
     alpha1 = RooRealVar("#alpha1", "alpha1", 1.0, 0.5, 10.0)
     nSigma1 = RooRealVar("n1", "n1", 1.0, 0.1, 25.0)
     sig_right_gaus = RooGaussian("sig_right_gaus", "sig_right_gaus", x, meanCB, sigmaG1)
@@ -187,8 +187,8 @@ def fit(tree, year, lumi, era):
     exp_bkg = RooExponential("exp_bkg", "exp_bkg", x, gamma)
     exp_bkg.fitTo(data, RooFit.Range("R1,R2,R3"))
 
-    nSig_right = RooRealVar("nSig_R", "Number of signal candidates", yields[0]/3, 1.0, 1e+6)
-    nSig_right_gaus = RooRealVar("nSig_R_G", "Number of gauss signal candidates", yields[0]/3, 1.0, 1e+6)
+    nSig_right = RooRealVar("nSig_R", "Number of signal candidates", yields[0], 1.0, 1e+6)
+    nSig_right_gaus = RooRealVar("nSig_R_G", "Number of gauss signal candidates", yields[0], 1.0, 1e+6)
     nSig_left = RooRealVar("nSig_L", "Number of signal 2 candidates", yields[1], 1.0, 1e+6)
     nBkg = RooRealVar("nBkg", "Bkg component", yields[2], 1.0, 1e+6)
 
