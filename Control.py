@@ -7,7 +7,7 @@ import pandas as pd
 from ROOT import *
 from file_locations import *
 
-var = ["cLP", "tKink", "segmComp", "fv_nC", "d0sig", "fv_dphi3D", "fv_d3Dsig", "mindca_iso", "trkRel", "d0sig_max", "MVASoft1", "MVASoft2","Ptmu3", "fv_d3D"]
+var = ["cLP", "tKink", "segmComp", "fv_nC", "d0sig", "fv_dphi3D", "fv_d3Dsig", "mindca_iso", "trkRel", "d0sig_max", "MVASoft1", "MVASoft2","Ptmu3"]
 
 invmass_SB = "(tripletMass<1.8 && tripletMass>1.70)"
 invmass_peak = "(tripletMass<2.01 && tripletMass>1.93)"
@@ -145,7 +145,7 @@ def fit(tree, year, lumi, era):
     ROOT.gROOT.SetBatch(ROOT.kTRUE)  # To run ROOT in batch mode    
     entries = tree.GetEntries()
     print("Total entries era", era, "=", entries)
-    yields = [entries*0.05, entries*0.015, entries*0.75]
+    yields = [entries*0.05, entries*0.015, entries*0.7]
 
     selez = "(Ptmu3 > 1.2 && ((Ptmu1>3.5 && Etamu1<1.2) || (Ptmu1>2.0 && Etamu1>=1.2 && Etamu1<=2.4)) && ((Ptmu2>3.5 && Etamu2<1.2) || (Ptmu2>2.0 && Etamu2>=1.2 && Etamu2<=2.4)))"
 
@@ -170,11 +170,9 @@ def fit(tree, year, lumi, era):
     x.setRange("R3", 1.99, 2.02)
 
     meanCB = RooRealVar("mean", "meanCB", 1.97, 1.95, 2.0)
-    sigmaG1 = RooRealVar("#sigma_{G}", "sigmaG1", 0.005, 0.001, 0.1)
-    sigmaCB1 = RooRealVar("#sigma_{CB}", "sigmaCB1", 0.005, 0.001, 0.1)
+    sigmaCB1 = RooRealVar("#sigma_{CB}", "sigmaCB1", 0.02, 0.001, 0.1)
     alpha1 = RooRealVar("#alpha1", "alpha1", 1.0, 0.5, 10.0)
     nSigma1 = RooRealVar("n1", "n1", 1.0, 0.1, 25.0)
-    sig_right_gaus = RooGaussian("sig_right_gaus", "sig_right_gaus", x, meanCB, sigmaG1)
     sig_right = RooCBShape("sig_right", "sig_right", x, meanCB, sigmaCB1, alpha1, nSigma1)
 
     meanCB2 = RooRealVar("mean2", "meanCB2", 1.87, 1.84, 1.89)
@@ -188,11 +186,10 @@ def fit(tree, year, lumi, era):
     exp_bkg.fitTo(data, RooFit.Range("R1,R2,R3"))
 
     nSig_right = RooRealVar("nSig_R", "Number of signal candidates", yields[0], 1.0, 1e+6)
-    nSig_right_gaus = RooRealVar("nSig_R_G", "Number of gauss signal candidates", yields[0], 1.0, 1e+6)
     nSig_left = RooRealVar("nSig_L", "Number of signal 2 candidates", yields[1], 1.0, 1e+6)
     nBkg = RooRealVar("nBkg", "Bkg component", yields[2], 1.0, 1e+6)
 
-    totalPDF = RooAddPdf("totalPDF", "totalPDF", RooArgList(sig_right, sig_right_gaus,  sig_left, exp_bkg), RooArgList(nSig_right, nSig_right_gaus, nSig_left, nBkg))
+    totalPDF = RooAddPdf("totalPDF", "totalPDF", RooArgList(sig_right, sig_left, exp_bkg), RooArgList(nSig_right, nSig_left, nBkg))
 
     #if (era == year) or (era == "Post_EE") or (era == "Pre_EE"):  
     if (era != "F"):
@@ -205,7 +202,7 @@ def fit(tree, year, lumi, era):
     xframe.SetXTitle("2mu +1trk inv. mass (GeV)")
     #totalPDF.paramOn(xframe, RooFit.Parameters(RooArgSet(alpha2, nSigma2, sigmaCB2, meanCB2, nSig_left, nSig_right, nBkg)), RooFit.Layout(0.6, 0.9, 0.9))
     data.plotOn(xframe)
-    totalPDF.plotOn(xframe, RooFit.Components(RooArgSet(sig_right, sig_right_gaus, sig_left)), RooFit.LineColor(ROOT.kRed), RooFit.LineStyle(ROOT.kDashed))
+    totalPDF.plotOn(xframe, RooFit.Components(RooArgSet(sig_right, sig_left)), RooFit.LineColor(ROOT.kRed), RooFit.LineStyle(ROOT.kDashed))
     totalPDF.plotOn(xframe, RooFit.Components(RooArgSet(exp_bkg)), RooFit.LineColor(ROOT.kGreen), RooFit.LineStyle(ROOT.kDashed))
     totalPDF.plotOn(xframe)
 
