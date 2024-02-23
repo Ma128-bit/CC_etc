@@ -34,6 +34,14 @@ double N_DsPhiPi_preE = 290495.0, N_DsPhiPi_postE = 1199193.0;
 double weight_CC_preE = 0.71, weight_CC_postE = 0.82;
 double weight_CC_preE_err = 0.04, weight_CC_postE_err = 0.08;
 
+struct add_index{
+    int i;
+    add_index(int ii) : i(ii)  {}
+    int operator()() {
+        return i;
+    }
+};
+
 double add_weight_CC(unsigned int slot, const ROOT::RDF::RSampleInfo &id){
     if(id.Contains("_preE") && !(id.Contains("DsPhiPi"))) return weight_CC_preE;
     if(id.Contains("_postE") && !(id.Contains("DsPhiPi"))) return weight_CC_postE;
