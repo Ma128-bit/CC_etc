@@ -16,7 +16,7 @@ gInterpreter.Declare("""
     #include "cpp_library.h"
 """)
 
-from ROOT import SF_WeightsComputer, PV_WeightsComputer
+from ROOT import SF_WeightsComputer, PV_WeightsComputer, add_index
 
 branches = [
     "isMC", "lumi", "run", "evt", "puFactor", "DeltaR_max", "DeltaZ_max", 
@@ -39,7 +39,7 @@ branches_tau3mu =[
 
 Files = {
     "tau3mu2022": [tau3mu_Run2022C, tau3mu_Run2022D, tau3mu_Run2022E, tau3mu_Run2022F, tau3mu_Run2022G, MC2022_B0_pre, MC2022_B0_post, MC2022_Bp_pre, MC2022_Bp_post, MC2022_Ds_pre, MC2022_Ds_post],
-    "tau3mu2023": [tau3mu_Run2023C, tau3mu_Run2023D ],
+    "tau3mu2023": [tau3mu_Run2023C, tau3mu_Run2023D],
     "control2022": [control_Run2022C, control_Run2022D, control_Run2022E, control_Run2022F, control_Run2022G, MC2022_DsPhiPi_pre, MC2022_DsPhiPi_post],
     "control2023": []
 }
@@ -74,6 +74,7 @@ if __name__ == "__main__":
     print("Starting!")
     start_2 = time.time()
     df = load_df(isTau3mu, year,  "FinalTree")
+    df = df.Define("year", add_index(year))
     df = df.DefinePerSample("ID", "add_ID(rdfslot_, rdfsampleinfo_)")
     df = df.DefinePerSample("weight", "add_weight(rdfslot_, rdfsampleinfo_)")
     if isTau3mu==True:
