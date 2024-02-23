@@ -32,5 +32,5 @@ scram b -j20
  
 * `New_Ntuple.py` or `New_Ntuple_small.py`
   * Run as: `python3 New_Ntuple.py --type X`
-    * with `X` = `tau3mu` or `control`
+    * with `X` = `tau3mu2022`/`tau3mu2023` or `control2022`/`control2023`
   * Out: ROOTFiles directory with merged analysis files and weights used as input to XGBoost 
