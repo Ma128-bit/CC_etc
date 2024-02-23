@@ -38,16 +38,18 @@ branches_tau3mu =[
 ]
 
 Files = {
-    "tau3mu": [tau3mu_Run2022C, tau3mu_Run2022D, tau3mu_Run2022E, tau3mu_Run2022F, tau3mu_Run2022G, MC2022_B0_pre, MC2022_B0_post, MC2022_Bp_pre, MC2022_Bp_post, MC2022_Ds_pre, MC2022_Ds_post],
-    "control": [control_Run2022C, control_Run2022D, control_Run2022E, control_Run2022F, control_Run2022G, MC2022_DsPhiPi_pre, MC2022_DsPhiPi_post]
+    "tau3mu2022": [tau3mu_Run2022C, tau3mu_Run2022D, tau3mu_Run2022E, tau3mu_Run2022F, tau3mu_Run2022G, MC2022_B0_pre, MC2022_B0_post, MC2022_Bp_pre, MC2022_Bp_post, MC2022_Ds_pre, MC2022_Ds_post],
+    "tau3mu2023": [tau3mu_Run2023C, tau3mu_Run2023D ],
+    "control2022": [control_Run2022C, control_Run2022D, control_Run2022E, control_Run2022F, control_Run2022G, MC2022_DsPhiPi_pre, MC2022_DsPhiPi_post],
+    "control2023": []
 }
 
-def load_df(isTau3mu, treename):
+def load_df(isTau3mu, year, treename):
     if isTau3mu == True:
-        files = Files["tau3mu"]
+        files = Files["tau3mu"+str(year)]
         br = branches+branches_tau3mu
     else:
-        files = Files["control"]
+        files = Files["control"+str(year)]
         br = branches
     frame = RDataFrame(treename, files, br)
     return frame
@@ -57,22 +59,21 @@ def check_type():
     parser.add_argument("--type", type=str, help="tau3mu or control")
     args = parser.parse_args()
     type = args.type
-    if type == "tau3mu":
-        return True
-    elif type == "control":
-        return False
+    if "tau3mu" in type:
+        return True, int(type.replace("tau3mu", ""))
+    elif "control" in type:
+        return False, int(type.replace("control", ""))
     else:
         print("ERROR: choose --type between tau3mu and control")
         sys.exit()
         
 
-
 if __name__ == "__main__":
-    isTau3mu = check_type()
+    isTau3mu, year = check_type()
     
     print("Starting!")
     start_2 = time.time()
-    df = load_df(isTau3mu, "FinalTree")
+    df = load_df(isTau3mu, year,  "FinalTree")
     df = df.DefinePerSample("ID", "add_ID(rdfslot_, rdfsampleinfo_)")
     df = df.DefinePerSample("weight", "add_weight(rdfslot_, rdfsampleinfo_)")
     if isTau3mu==True:
