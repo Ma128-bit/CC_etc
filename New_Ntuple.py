@@ -39,7 +39,7 @@ branches_tau3mu =[
 
 Files = {
     "tau3mu2022": [tau3mu_Run2022C, tau3mu_Run2022D, tau3mu_Run2022E, tau3mu_Run2022F, tau3mu_Run2022G, MC2022_B0_pre, MC2022_B0_post, MC2022_Bp_pre, MC2022_Bp_post, MC2022_Ds_pre, MC2022_Ds_post],
-    "tau3mu2023": [tau3mu_Run2023C, tau3mu_Run2023D],
+    "tau3mu2023": [tau3mu_Run2023B, tau3mu_Run2023C, tau3mu_Run2023D],
     "control2022": [control_Run2022C, control_Run2022D, control_Run2022E, control_Run2022F, control_Run2022G, MC2022_DsPhiPi_pre, MC2022_DsPhiPi_post],
     "control2023": []
 }
