@@ -51,7 +51,7 @@ def fit_bkg(h1):
     fsigregion_bkg = exp_bkg.createIntegral(x, RooFit.NormSet(x), RooFit.Range("R2"))
     fbkgregion_bkg = exp_bkg.createIntegral(x, RooFit.NormSet(x), RooFit.Range("R1"))
     print(fsigregion_bkg, fbkgregion_bkg)
-    return h1.GetEntries()*fsigregion_bkg/fbkgregion_bkg
+    return h1.GetEntries()*fsigregion_bkg.getVal()/fbkgregion_bkg.getVal()
 
 
 def control_plots(file_name, year):
