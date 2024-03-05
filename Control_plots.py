@@ -1,4 +1,4 @@
-from ROOT import gROOT, TH1F, RooDataHist, RooArgSet, RooExponential, RooRealVar, TChain, gDirectory
+from ROOT import gROOT, TH1F, RooDataHist, RooArgSet, RooExponential, RooRealVar, TChain, gDirectory, RooFit
 gROOT.SetBatch(True)
 import os, subprocess, argparse, draw_utilities
 import pandas as pd
