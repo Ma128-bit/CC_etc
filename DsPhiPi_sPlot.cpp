@@ -227,14 +227,15 @@ void MakePlots(RooWorkspace &ws)
 
 void DsPhiPi_sPlot(TString name_file = "AllControl2022", TString tree_name = "FinalTree", int isMC = 0){
     RooWorkspace wspace{"myWS"};
-    if(isMC == 0) TString selMC = Form("isMC==%d", isMC); 
-    else TString selMC = "isMC>0";
+    TString selMC ="";
+    if(isMC == 0) selMC = selMC + Form("isMC==%d", isMC); 
+    else selMC = selMC + "isMC>0";
     std::cout<<selMC<<std::endl;
     if(isMC == 0) AddModel(wspace);
     else AddMC_Model(wspace);
     AddData(wspace, name_file+".root", tree_name, selMC);
     if(isMC == 0) DoSPlot(wspace);
-    else DoSPlotMC(wspace)
+    else DoSPlotMC(wspace);
     const TTree *tree = wspace.data("dataWithSWeights")->GetClonedTree();
     TFile *file = new TFile(name_file+"_sPlot_MC_"+Form("%d", isMC)+".root", "RECREATE");
     tree->Write(tree_name);
