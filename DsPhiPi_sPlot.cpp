@@ -73,7 +73,7 @@ void AddMC_Model(RooWorkspace &ws){
 
     // now make the combined models
     std::cout << "make full model" << std::endl;
-    RooAddPdf massModel("massModel", "invariant mass model", RooArgList(mDsModel, mDpModel, bkgModel), RooArgList(nsigDs, nsigDp, nbkg));
+    RooAddPdf massModel("massModel", "invariant mass model", RooArgList(mDsModel, bkgModel), RooArgList(nsigDs, nbkg));
     
     std::cout << "import model" << std::endl;
 
@@ -147,6 +147,50 @@ void DoSPlot(RooWorkspace &ws){
     RooMsgService::instance().setGlobalKillBelow(RooFit::INFO);
 }
 
+void DoSPlotMC(RooWorkspace &ws){
+    std::cout << "Calculate sWeights" << std::endl;
+
+    // get what we need out of the workspace to do the fit
+    RooAbsPdf *massModel = ws.pdf("massModel");
+    RooRealVar *nsigDs = ws.var("nsigDs");
+    RooRealVar *nbkg = ws.var("nbkg");
+    RooDataSet& data = static_cast<RooDataSet&>(*ws.data("data"));
+
+    RooMsgService::instance().setSilentMode(true);
+
+    std::cout << "\n\n------------------------------------------\nThe dataset before creating sWeights:\n";
+    data.Print();
+
+    RooMsgService::instance().setGlobalKillBelow(RooFit::ERROR);
+
+    RooStats::SPlot sData{"sData", "An SPlot", data, massModel, RooArgList(*nsigDs, *nbkg)};
+
+    std::cout << "\n\nThe dataset after creating sWeights:\n";
+    data.Print();
+
+    // Check that our weights have the desired properties
+
+    std::cout << "\n\n------------------------------------------\n\nCheck SWeights:" << std::endl;
+
+    std::cout << std::endl << "Yield of Ds is\t" << nsigDs->getVal() << ".  From sWeights it is " << sData.GetYieldFromSWeight("nsigDs") << std::endl;
+    
+    std::cout << "Yield of bkg is\t" << nbkg->getVal() << ".  From sWeights it is " << sData.GetYieldFromSWeight("nbkg") << std::endl << std::endl;
+
+    for (Int_t i = 0; i < 10; i++) {
+        std::cout << "Ds Weight for event " << i << std::right << std::setw(12) << sData.GetSWeight(i, "nsigDs") << "  nbkg Weight"
+                << std::setw(12) << sData.GetSWeight(i, "nbkg") << "  Total Weight" << std::setw(12) << sData.GetSumOfEventSWeight(i)
+                << std::endl;
+    }
+
+    std::cout << std::endl;
+
+    // import this new dataset with sWeights
+    std::cout << "import new dataset with sWeights" << std::endl;
+    ws.import(data, Rename("dataWithSWeights"));
+
+    RooMsgService::instance().setGlobalKillBelow(RooFit::INFO);
+}
+
 void MakePlots(RooWorkspace &ws)
 {
     std::cout << "make plots" << std::endl;
@@ -181,15 +225,18 @@ void MakePlots(RooWorkspace &ws)
     //cdata->SaveAs("SPlot.gif");
 }
 
-void DsPhiPi_sPlot(TString name_file = "AllControl2022.root", TString tree_name = "FinalTree", int isMC = 0){
+void DsPhiPi_sPlot(TString name_file = "AllControl2022", TString tree_name = "FinalTree", int isMC = 0){
     RooWorkspace wspace{"myWS"};
-    TString selMC = Form("isMC==%d", isMC); 
+    if(isMC == 0) TString selMC = Form("isMC==%d", isMC); 
+    else TString selMC = "isMC>0";
     std::cout<<selMC<<std::endl;
-    AddModel(wspace);
-    AddData(wspace, name_file, tree_name, selMC);
-    DoSPlot(wspace);
+    if(isMC == 0) AddModel(wspace);
+    else AddMC_Model(wspace);
+    AddData(wspace, name_file+".root", tree_name, selMC);
+    if(isMC == 0) DoSPlot(wspace);
+    else DoSPlotMC(wspace)
     const TTree *tree = wspace.data("dataWithSWeights")->GetClonedTree();
-    TFile *file = new TFile("test.root", "RECREATE");
-    tree->Write("tree");
+    TFile *file = new TFile(name_file+"_sPlot_MC_"+Form("%d", isMC)+".root", "RECREATE");
+    tree->Write(tree_name);
     file->Close();
 }
