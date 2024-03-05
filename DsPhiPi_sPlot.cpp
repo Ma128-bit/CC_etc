@@ -95,7 +95,7 @@ void AddData(RooWorkspace &ws, TString name_file = "AllControl2022.root", TStrin
     variables.add(*tripletMass);
     //TString selez = selMC + " && (Ptmu3 > 1.2 && ((Ptmu1>3.5 && Etamu1<1.2) || (Ptmu1>2.0 && Etamu1>=1.2 && Etamu1<=2.4)) && ((Ptmu2>3.5 && Etamu2<1.2) || (Ptmu2>2.0 && Etamu2>=1.2 && Etamu2<=2.4)))";
     TString selez = selMC;
-    RooDataSet dataset("dataset", "dataset", variables, Import(*tree),Cut(selez));
+    RooDataSet dataset("dataset", "dataset", variables, Import(*tree),Cut(selez), WeightVar("control_weight"));
 
     ws.import(dataset, Rename("data"));
 }
