@@ -77,7 +77,7 @@ def control_plots(file_name, year):
         hdata_bkg = TH1F(gDirectory.Get("hdata_bkg" + s))
         hdata_sig = TH1F(gDirectory.Get("hdata_sig" + s))
         
-        data.Draw(varname + ">>hMC_sig" + s + binning, "control_weight*(isMC>0 &&" +invmass_peak+")")
+        data.Draw(varname + ">>hMC_sig" + s + binning, "(isMC>0 &&" +invmass_peak+")")
         hMC_sig = TH1F(gDirectory.Get("hMC_sig" + s))
         
         # Scaling the SB distribution to the number of background events in 1.93,2.01
