@@ -91,7 +91,7 @@ def control_plots(file_name, year):
 
         canvas = ROOTDrawer(SetGridx = True)
         canvas.HaddTH1(hMC_sig, Color=4, SetXName=varname, SetYName="a.u.", Fill=True, label="MC DsPhiPi", FillStyle = 3004)
-        canvas.HaddTH1(hdata_sig, Color=2, SetXName=varname, SetYName="a.u.", Fill=False, label="data (SB subtracted)", DrawOpt="PE", FillStyle = 3005)
+        canvas.HaddTH1(hdata_sig, Color=1, SetXName=varname, SetYName="a.u.", Fill=False, label="data (SB subtracted)", DrawOpt="PE2")
         
         h_x_ratio = hdata_sig.Clone()
         h_x_ratio.Sumw2()
