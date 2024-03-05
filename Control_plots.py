@@ -1,4 +1,4 @@
-from ROOT import gROOT, TH1F, RooDataHist, RooArgSet, RooExponential, RooRealVar, TChain, gDirectory, RooFit
+from ROOT import gROOT, TH1F, RooDataHist, RooArgSet, RooExponential, RooRealVar, TChain, gDirectory, RooFit, kFALSE
 gROOT.SetBatch(True)
 import os, subprocess, argparse, draw_utilities
 import pandas as pd
@@ -43,7 +43,7 @@ def fit_bkg(data):
 
     x = RooRealVar("x", "2mu+1trk inv. mass (GeV)", 1.65, 2.05)
     x.setBins(40)
-    datahist = RooDataHist("datahist", h1.GetTitle(), RooArgSet(x), RooFit.Import(h1, ROOT.kFALSE))
+    datahist = RooDataHist("datahist", h1.GetTitle(), RooArgSet(x), RooFit.Import(h1, kFALSE))
 
     x.setRange("R1", 1.70, 1.80)
     x.setRange("R2", 1.93, 2.01)
