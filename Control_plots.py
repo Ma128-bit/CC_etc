@@ -1,11 +1,11 @@
-import os
-import ROOT
-ROOT.gROOT.SetBatch(True)
-import subprocess
-import argparse
+from ROOT import gROOT, TH1F, RooDataHist, RooArgSet, RooExponential, RooRealVar, TChain
+gROOT.SetBatch(True)
+import os, subprocess, argparse, draw_utilities
 import pandas as pd
-from ROOT import *
 from file_locations import *
+
+class ROOTDrawer(draw_utilities.ROOTDrawer):
+    pass
 
 var = ["cLP", "tKink", "segmComp", "fv_nC", "d0sig", "fv_dphi3D", "fv_d3Dsig", "mindca_iso", "trkRel", "d0sig_max", "MVASoft1", "MVASoft2","Ptmu3", "fv_d3D"]
 
@@ -79,14 +79,6 @@ def control_plots(file_name, year):
         
         data.Draw(varname + ">>hMC_sig" + s + binning, "control_weight*(isMC>0 &&" +invmass_peak+")")
         hMC_sig = TH1F(gDirectory.Get("hMC_sig" + s))
-
-        c2 = TCanvas("c2", "c2", 150, 10, 990, 660)
-        pad1 = TPad("pad1", "pad1", 0, 0.3, 1, 1.0)
-        pad1.SetBottomMargin(0)
-        pad1.SetGridx()
-        pad1.Draw()
-        pad1.cd()
-        hMC_sig.SetTitle(varname)
         
         # Scaling the SB distribution to the number of background events in 1.93,2.01
         normSB = hdata_bkg.GetEntries()
@@ -97,110 +89,20 @@ def control_plots(file_name, year):
         # Rescaling
         hdata_sig.Scale(hMC_sig.Integral() / hdata_sig.Integral())
 
-        #print("Entries in hdata_sig after SB subtraction:", hdata_sig.GetEntries())
-        #print("Entries in hMC_sig after rescaling:", hMC_sig.GetEntries())
-
-        # Plot makeup
-        Y_max = max(hMC_sig.GetMaximum(), hdata_sig.GetMaximum())
-        Y_max = Y_max * 1.05
-        hMC_sig.GetYaxis().SetRangeUser(0, Y_max)
-
-        hMC_sig.GetYaxis().SetTitle("a.u.")
-        hMC_sig.GetXaxis().SetTitle(varname)
-        hMC_sig.GetYaxis().SetTitleSize(22)
-        hMC_sig.GetYaxis().SetTitleFont(43)
-        hMC_sig.GetYaxis().SetTitleOffset(1.25)
-
-        hMC_sig.SetLineColor(kBlue)
-        hMC_sig.SetLineWidth(3)
-        hMC_sig.SetFillStyle(3004)
-        hMC_sig.SetFillColor(kBlue)
-        hdata_sig.SetLineColor(kRed)
-        hdata_sig.SetLineWidth(3)
-        hdata_sig.SetFillStyle(3005)
-        hdata_sig.SetFillColor(kRed)
-
-        hMC_sig.Draw("hist")
-        hdata_sig.Draw("hist same")
-
-        hMC_sig.SetStats(0)
-        x_leg_left = 0.55
-        x_leg_right = 0.90
-        y_leg_left = 0.63
-        y_leg_right = 0.90
-        if varname == "segmComp" or varname == "MVASoft1" or varname == "MVASoft2":
-            x_leg_left = 0.1
-            x_leg_right = 0.45
-        leg = TLegend(x_leg_left, y_leg_left, x_leg_right, y_leg_right)
-        leg.AddEntry(hMC_sig, "MC DsPhiPi", "f")
-        leg.AddEntry(hdata_sig, "data (SB subtracted)", "f")
-        leg.Draw()
-
-        # Lower plot will be in pad2
-        c2.cd()
-        pad2 = TPad("pad2", "pad2", 0, 0.05, 1, 0.3)
-        pad2.SetTopMargin(0)
-        pad2.SetBottomMargin(0.2)
-        pad2.SetGridx()
-        pad2.Draw()
-        pad2.cd()
-
-        # Define the ratio plot
-        h_x_ratio = hdata_sig.Clone("h_x_ratio")
+        canvas = ROOTDrawer(SetGridx = True)
+        canvas.HaddTH1(hMC_sig, Color=4, SetXName=varname, SetYName="a.u.", Fill=True, label="MC DsPhiPi", FillStyle = 3004)
+        canvas.HaddTH1(hdata_sig, Color=2, SetXName=varname, SetYName="a.u.", Fill=False, label="data (SB subtracted)", DrawOpt="PE", FillStyle = 3005)
+        
+        h_x_ratio = hdata_sig.Clone()
         h_x_ratio.Sumw2()
         h_x_ratio.Divide(hMC_sig)
-        h_x_ratio.SetStats(0)
 
-        # Ratio plot settings
-        h_x_ratio.SetTitle("")  # Remove the ratio title
-        h_x_ratio.GetYaxis().SetTitle("ratio data/MC")
-        h_x_ratio.GetYaxis().SetRangeUser(-0.5, 2)
+        canvas.HaddTH1(h_x_ratio, Color=1, SetXName=varname, SetYName="ratio data/MC", pull=True, DrawOpt="PE")
+        canvas.DefTLine(Color=2, Orientation=1, Y=1., pull=True)
+        canvas.HaddPull(SetGridx = True, YRange = [-0.5, 2])
+        canvas.MakeLegend()
+        canvas.Save("Control_Plots/" + varname + "_"+year+".png", era=int(year), extra="Preliminary")
 
-        h_x_ratio.SetLineColor(kBlack)
-        h_x_ratio.GetYaxis().SetTitleSize(22)
-        h_x_ratio.GetYaxis().SetTitleFont(43)
-        h_x_ratio.GetYaxis().SetTitleOffset(1.25)
-        h_x_ratio.GetYaxis().SetLabelFont(43)
-        h_x_ratio.GetYaxis().SetLabelSize(15)
-
-        # X axis ratio plot settings
-        h_x_ratio.GetXaxis().SetTitle(varname)
-        h_x_ratio.GetXaxis().SetTitleSize(22)
-        h_x_ratio.GetXaxis().SetTitleFont(43)
-        h_x_ratio.GetXaxis().SetTitleOffset(2.0)
-        h_x_ratio.GetXaxis().SetLabelFont(43)
-        h_x_ratio.GetXaxis().SetLabelSize(15)
-
-        # Compute weighted average ratio
-        mean = 0
-        std_dev = 0
-        for c in range(1, h_x_ratio.GetNbinsX() + 1):
-            if h_x_ratio.GetBinContent(c) == 0 or h_x_ratio.GetBinError(c) == 0:
-                continue
-            mean += h_x_ratio.GetBinContent(c) / (h_x_ratio.GetBinError(c) * h_x_ratio.GetBinError(c))
-            std_dev += 1 / (h_x_ratio.GetBinError(c) * h_x_ratio.GetBinError(c))
-        mean = mean / std_dev
-        std_dev = 1 / std_dev
-
-        # Get mean value and error of ratio plot
-        #print(var[k] + " Mean:", mean)
-        #print(var[k] + " StdDev:", std_dev)
-
-        # Draw line corresponding to mean value on ratio plot
-        line = TLine()
-        h_x_ratio.Draw("ep")
-        line.SetLineWidth(2)
-        line.SetLineColor(kRed)
-        line.DrawLine(float(binning.split(',')[1]), 1, h_x_ratio.GetXaxis().GetXmax(), 1)
-        h_x_ratio.Draw("same")
-
-        c2.cd()
-        c2.Update()
-        c2.SaveAs("Control_Plots/" + varname + "_"+year+".png")
-        del c2
-        del pad2
-        del pad1
-        del line
         h_x_ratio.Delete();
         hdata_bkg.Delete();
         hdata_sig.Delete();
