@@ -97,7 +97,7 @@ def control_plots(file_name, year):
         h_x_ratio.Sumw2()
         h_x_ratio.Divide(hMC_sig)
 
-        canvas.HaddTH1(h_x_ratio, Color=1, SetXName=varname, SetYName="ratio data/MC", pull=True, DrawOpt="PE")
+        canvas.HaddTH1(h_x_ratio, Color=1, SetXName=varname, SetYName="ratio data/MC", pull=True, DrawOpt="PE", MarkerStyle=6)
         canvas.DefTLine(Color=2, Orientation=1, Y=1., pull=True)
         canvas.HaddPull(SetGridx = True, YRange = [-0.5, 2])
         canvas.MakeLegend()
