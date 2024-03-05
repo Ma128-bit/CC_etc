@@ -47,7 +47,7 @@ void AddModel(RooWorkspace &ws){
     RooRealVar nbkg("nbkg", "fitted yield for bkg", 154000, 0., 1800000);
 
     // now make the combined models
-    std::cout << "make full model" << std::endl;    
+    std::cout << "make full model" << std::endl;
     RooAddPdf massModel("massModel", "invariant mass model", RooArgList(mDsModel, mDpModel, bkgModel), RooArgList(nsigDs, nsigDp, nbkg));
     
     std::cout << "import model" << std::endl;
@@ -55,6 +55,30 @@ void AddModel(RooWorkspace &ws){
     ws.import(massModel, RecycleConflictNodes());
 }
 
+void AddMC_Model(RooWorkspace &ws){
+    RooRealVar tripletMass("tripletMass", "M_{inv}", 1.65, 2.05, "GeV");
+    std::cout << "make Ds model" << std::endl;
+    RooRealVar mDs("mDs", "Ds Mass", 1.968, 1.95, 1.98, "GeV");
+    RooRealVar sigmaDs("sigmaDs", "Width of Ds Gaussian", 0.012, 0.0001, 0.4, "GeV");
+    RooGaussian mDsModel("mDsModel", "Ds Model", tripletMass, mDs, sigmaDs);
+
+    std::cout << "make bkg model" << std::endl;
+    RooRealVar lambda("lambda", "lambda of Exponential", -1.44, -10, 10);
+    RooExponential bkgModel("bkgModel", "Exponential", tripletMass, lambda);
+
+    // --------------------------------------
+    // combined model
+    RooRealVar nsigDs("nsigDs", "fitted yield for Ds", 100000, 0., 1800000);
+    RooRealVar nbkg("nbkg", "fitted yield for bkg", 2000, 0., 20000);
+
+    // now make the combined models
+    std::cout << "make full model" << std::endl;
+    RooAddPdf massModel("massModel", "invariant mass model", RooArgList(mDsModel, mDpModel, bkgModel), RooArgList(nsigDs, nsigDp, nbkg));
+    
+    std::cout << "import model" << std::endl;
+
+    ws.import(massModel, RecycleConflictNodes());
+}
 void AddData(RooWorkspace &ws, TString name_file = "AllControl2022.root", TString tree_name = "FinalTree", TString selMC = "isMC==0"){
     TFile *file = new TFile("ROOTFiles/"+name_file);
     TTree *tree = (TTree*)file->Get(tree_name);
@@ -157,7 +181,15 @@ void MakePlots(RooWorkspace &ws)
     //cdata->SaveAs("SPlot.gif");
 }
 
-void DsPhiPi_sPlot(TString name_file = "AllControl2022.root", TString tree_name = "FinalTree", TString selMC = "isMC==0"){
-  RooWorkspace wspace{"myWS"};
-  AddModel(wspace);
+void DsPhiPi_sPlot(TString name_file = "AllControl2022.root", TString tree_name = "FinalTree", int isMC = 0){
+    RooWorkspace wspace{"myWS"};
+    TString selMC = Form("isMC==%d", isMC); 
+    std::cout<<selMC<<std::endl;
+    AddModel(wspace);
+    AddData(wspace, name_file, tree_name, selMC);
+    DoSPlot(wspace);
+    const TTree *tree = wspace.data("dataWithSWeights")->GetClonedTree();
+    TFile *file = new TFile("test.root", "RECREATE");
+    tree->Write("tree");
+    file->Close();
 }
