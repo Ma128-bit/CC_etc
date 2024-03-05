@@ -237,9 +237,10 @@ void DsPhiPi_sPlot(TString name_file = "AllControl2022", TString tree_name = "Fi
     if(isMC == 0) DoSPlot(wspace);
     else DoSPlotMC(wspace);
     const TTree *tree = wspace.data("dataWithSWeights")->GetClonedTree();
+    TTree *clonedTree = tree->CloneTree();
     TFile *file = new TFile(name_file+"_sPlot_MC_"+Form("%d", isMC)+".root", "RECREATE");
-    tree->SetBranchStatus("L_nsigDp", 0);
-    tree->SetBranchStatus("nsigDp_sw", 0);
-    tree->Write(tree_name);
+    clonedTree->SetBranchStatus("L_nsigDp", 0);
+    clonedTree->SetBranchStatus("nsigDp_sw", 0);
+    clonedTree->Write(tree_name);
     file->Close();
 }
