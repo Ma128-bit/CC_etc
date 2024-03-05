@@ -39,7 +39,7 @@ binning_dict = {
 
 def fit_bkg(data):
     data.Draw("tripletMass>>h1(40, 1.65, 2.05)", "control_weight*(isMC==0 &&" + invmass_SB+")")
-    h1 = TH1F(gDirectory.Get("h1" + s))
+    h1 = TH1F(gDirectory.Get("h1"))
 
     x = RooRealVar("x", "2mu+1trk inv. mass (GeV)", 1.65, 2.05)
     x.setBins(40)
