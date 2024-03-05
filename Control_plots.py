@@ -59,7 +59,7 @@ def control_plots(file_name, year):
     
     # Data ALL
     data = TChain("FinalTree")
-    data.Add(data)
+    data.Add(file_name)
     
     for k in range(len(var)):
         varname = var[k]
