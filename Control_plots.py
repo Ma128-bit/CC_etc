@@ -37,7 +37,10 @@ binning_dict = {
     "MVASoft2": "(50,0.2,0.8)"
 }
 
-def fit_bkg(h1):
+def fit_bkg(data):
+    data.Draw("tripletMass>>h1(40, 1.65, 2.05)", "control_weight*(isMC==0 &&" + invmass_SB+")")
+    h1 = TH1F(gDirectory.Get("h1" + s))
+
     x = RooRealVar("x", "2mu+1trk inv. mass (GeV)", 1.65, 2.05)
     x.setBins(40)
     datahist = RooDataHist("datahist", h1.GetTitle(), RooArgSet(x), RooFit.Import(h1, ROOT.kFALSE))
@@ -61,6 +64,9 @@ def control_plots(file_name, year):
     # Data ALL
     data = TChain("FinalTree")
     data.Add(file_name)
+
+    scale = fit_bkg(data)
+    print(scale)
     
     for k in range(len(var)):
         varname = var[k]
@@ -84,8 +90,6 @@ def control_plots(file_name, year):
         
         # Scaling the SB distribution to the number of background events in 1.93,2.01
         normSB = hdata_bkg.GetEntries()
-        scale = fit_bkg(hdata_bkg)
-        print(scale)
         hdata_bkg.Scale(scale / normSB)
         #print("Entries in hdata_sig before SB subtraction:", hdata_sig.GetEntries())
         hdata_sig.Add(hdata_bkg, -1)  # subtract h2 from h1: h1->Add(h2,-1)
