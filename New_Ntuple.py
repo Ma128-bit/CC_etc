@@ -111,10 +111,10 @@ if __name__ == "__main__":
 
     if isTau3mu==True:
         #Filters for omega and phi:
-        df = df.Filter("(abs(dimu_OS1-0.782)>0.022 && category==0) || (abs(dimu_OS1-0.782)>0.032 && category==1) || (abs(dimu_OS1-0.782)>0.044 && category==2)")
-        df = df.Filter("(abs(dimu_OS2-0.782)>0.022 && category==0) || (abs(dimu_OS2-0.782)>0.032 && category==1) || (abs(dimu_OS2-0.782)>0.044 && category==2)")
-        df = df.Filter("(abs(dimu_OS1-1.019)>0.022 && category==0) || (abs(dimu_OS1-1.019)>0.030 && category==1) || (abs(dimu_OS1-1.019)>0.036 && category==2)")
-        df = df.Filter("(abs(dimu_OS2-1.019)>0.022 && category==0) || (abs(dimu_OS2-1.019)>0.030 && category==1) || (abs(dimu_OS2-1.019)>0.036 && category==2)")
+        #df = df.Filter("(abs(dimu_OS1-0.782)>0.022 && category==0) || (abs(dimu_OS1-0.782)>0.032 && category==1) || (abs(dimu_OS1-0.782)>0.044 && category==2)")
+        #df = df.Filter("(abs(dimu_OS2-0.782)>0.022 && category==0) || (abs(dimu_OS2-0.782)>0.032 && category==1) || (abs(dimu_OS2-0.782)>0.044 && category==2)")
+        #df = df.Filter("(abs(dimu_OS1-1.019)>0.022 && category==0) || (abs(dimu_OS1-1.019)>0.030 && category==1) || (abs(dimu_OS1-1.019)>0.036 && category==2)")
+        #df = df.Filter("(abs(dimu_OS2-1.019)>0.022 && category==0) || (abs(dimu_OS2-1.019)>0.030 && category==1) || (abs(dimu_OS2-1.019)>0.036 && category==2)")
         
         b_weights = ["ID", "year", "weight", "weight_MC", "weight_CC", "weight_CC_err", "Muon3_SF","Muon2_SF","Muon1_SF","Muon3_SF_err","Muon2_SF_err","Muon1_SF_err","weight_nVtx", "weight_nVtx_err", "training_weight", "combine_weight"]
         df = df.Define("training_weight", "weight_MC * weight_CC * Muon3_SF * weight_nVtx")
