@@ -40,10 +40,10 @@ if __name__ == "__main__":
             bkg.append(B)
             AMS.append(math.sqrt(2*((S+B)*math.log(1+S/B) - S)))
             
-        hist = TH1F("AMScat"+str(j), "AMS cat "+ str(j), 10, 0.5, 10.5)
+        hist = TH1F("AMScat"+str(j), "AMS cat "+ str(j), 10, 0.25, 5.25)
         for i in range(len(AMS)):
             hist.SetBinContent(i+1, AMS[i])
-        canvas.HaddTH1(hist, Color=j+2, SetXName="cut", SetYName="a.u.", label="Category "+str(j), FillStyle = 3004+j)
+        canvas.HaddTH1(hist, Color=j+2, SetXName="N. #sigma", SetYName="a.u.", label="Category "+str(j), FillStyle = 3004+j)
         del hist
 
     canvas.MakeLegend()
