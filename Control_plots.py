@@ -64,9 +64,9 @@ def control_plots(file_name, year, type):
     # Data ALL
     data = TChain("FinalTree")
     data.Add(file_name)
-
-    scale = fit_bkg(data)
-    print(scale)
+    if(type=="diff"):
+        scale = fit_bkg(data)
+        print(scale)
     
     for k in range(len(var)):
         varname = var[k]
