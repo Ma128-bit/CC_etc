@@ -31,7 +31,7 @@ if __name__ == "__main__":
         for i in range(0,11):
             s = str((j+1)*(i+1))
             data.Draw("tripletMass>>h_bkg" +s+ "(52, 1.6, 2)", "(isMC==0 && abs(1.777 - tripletMass)>"+ str(3*sigma_tau[j]) + "&& category=="+ str(j) + "&& abs(dimu_OS1 - 0.7826)>"+str((i/2)*sigma_omega[j])  + "&& abs(dimu_OS2 - 0.7826)>"+str((i/2)*sigma_omega[j])  +")")
-            data.Draw("tripletMass>>h_sig" +s+ "(52, 1.6, 2)", "combine_weight*(isMC>0" + "&& category=="+ str(j) + "&& abs(dimu_OS1 - 0.7826)>"+str((i/2)*sigma_omega[j])  + "&& abs(dimu_OS2 - 0.7826)>"+str((i/2)*sigma_omega[j])  +")")
+            data.Draw("tripletMass>>h_sig" +s+ "(52, 1.6, 2)", "(isMC>0" + "&& category=="+ str(j) + "&& abs(dimu_OS1 - 0.7826)>"+str((i/2)*sigma_omega[j])  + "&& abs(dimu_OS2 - 0.7826)>"+str((i/2)*sigma_omega[j])  +")")
             h_sig = gDirectory.Get("h_sig"+s)
             h_bkg = gDirectory.Get("h_bkg"+s)
             S=h_sig.Integral()
