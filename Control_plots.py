@@ -57,7 +57,7 @@ def fit_bkg(data):
     return h1.GetEntries()*fsigregion_bkg.getVal()/fbkgregion_bkg.getVal()
 
 
-def control_plots(file_name, year):
+def control_plots(file_name, year, type):
     if not os.path.exists("Control_Plots"):
         subprocess.run(["mkdir", "Control_Plots"])
     
@@ -72,20 +72,27 @@ def control_plots(file_name, year):
         varname = var[k]
         s = str(k)
         binning = binning_dict[varname]
-        data.Draw(varname + ">>hdata_bkg" + s+ binning, "control_weight*(isMC==0 &&" + invmass_SB+")")
-        data.Draw(varname + ">>hdata_sig" + s + binning, "control_weight*(isMC==0 &&" +invmass_peak+")")
-        hdata_bkg = TH1F(gDirectory.Get("hdata_bkg" + s))
-        hdata_sig = TH1F(gDirectory.Get("hdata_sig" + s))
+        if(type=="diff"):
+            data.Draw(varname + ">>hdata_bkg" + s+ binning, "control_weight*(isMC==0 &&" + invmass_SB+")")
+            data.Draw(varname + ">>hdata_sig" + s + binning, "control_weight*(isMC==0 &&" +invmass_peak+")")
+            hdata_bkg = TH1F(gDirectory.Get("hdata_bkg" + s))
+            hdata_sig = TH1F(gDirectory.Get("hdata_sig" + s))
         
-        data.Draw(varname + ">>hMC_sig" + s + binning, "control_weight*(isMC>0 &&" +invmass_peak+")")
-        hMC_sig = TH1F(gDirectory.Get("hMC_sig" + s))
+            data.Draw(varname + ">>hMC_sig" + s + binning, "control_weight*(isMC>0 &&" +invmass_peak+")")
+            hMC_sig = TH1F(gDirectory.Get("hMC_sig" + s))
         
-        # Scaling the SB distribution to the number of background events in 1.93,2.01
-        normSB = hdata_bkg.GetEntries()
-        hdata_bkg.Scale(scale / normSB)
-        #print("Entries in hdata_sig before SB subtraction:", hdata_sig.GetEntries())
-        hdata_sig.Add(hdata_bkg, -1)  # subtract h2 from h1: h1->Add(h2,-1)
-
+            # Scaling the SB distribution to the number of background events in 1.93,2.01
+            normSB = hdata_bkg.GetEntries()
+            hdata_bkg.Scale(scale / normSB)
+            #print("Entries in hdata_sig before SB subtraction:", hdata_sig.GetEntries())
+            hdata_sig.Add(hdata_bkg, -1)  # subtract h2 from h1: h1->Add(h2,-1)
+        
+        if(type=="sPlot"):
+            data.Draw(varname + ">>hdata_sig" + s+ binning, "nsigDs_sw*(isMC==0)")
+            hdata_sig = TH1F(gDirectory.Get("hdata_sig" + s))
+            data.Draw(varname + ">>hMC_sig" + s + binning, "nsigDs_sw*(isMC>0)")
+            hMC_sig = TH1F(gDirectory.Get("hMC_sig" + s))
+            
         # Rescaling
         hdata_sig.Scale(hMC_sig.Integral() / hdata_sig.Integral())
 
@@ -112,7 +119,9 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="--plots for control plots")
     parser.add_argument("--file", type=str, help="file name")
     parser.add_argument("--year", type=str, help="year (2022 or 2023)")
+    parser.add_argument("--type", type=str, help="sPlot or diff")
     args = parser.parse_args()
     file = args.file
     year = args.year
-    control_plots(file, year)
+    type = args.type
+    control_plots(file, year, type)
