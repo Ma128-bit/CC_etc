@@ -111,7 +111,8 @@ def control_plots(file_name, year, type):
         canvas.Save("Control_Plots/" + varname + "_"+year+".png", era=int(year), extra="Preliminary")
 
         h_x_ratio.Delete();
-        hdata_bkg.Delete();
+        if(type=="diff"):
+            hdata_bkg.Delete();
         hdata_sig.Delete();
         hMC_sig.Delete(); 
 
