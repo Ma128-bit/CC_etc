@@ -117,7 +117,8 @@ void DoSPlot(RooWorkspace &ws){
 
     RooMsgService::instance().setGlobalKillBelow(RooFit::ERROR);
 
-    RooStats::SPlot sData{"sData", "An SPlot", data, massModel, RooArgList(*nsigDs, *nsigDp, *nbkg)};
+    //RooStats::SPlot sData{"sData", "An SPlot", data, massModel, RooArgList(*nsigDs, *nsigDp, *nbkg)};
+    RooStats::SPlot sData{"sData", "An SPlot", data, massModel, RooArgList(*nsigDs, *nbkg)};
 
     std::cout << "\n\nThe dataset after creating sWeights:\n";
     data.Print();
@@ -128,13 +129,13 @@ void DoSPlot(RooWorkspace &ws){
 
     std::cout << std::endl << "Yield of Ds is\t" << nsigDs->getVal() << ".  From sWeights it is " << sData.GetYieldFromSWeight("nsigDs") << std::endl;
     
-    std::cout << "Yield of Dp is\t" << nsigDp->getVal() << ".  From sWeights it is " << sData.GetYieldFromSWeight("nsigDp") << std::endl << std::endl;
+    //std::cout << "Yield of Dp is\t" << nsigDp->getVal() << ".  From sWeights it is " << sData.GetYieldFromSWeight("nsigDp") << std::endl << std::endl;
 
     std::cout << "Yield of bkg is\t" << nbkg->getVal() << ".  From sWeights it is " << sData.GetYieldFromSWeight("nbkg") << std::endl << std::endl;
 
     for (Int_t i = 0; i < 10; i++) {
         std::cout << "Ds Weight for event " << i << std::right << std::setw(12) << sData.GetSWeight(i, "nsigDs") << "  Dp Weight"
-                << std::setw(12) << sData.GetSWeight(i, "nsigDp") << "  Total Weight" << std::setw(12) << sData.GetSumOfEventSWeight(i)
+                << std::setw(12) << sData.GetSWeight(i, "nbkg") << "  Total Weight" << std::setw(12) << sData.GetSumOfEventSWeight(i)
                 << std::endl;
     }
 
@@ -248,7 +249,9 @@ void DsPhiPi_sPlot(TString name_file = "AllControl2022", TString tree_name = "Fi
         }
     }
     file->Close();
+    /*
     ROOT::EnableImplicitMT(); // Tell ROOT you want to go parallel
     ROOT::RDataFrame d(tree_name, name_file+"_sPlot_MC_"+Form("%d", isMC)+".root"); 
     d.Snapshot(tree_name, name_file+"_sPlot_MC_"+Form("%d", isMC)+"_v2.root", branchNames);
+    */
 }
