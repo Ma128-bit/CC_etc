@@ -243,7 +243,7 @@ void DsPhiPi_sPlot(TString name_file = "AllControl2022", TString tree_name = "Fi
     tree->Write(tree_name, TObject::kOverwrite);
     for (const auto& branch : *const_cast<TTree*>(tree)->GetListOfBranches()) {
         std::string branchName = branch->GetName();
-        if (!branchName.Contains("__") &&  branchName!="nsigDp_sw" && branchName!="L_nsigDs") {
+        if (branchName!="nsigDp_sw" && branchName!="L_nsigDs") {
             branchNames.push_back(branchName);
         }
     }
