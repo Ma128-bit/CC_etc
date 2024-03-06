@@ -241,9 +241,9 @@ void DsPhiPi_sPlot(TString name_file = "AllControl2022", TString tree_name = "Fi
     std::vector<TString> branchNames;
     TFile *file = new TFile(name_file+"_sPlot_MC_"+Form("%d", isMC)+".root", "RECREATE");
     tree->Write(tree_name, TObject::kOverwrite);
-    for (const auto& branch : *tree->GetListOfBranches()) {
+    for (const auto& branch : *const_cast<TTree*>(tree)->GetListOfBranches()) {
         TString branchName = branch->GetName();
-        if (!branchName.Contains("__") && branchName!="tripletMass" && branchName!="nsigDp_sw" && branchName!="L_nsigDs") {
+        if (!branchName.Contains("__") &&  branchName!="nsigDp_sw" && branchName!="L_nsigDs") {
             branchNames.push_back(branchName);
         }
     }
