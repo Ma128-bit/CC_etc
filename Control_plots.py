@@ -108,7 +108,7 @@ def control_plots(file_name, year, type):
         canvas.DefTLine(Color=2, Orientation=1, Y=1., pull=True)
         canvas.HaddPull(SetGridx = True, YRange = [-0.5, 2])
         canvas.MakeLegend()
-        canvas.Save("Control_Plots/" + varname + "_"+year+".png", era=int(year), extra="Preliminary")
+        canvas.Save("Control_Plots/" + varname + "_"+year+"_"+type+".png", era=int(year), extra="Preliminary")
 
         h_x_ratio.Delete();
         if(type=="diff"):
