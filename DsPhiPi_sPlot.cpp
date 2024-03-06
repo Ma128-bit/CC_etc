@@ -237,12 +237,18 @@ void DsPhiPi_sPlot(TString name_file = "AllControl2022", TString tree_name = "Fi
     if(isMC == 0) DoSPlot(wspace);
     else DoSPlotMC(wspace);
     const TTree *tree = wspace.data("dataWithSWeights")->GetClonedTree();
-    
-    TTree *clonedTree = static_cast<TTree*>(const_cast<TTree*>(tree)->CloneTree());
 
+    std::vector<TString> branchNames;
     TFile *file = new TFile(name_file+"_sPlot_MC_"+Form("%d", isMC)+".root", "RECREATE");
-    clonedTree->SetBranchStatus("L_nsigDp", 0);
-    clonedTree->SetBranchStatus("nsigDp_sw", 0);
-    clonedTree->Write(tree_name, TObject::kOverwrite);
+    tree->Write(tree_name, TObject::kOverwrite);
+    for (const auto& branch : *tree->GetListOfBranches()) {
+        TString branchName = branch->GetName();
+        if (!branchName.Contains("__") && branchName!="tripletMass" && branchName!="nsigDp_sw" && branchName!="L_nsigDs") {
+            branchNames.push_back(branchName);
+        }
+    }
     file->Close();
+    ROOT::EnableImplicitMT(); // Tell ROOT you want to go parallel
+    ROOT::RDataFrame d(tree_name, name_file+"_sPlot_MC_"+Form("%d", isMC)+".root"); 
+    d.Snapshot(tree_name, name_file+"_sPlot_MC_"+Form("%d", isMC)+"_v2.root", branchNames);
 }
