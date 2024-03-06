@@ -238,11 +238,11 @@ void DsPhiPi_sPlot(TString name_file = "AllControl2022", TString tree_name = "Fi
     else DoSPlotMC(wspace);
     const TTree *tree = wspace.data("dataWithSWeights")->GetClonedTree();
 
-    std::vector<TString> branchNames;
+    std::vector<std::string>  branchNames;
     TFile *file = new TFile(name_file+"_sPlot_MC_"+Form("%d", isMC)+".root", "RECREATE");
     tree->Write(tree_name, TObject::kOverwrite);
     for (const auto& branch : *const_cast<TTree*>(tree)->GetListOfBranches()) {
-        TString branchName = branch->GetName();
+        std::string branchName = branch->GetName();
         if (!branchName.Contains("__") &&  branchName!="nsigDp_sw" && branchName!="L_nsigDs") {
             branchNames.push_back(branchName);
         }
