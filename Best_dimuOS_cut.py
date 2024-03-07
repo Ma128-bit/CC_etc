@@ -23,7 +23,8 @@ if __name__ == "__main__":
     data.Add(file)
 
     canvas = ROOTDrawer(SetGridx = True, SetLogY= True)
-    
+
+    maxB = []
     for j in range(3):
         sig = []
         bkg = []
@@ -42,6 +43,9 @@ if __name__ == "__main__":
             AMS.append(math.sqrt(2*((S+B)*math.log(1+S/B) - S)))
             
         hist = TH1F("AMScat"+str(j), "AMS cat "+ str(j), 21, -0.25, 10.25)
+        maxBin = hist.GetMaximumBin()
+        maxXValue = hist.GetXaxis().GetBinCenter(maxBin)
+        maxB.append(maxXValue)
         for i in range(len(AMS)):
             hist.SetBinContent(i+1, AMS[i])
         canvas.HaddTH1(hist, Color=j+2, SetXName="cut [10 MeV]", SetYName="a.u.", label="Category "+str(j), DrawOpt = "P", MarkerColor=j+2)
@@ -49,5 +53,5 @@ if __name__ == "__main__":
 
     canvas.MakeLegend()
     canvas.Save("prova.png", era=int(year), extra="Preliminary")
-    print(canvas.YRange)
+    print(maxB)
     
