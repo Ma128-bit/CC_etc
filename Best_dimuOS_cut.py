@@ -34,8 +34,8 @@ if __name__ == "__main__":
             s = str((j+1)*(i+1))
             #data.Draw("tripletMass>>h_bkg" +s+ "(52, 1.6, 2)", "(isMC==0 && abs(1.777 - tripletMass)>"+ str(3*sigma_tau[j]) + "&& category=="+ str(j) + "&& abs(dimu_OS1 - 0.7826)>"+str((i/2)*0.01)  + "&& abs(dimu_OS2 - 0.7826)>"+str((i/2)*0.01) + "&& abs(dimu_OS1 - 1.0195)>"+str((i/2)*0.01)  + "&& abs(dimu_OS2 - 1.0195)>"+str((i/2)*0.01) +")")
             #data.Draw("tripletMass>>h_sig" +s+ "(52, 1.6, 2)", "combine_weight*(isMC>0 && abs(1.777 - tripletMass)<"+ str(3*sigma_tau[j]) + "&& category=="+ str(j) + "&& abs(dimu_OS1 - 0.7826)>"+str((i/2)*0.01)  + "&& abs(dimu_OS2 - 0.7826)>"+str((i/2)*0.01) + "&& abs(dimu_OS1 - 1.0195)>"+str((i/2)*0.01)  + "&& abs(dimu_OS2 - 1.0195)>"+str((i/2)*0.01)  +")")
-            data.Draw("tripletMass>>h_bkg" +s+ "(52, 1.6, 2)", "(isMC==0 && abs(1.777 - tripletMass)>"+ str(3*sigma_tau[j]) + "&& category=="+ str(j) +  "&& abs(dimu_OS1 - 1.0195)>"+str((i/2)*0.01)  + "&& abs(dimu_OS2 - 1.0195)>"+str((i/2)*0.01) +")")
-            data.Draw("tripletMass>>h_sig" +s+ "(52, 1.6, 2)", "combine_weight*(isMC>0 && abs(1.777 - tripletMass)<"+ str(100*sigma_tau[j]) + "&& category=="+ str(j) + "&& abs(dimu_OS1 - 1.0195)>"+str((i/2)*0.01)  + "&& abs(dimu_OS2 - 1.0195)>"+str((i/2)*0.01)  +")")
+            data.Draw("tripletMass>>h_bkg" +s+ "(52, 1.6, 2)", "(isMC==0 && abs(1.777 - tripletMass)>"+ str(3*sigma_tau[j]) + "&& category=="+ str(j) +  "&& abs(dimu_OS1 - 1.0195)>"+str((i/4)*sigma_phi[j])  + "&& abs(dimu_OS2 - 1.0195)>"+str((i/4)*sigma_phi[j]) +")")
+            data.Draw("tripletMass>>h_sig" +s+ "(52, 1.6, 2)", "combine_weight*(isMC>0 && abs(1.777 - tripletMass)<"+ str(100*sigma_tau[j]) + "&& category=="+ str(j) + "&& abs(dimu_OS1 - 1.0195)>"+str((i/4)*sigma_phi[j])  + "&& abs(dimu_OS2 - 1.0195)>"+str((i/4)*sigma_phi[j])  +")")
             h_sig = gDirectory.Get("h_sig"+s)
             h_bkg = gDirectory.Get("h_bkg"+s)
             S=h_sig.Integral()
@@ -46,7 +46,7 @@ if __name__ == "__main__":
             AMS.append(math.sqrt(2*((S+B)*math.log(1+S/B) - S)))
 
         print(AMS)
-        hist.append(TH1F("AMScat"+str(j), "AMS cat "+ str(j), 21, -0.25, 10.25))
+        hist.append(TH1F("AMScat"+str(j), "AMS cat "+ str(j), 21, -0.125, 5.125))
         for i in range(len(AMS)):
             hist[j].SetBinContent(i+1, AMS[i])
         maxBin = hist[j].GetMaximumBin()
