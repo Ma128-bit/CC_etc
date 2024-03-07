@@ -385,7 +385,7 @@ class ROOTDrawer:
             else:
                 const =1.1
             self.histos[0][0].GetXaxis().SetRangeUser(self.XRange[0], self.XRange[1])
-            self.histos[0][0].GetYaxis().SetRangeUser(self.YRange[0], const * self.YRange[1])
+            self.histos[0][0].GetYaxis().SetRangeUser(self.YRange[0]/const, const * self.YRange[1])
             for i in range(len(self.histos)):
                 self.histos[i][0].Draw(self.histos[i][2])
                 
