@@ -40,7 +40,7 @@ if __name__ == "__main__":
             B=h_bkg.Integral()*6*sigma_tau[j]/(0.4-6*sigma_tau[j])
             sig.append(S)
             bkg.append(B)
-            AMS.append(S/B)
+            AMS.append(S/math.sqrt(B))
             #AMS.append(math.sqrt(2*((S+B)*math.log(1+S/B) - S)))
 
         print(AMS)
