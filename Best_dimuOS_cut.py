@@ -25,6 +25,7 @@ if __name__ == "__main__":
     canvas = ROOTDrawer(SetGridx = True, SetLogY= True)
 
     maxB = []
+    hist = []
     for j in range(3):
         sig = []
         bkg = []
@@ -41,15 +42,15 @@ if __name__ == "__main__":
             bkg.append(B)
             #AMS.append(S/B)
             AMS.append(math.sqrt(2*((S+B)*math.log(1+S/B) - S)))
-            
-        hist = TH1F("AMScat"+str(j), "AMS cat "+ str(j), 21, -0.25, 10.25)
-        maxBin = hist.GetMaximumBin()
-        maxXValue = hist.GetXaxis().GetBinCenter(maxBin)
+
+        print(AMS)
+        hist.append(TH1F("AMScat"+str(j), "AMS cat "+ str(j), 21, -0.25, 10.25))
+        maxBin = hist[j].GetMaximumBin()
+        maxXValue = hist[j].GetXaxis().GetBinCenter(maxBin)
         maxB.append(maxXValue)
         for i in range(len(AMS)):
-            hist.SetBinContent(i+1, AMS[i])
-        canvas.HaddTH1(hist, Color=j+2, SetXName="cut [10 MeV]", SetYName="a.u.", label="Category "+str(j), DrawOpt = "P", MarkerColor=j+2)
-        del hist
+            hist[j].SetBinContent(i+1, AMS[i])
+        canvas.HaddTH1(hist[j], Color=j+2, SetXName="cut [10 MeV]", SetYName="a.u.", label="Category "+str(j), DrawOpt = "P", MarkerColor=j+2)
 
     canvas.MakeLegend()
     canvas.Save("prova.png", era=int(year), extra="Preliminary")
