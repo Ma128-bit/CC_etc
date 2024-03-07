@@ -45,11 +45,12 @@ if __name__ == "__main__":
 
         print(AMS)
         hist.append(TH1F("AMScat"+str(j), "AMS cat "+ str(j), 21, -0.25, 10.25))
+        for i in range(len(AMS)):
+            hist[j].SetBinContent(i+1, AMS[i])
         maxBin = hist[j].GetMaximumBin()
         maxXValue = hist[j].GetXaxis().GetBinCenter(maxBin)
         maxB.append(maxXValue)
-        for i in range(len(AMS)):
-            hist[j].SetBinContent(i+1, AMS[i])
+
         canvas.HaddTH1(hist[j], Color=j+2, SetXName="cut [10 MeV]", SetYName="a.u.", label="Category "+str(j), DrawOpt = "P", MarkerColor=j+2)
 
     canvas.MakeLegend()
