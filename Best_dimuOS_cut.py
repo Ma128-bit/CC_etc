@@ -22,7 +22,7 @@ if __name__ == "__main__":
     data = TChain("FinalTree")
     data.Add(file)
 
-    canvas = ROOTDrawer(SetGridx = True)
+    canvas = ROOTDrawer(SetGridx = True, SetLogY= True)
     
     for j in range(3):
         sig = []
