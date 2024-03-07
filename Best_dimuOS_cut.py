@@ -53,7 +53,7 @@ if __name__ == "__main__":
         maxXValue = hist[j].GetXaxis().GetBinCenter(maxBin)
         maxB.append(maxXValue)
 
-        canvas.HaddTH1(hist[j], Color=j+2, SetXName="cut [10 MeV]", SetYName="a.u.", label="Category "+str(j), DrawOpt = "P", MarkerColor=j+2)
+        canvas.HaddTH1(hist[j], Color=j+2, SetXName="cut [n. #sigma]", SetYName="a.u.", label="Category "+str(j), DrawOpt = "P", MarkerColor=j+2)
 
     canvas.MakeLegend()
     #canvas.Save("prova.png", era=int(year), extra="Preliminary")
