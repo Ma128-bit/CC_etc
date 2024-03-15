@@ -44,7 +44,7 @@ struct add_index{
 };
 
 double add_vrtx_proba(double fv_nc){
-    return TMath::Prob(3*fv_nc, 3)
+    return TMath::Prob(3*fv_nc, 3);
 }
 
 double add_weight_CC(unsigned int slot, const ROOT::RDF::RSampleInfo &id){
