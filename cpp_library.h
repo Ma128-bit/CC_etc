@@ -3,6 +3,7 @@
 #include <ROOT/RVec.hxx>
 #include <ROOT/RDF/RInterface.hxx>
 #include <TFile.h>
+#include <TMath.h>
 #include <TTree.h>
 #include <TChain.h>
 #include <TCanvas.h>
@@ -41,6 +42,10 @@ struct add_index{
         return i;
     }
 };
+
+double add_vrtx_proba(double chi2, int ndof){
+    return TMath::Prob(chi2,ndof)
+}
 
 double add_weight_CC(unsigned int slot, const ROOT::RDF::RSampleInfo &id){
     if(id.Contains("_preE") && !(id.Contains("DsPhiPi"))) return weight_CC_preE;
