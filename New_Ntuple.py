@@ -109,6 +109,9 @@ if __name__ == "__main__":
     if not os.path.exists("ROOTFiles"):
         subprocess.run(["mkdir", "ROOTFiles"])
 
+    df = df.Define("vtx_prob","add_vrtx_proba(fv_nC)")
+    branches.append("vtx_prob")
+    
     if isTau3mu==True:
         #Filters for omega and phi:
         df = df.Filter("(abs(dimu_OS1-0.782)>0.033 && category==0) || (abs(dimu_OS1-0.782)>0.048 && category==1) || (abs(dimu_OS1-0.782)>0.066 && category==2)")
