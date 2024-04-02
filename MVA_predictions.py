@@ -34,6 +34,7 @@ def save_data(data, fileName):
 def predict(data, index, model):
     branches = [var + str(index) for var in branches_MVA]
     X = data[branches]
+    X = X.rename_axis(None, axis=1)
     predictions = model.predict(X)
     data["privateMVA_mu"+str(index)] = predictions
     return data
