@@ -42,6 +42,7 @@ if __name__ == "__main__":
     file = "/lustrehome/mbuonsante/Tau_3mu/Ntuple/CMSSW_13_0_13/src/Analysis/Ds_preE_tau3mu_PromptReco/AnalysedTree_MC_Ds_preE_tau3mu0.root"
     model = joblib.load('Tau3MuMVA.pkl')
     data = load_data(file)
-    for i in range(3):
+    for i in range(1,4):
+        print("i")
         predict(data, i, model)
     save_data(data, "test.root")
