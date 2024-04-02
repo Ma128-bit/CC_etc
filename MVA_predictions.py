@@ -35,7 +35,8 @@ def predict(data, index, model, id2):
     try:
         branches = [var + str(index) for var in branches_MVA]
         X = data[branches]
-        X.loc[:, branches[id2]] = X.loc[:, branches[id2]].astype(int)
+        new_column = X.loc[:, branches[id2]].astype(int)
+        X.loc[:, branches[id2]] = new_column
         predictions = model.predict(X)
         data["privateMVA_mu"+str(index)]
         return data
