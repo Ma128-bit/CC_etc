@@ -35,7 +35,7 @@ def predict(data, index, model):
     branches = [var + str(index) for var in branches_MVA]
     X = data[branches]
     predictions = model.predict(X)
-    data["privateMVA_mu"+str(index)]
+    data["privateMVA_mu"+str(index)] = predictions
     return data
 
 
