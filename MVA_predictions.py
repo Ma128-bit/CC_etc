@@ -31,18 +31,26 @@ def save_data(data, fileName):
     rdf.Snapshot("FinalTree", fileName+".root")
     print("File ROOT saved!")
 
-def predict(data, index, model):
-    branches = [var + str(index) for var in branches_MVA]
-    X = data[branches]
-    predictions = model.predict(X)
-    data["privateMVA_mu"+str(index)]
-    return data
+def predict(data, index, model, id2):
+    try:
+        branches = [var + str(index) for var in branches_MVA]
+        X = data[branches]
+        X[branches[id2]] = df[branches[id2]].astype(int)
+        predictions = model.predict(X)
+        data["privateMVA_mu"+str(index)]
+        return data
+    except:
+        print(id2, " is not OK")
 
 if __name__ == "__main__":
     file = "/lustrehome/mbuonsante/Tau_3mu/Ntuple/CMSSW_13_0_13/src/Analysis/Ds_preE_tau3mu_PromptReco/AnalysedTree_MC_Ds_preE_tau3mu0.root"
     model = joblib.load('Tau3MuMVA.pkl')
     data = load_data(file)
+    for j in range(len(branches_MVA)):
+        predict(data, 1, model, j)
+    """
     for i in range(1,4):
         print("i")
         predict(data, i, model)
     save_data(data, "test.root")
+    """
