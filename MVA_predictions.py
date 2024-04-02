@@ -34,7 +34,7 @@ def save_data(data, fileName):
 def predict(data, index, model, id2):
     branches = [var + str(index) for var in branches_MVA]
     X = data[branches]
-    X[branches[id2]] = df[branches[id2]].astype(int)
+    X[branches[id2]] = X[branches[id2]].astype(int)
     predictions = model.predict(X)
     data["privateMVA_mu"+str(index)]
     return data
