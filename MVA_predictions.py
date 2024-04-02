@@ -44,7 +44,7 @@ if __name__ == "__main__":
     model = joblib.load('Tau3MuMVA.pkl')
     data = load_data(file)
     for i in range(1,4):
-        print("i")
+        print(i)
         predict(data, i, model)
     save_data(data, "test.root")
 
