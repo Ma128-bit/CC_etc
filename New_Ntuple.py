@@ -45,7 +45,7 @@ branches_MVA =[
     "validMuonHitComb", "nValidTrackerHits",
     "nValidPixelHits", "GL_nValidMuHits", "nStationsMu", "nMatchesMu", 
     "innerTrk_ValidFraction_", "innerTrk_highPurity_", 
-    "innerTrk_normChi2_", "outerTrk_normChi2_" "outerTrk_muStValidHits_"   
+    "innerTrk_normChi2_", "outerTrk_normChi2_", "outerTrk_muStValidHits_"   
 ]
 
 branches_tau3mu = branches_tau3mu + [var + "1" for var in branches_MVA] + [var + "2" for var in branches_MVA] + [var + "3" for var in branches_MVA]
