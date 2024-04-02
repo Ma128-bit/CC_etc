@@ -48,7 +48,7 @@ if __name__ == "__main__":
     file = "/lustrehome/mbuonsante/Tau_3mu/Ntuple/CMSSW_13_0_13/src/Analysis/Ds_preE_tau3mu_PromptReco/AnalysedTree_MC_Ds_preE_tau3mu0.root"
     model = joblib.load('Tau3MuMVA.pkl')
     # Ottieni l'elenco delle features utilizzate per l'addestramento
-    features_used = loaded_model.feature_importances_
+    features_used = model.feature_importances_
 
     # Stampa l'importanza delle features
     for i, importance in enumerate(features_used):
