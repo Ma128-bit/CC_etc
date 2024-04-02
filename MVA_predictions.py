@@ -47,8 +47,8 @@ if __name__ == "__main__":
     model = joblib.load('Tau3MuMVA.pkl')
     data = load_data(file)
     predict(data, 1, model, 10)
-    for j in range(len(branches_MVA)):
-        predict(data, 1, model, j)
+    #for j in range(len(branches_MVA)):
+        #predict(data, 1, model, j)
     """
     for i in range(1,4):
         print("i")
