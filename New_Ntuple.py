@@ -43,7 +43,7 @@ branches_MVA =[
     "match1_dX_", "match1_pullX_", "match1_pullDxDz_", "match1_dY_", "match1_pullY_", "match1_pullDyDz_", 
     "match2_dX_", "match2_pullX_", "match2_pullDxDz_", "match2_dY_", "match2_pullY_", "match2_pullDyDz_", 
     "validMuonHitComb", "nValidTrackerHits",
-    "nValidPixelHits", "GL_nValidMuHits", "nStationsMu", "nMatchesMu", 
+    "nValidPixelHits", "GL_nValidMuHits", "nStMu", "nMatchesMu", 
     "innerTrk_ValidFraction_", "innerTrk_highPurity_", 
     "innerTrk_normChi2_", "outerTrk_normChi2_", "outerTrk_muStValidHits_"   
 ]
