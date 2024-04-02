@@ -31,7 +31,7 @@ def save_data(data, fileName):
     rdf.Snapshot("FinalTree", fileName+".root")
     print("File ROOT saved!")
 
-def predict(data, index, model, id2):
+def predict(data, index, model):
     branches = [var + str(index) for var in branches_MVA]
     X = data[branches]
     new_column = X.loc[:, branches[id2]].astype(int)
