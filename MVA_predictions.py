@@ -46,5 +46,5 @@ if __name__ == "__main__":
     for i in range(1,4):
         print(i)
         predict(data, i, model)
-    save_data(data, "test.root")
+    save_data(data, "test")
 
