@@ -37,6 +37,7 @@ def predict(data, index, model):
     X = X.rename_axis(None, axis=1)
     predictionsID = model.predict(X)
     predictions = model.predict_proba(X)
+    print(predictions)
     data["privateMVAID_mu"+str(index)] = predictionsID
     data["privateMVA_mu"+str(index)] = predictions[1]
     return data
