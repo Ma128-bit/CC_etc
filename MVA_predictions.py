@@ -50,13 +50,16 @@ if __name__ == "__main__":
     model = joblib.load('Tau3MuMVA.pkl')
     data = load_data(file)
     print(len(data))
-    branches_temp = [var + str(1) for var in branches_MVA] + [var + str(2) for var in branches_MVA] + [var + str(3) for var in branches_MVA]
-    data = data[(data[branches_temp] != -99).all(axis=1)]
     for v in branches_temp:
         print(v, " : ", (data[v] == -99).sum(axis=1))
+    """
     print(len(data))
+    branches_temp = [var + str(1) for var in branches_MVA] + [var + str(2) for var in branches_MVA] + [var + str(3) for var in branches_MVA]
+    data = data[(data[branches_temp] != -99).all(axis=1)]
+    
     for i in range(1,4):
         print(i)
         predict(data, i, model)
     save_data(data, "test")
+    """
 
