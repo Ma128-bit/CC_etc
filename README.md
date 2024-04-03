@@ -1,4 +1,4 @@
-# CC_etc
+# Utilities
 Plots for CC and other things done between ntuple/analysis and xgboost
 
 ## Setting the environment
