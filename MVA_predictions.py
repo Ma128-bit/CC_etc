@@ -39,7 +39,7 @@ def predict(data, index, model):
     predictions = model.predict_proba(X)
     print(predictions)
     data["privateMVAID_mu"+str(index)] = predictionsID
-    data["privateMVA_mu"+str(index)] = predictions[1]
+    data["privateMVA_mu"+str(index)] = predictions[:,0]
     return data
 
 
