@@ -52,7 +52,7 @@ if __name__ == "__main__":
     print(len(data))
     branches_temp = [var + str(1) for var in branches_MVA] + [var + str(2) for var in branches_MVA] + [var + str(3) for var in branches_MVA]
     for v in branches_temp:
-        print(v, " : ", (data[v] == -99).sum(axis=1))
+        print(v, " : ", (data[v] == -99).sum())
     """
     print(len(data))
     data = data[(data[branches_temp] != -99).all(axis=1)]
