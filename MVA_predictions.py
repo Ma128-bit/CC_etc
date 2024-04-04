@@ -46,7 +46,9 @@ def predict(data, index, model):
 
 
 if __name__ == "__main__":
-    file = "/lustrehome/mbuonsante/Tau_3mu/Ntuple/CMSSW_13_0_13/src/Analysis/Ds_preE_tau3mu_PromptReco/AnalysedTree_MC_Ds_preE_tau3mu0.root"
+    file = "/lustrehome/mbuonsante/Tau_3mu/Ntuple/CMSSW_13_0_13/src/Analysis/JobAdd_perEra/Era_C_tau3mu.root"
+    #file = "/lustrehome/mbuonsante/Tau_3mu/Ntuple/CMSSW_13_0_13/src/Analysis/JobAdd_perEra/MC_Ds_preE.root"
+    #file = "/lustrehome/mbuonsante/Tau_3mu/Ntuple/CMSSW_13_0_13/src/Analysis/JobAdd_perEra/MC_Bp_preE.root"
     model = joblib.load('privateMVA.pkl')
     data = load_data(file)
     print(len(data))
