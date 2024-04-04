@@ -47,15 +47,17 @@ def predict(data, index, model):
 
 if __name__ == "__main__":
     file = "/lustrehome/mbuonsante/Tau_3mu/Ntuple/CMSSW_13_0_13/src/Analysis/Ds_preE_tau3mu_PromptReco/AnalysedTree_MC_Ds_preE_tau3mu0.root"
-    model = joblib.load('Tau3MuMVA.pkl')
+    model = joblib.load('privateMVA.pkl')
     data = load_data(file)
     print(len(data))
+    """
     branches_temp = [var + str(1) for var in branches_MVA] + [var + str(2) for var in branches_MVA] + [var + str(3) for var in branches_MVA]
     for v in branches_temp:
         print(v, " : ", (data[v] == -99).sum())
-    """
+    
     print(len(data))
     data = data[(data[branches_temp] != -99).all(axis=1)]
+    """
     for i in range(1,4):
         print(i)
         predict(data, i, model)
