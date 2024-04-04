@@ -62,5 +62,4 @@ if __name__ == "__main__":
         print(i)
         predict(data, i, model)
     save_data(data, "test")
-    """
 
