@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 from ROOT import RDF
 from sklearn.ensemble import HistGradientBoostingClassifier
-"""
+
 branches_MVA =[
     "Ptmu", "Etamu", "Vx", "Vy", "Vz", "cQ_uS_", "cQ_tK_", "cQ_gK_", "cQ_tRChi2_",
     "cQ_sRChi2_", "cQ_Chi2LP_", "cQ_Chi2LM_", "cQ_lD_", "cQ_gDEP_", "cQ_tM_", "cQ_gTP_", 
@@ -33,6 +33,7 @@ branches_MVA = [
     'innerTrk_normChi2_',
     'outerTrk_normChi2_'
 ]
+"""
 def load_data(file_name):
     """Load ROOT data and turn tree into a pd dataframe"""
     print("Loading data from", file_name)
@@ -69,7 +70,8 @@ if __name__ == "__main__":
     #file = "/lustrehome/mbuonsante/Tau_3mu/Ntuple/CMSSW_13_0_13/src/Analysis/JobAdd_perEra/Era_C_tau3mu.root"
     file = "/lustrehome/mbuonsante/Tau_3mu/Ntuple/CMSSW_13_0_13/src/Analysis/JobAdd_perEra/MC_Ds_preE.root"
     #file = "/lustrehome/mbuonsante/Tau_3mu/Ntuple/CMSSW_13_0_13/src/Analysis/JobAdd_perEra/MC_Bp_preE.root"
-    model = joblib.load('Tau3MuMVA_Run2Features.pkl')
+    #model = joblib.load('Tau3MuMVA_Run2Features.pkl')
+    model = joblib.load('privateMVA.pkl')
     data = load_data(file)
     """
     branches_temp = [var + str(1) for var in branches_MVA] + [var + str(2) for var in branches_MVA] + [var + str(3) for var in branches_MVA]
