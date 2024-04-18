@@ -53,7 +53,7 @@ def predict(data, index, model):
     print("Start prediction label: ", index)
     branches = [var + str(index) for var in branches_MVA]
     X = data[branches]
-    X = X.rename_axis(None, axis=1)
+    X = X.values
     predictionsID = model.predict(X)
     predictions = model.predict_proba(X)
     data["privateMVAID_mu"+str(index)] = predictionsID
