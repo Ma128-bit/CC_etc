@@ -50,6 +50,7 @@ def save_data(data, fileName):
     print("File ROOT saved!")
 
 def predict(data, index, model):
+    print("Start prediction label: ", index)
     branches = [var + str(index) for var in branches_MVA]
     X = data[branches]
     X = X.rename_axis(None, axis=1)
@@ -60,6 +61,7 @@ def predict(data, index, model):
     del predictions
     del predictionsID
     del X
+    print("Done!")
     return data
 
 
@@ -68,7 +70,7 @@ if __name__ == "__main__":
     #file = "/lustrehome/mbuonsante/Tau_3mu/Ntuple/CMSSW_13_0_13/src/Analysis/JobAdd_perEra/MC_Ds_preE.root"
     #file = "/lustrehome/mbuonsante/Tau_3mu/Ntuple/CMSSW_13_0_13/src/Analysis/JobAdd_perEra/MC_Bp_preE.root"
     model = joblib.load('Tau3MuMVA_Run2Features.pkl')
-    data = load_data(file)
+    #data = load_data(file)
     print(len(data))
     """
     branches_temp = [var + str(1) for var in branches_MVA] + [var + str(2) for var in branches_MVA] + [var + str(3) for var in branches_MVA]
@@ -79,7 +81,6 @@ if __name__ == "__main__":
     data = data[(data[branches_temp] != -99).all(axis=1)]
     """
     for i in range(1,4):
-        print(i)
         data = predict(data, i, model)
     save_data(data, "test")
 
