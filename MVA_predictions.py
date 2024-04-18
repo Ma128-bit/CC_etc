@@ -71,7 +71,6 @@ if __name__ == "__main__":
     #file = "/lustrehome/mbuonsante/Tau_3mu/Ntuple/CMSSW_13_0_13/src/Analysis/JobAdd_perEra/MC_Bp_preE.root"
     model = joblib.load('Tau3MuMVA_Run2Features.pkl')
     data = load_data(file)
-    print(len(data))
     """
     branches_temp = [var + str(1) for var in branches_MVA] + [var + str(2) for var in branches_MVA] + [var + str(3) for var in branches_MVA]
     for v in branches_temp:
