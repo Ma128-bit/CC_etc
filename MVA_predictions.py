@@ -67,7 +67,7 @@ def predict(data, index, model):
 
 
 if __name__ == "__main__":
-    file = "/lustrehome/mbuonsante/Tau_3mu/Ntuple/CMSSW_13_0_13/src/Analysis/JobAdd_perEra/Era_C_tau3mu.root"
+    file = "/lustrehome/mbuonsante/Tau_3mu/Ntuple/CMSSW_13_0_13/src/Analysis/JobAdd_perEra/Era_F_tau3mu.root"
     #file = "/lustrehome/mbuonsante/Tau_3mu/Ntuple/CMSSW_13_0_13/src/Analysis/JobAdd_perEra/MC_Ds_preE.root"
     #file = "/lustrehome/mbuonsante/Tau_3mu/Ntuple/CMSSW_13_0_13/src/Analysis/JobAdd_perEra/MC_Bp_preE.root"
     #model = joblib.load('Tau3MuMVA_Run2Features.pkl')
