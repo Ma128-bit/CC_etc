@@ -3,7 +3,8 @@ single_mu_SF_postE = "/lustrehome/mbuonsante/Tau_3mu/CMSSW_12_4_11_patch3/src/Ma
 PV_SFs = "/lustrehome/mbuonsante/Tau_3mu/CC_etc/CMSSW_13_0_13/src/PV_Histo/histogram_ratio.root"
 
 data_path = "/lustrehome/mbuonsante/Tau_3mu/Ntuple/CMSSW_13_0_13/src/Analysis/JobAdd_perEra"
-    
+
+# 2022:
 tau3mu_Run2022C = data_path + "/Era_C_tau3mu.root"
 tau3mu_Run2022D = data_path + "/Era_D_tau3mu.root"
 tau3mu_Run2022E = data_path + "/Era_E_tau3mu.root"
@@ -26,6 +27,7 @@ MC2022_Ds_post = data_path + "/MC_Ds_postE.root"
 MC2022_DsPhiPi_pre = data_path + "/MC_DsPhiPi_preE.root"
 MC2022_DsPhiPi_post = data_path + "/MC_DsPhiPi_postE.root"
 
+# 2023:
 tau3mu_Run2023B = data_path + "_2023/Era_B_tau3mu.root"
 tau3mu_Run2023C = data_path + "_2023/Era_C_tau3mu.root"
 tau3mu_Run2023D = data_path + "_2023/Era_D_tau3mu.root"
@@ -34,6 +36,15 @@ control_Run2023B = data_path + "_2023/Era_B_control.root"
 control_Run2023C = data_path + "_2023/Era_C_control.root"
 control_Run2023D = data_path + "_2023/Era_D_control.root"
 
+MC2023_B0_pre = data_path + "_2023/MC_B0_preBPix.root"
+MC2023_B0_post = data_path + "_2023/MC_B0_postBPix.root"
+MC2023_Bp_pre = data_path + "_2023/MC_Bp_preBPix.root"
+MC2023_Bp_post = data_path + "_2023/MC_Bp_postBPix.root"
+MC2023_Ds_pre = data_path + "_2023/MC_Ds_preBPix.root"
+MC2023_Ds_post = data_path + "_2023/MC_Ds_postBPix.root"
+
+MC2023_DsPhiPi_pre = data_path + "_2023/MC_DsPhiPi_preBPix.root"
+MC2023_DsPhiPi_post = data_path + "_2023/MC_DsPhiPi_postBPix.root"
 
 data_path2 = "/lustre/cms/store/user/mbuonsan/"
 
