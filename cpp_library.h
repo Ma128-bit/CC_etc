@@ -35,10 +35,10 @@ double N_Ds_preE = 2053049.0, N_Ds_postE = 7121988.0;
 double N_B0_preE = 808162.0, N_B0_postE = 2687450.0;
 double N_DsPhiPi_preE = 290495.0, N_DsPhiPi_postE = 1199193.0;
 
-double N_Bp_preBPix = 510862.0, N_Bp_postBPix = 1623692.0;
-double N_Ds_preBPix = 2053049.0, N_Ds_postBPix = 7121988.0;
-double N_B0_preBPix = 808162.0, N_B0_postBPix = 2687450.0;
-double N_DsPhiPi_preBPix = 290495.0, N_DsPhiPi_postBPix = 1199193.0;
+double N_Bp_preBPix = 1465123.0, N_Bp_postBPix = 978445.0;
+double N_Ds_preBPix = 5511468.0, N_Ds_postBPix = 2661243.0;
+double N_B0_preBPix = 2271801.0, N_B0_postBPix = 1198661.0;
+double N_DsPhiPi_preBPix = 1009314.0, N_DsPhiPi_postBPix = 1157864.0;
 
 double weight_CC_preE = 0.71, weight_CC_postE = 0.82;
 double weight_CC_preE_err = 0.04, weight_CC_postE_err = 0.08;
