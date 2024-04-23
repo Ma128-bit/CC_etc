@@ -197,11 +197,13 @@ def fit(tree, year, lumi, era):
     totalPDF = RooAddPdf("totalPDF", "totalPDF", RooArgList(sig_right, sig_left, exp_bkg), RooArgList(nSig_right, nSig_left, nBkg))
 
     #if (era == year) or (era == "Post_EE") or (era == "Pre_EE"):  
-    if (era != "F" and year==2022):
-        r = totalPDF.fitTo(data, RooFit.Extended(ROOT.kTRUE), RooFit.Save(ROOT.kTRUE), ROOT.RooFit.Minimizer("Minuit2", "Migrad"))
-    else: #C, D, etc
-        r = totalPDF.fitTo(data, RooFit.Extended(ROOT.kTRUE), RooFit.Save(ROOT.kTRUE))    
+    #if (era != "F" and year==2022):
+    #    r = totalPDF.fitTo(data, RooFit.Extended(ROOT.kTRUE), RooFit.Save(ROOT.kTRUE), ROOT.RooFit.Minimizer("Minuit2", "Migrad"))
+    #else: #C, D, etc
+    #    r = totalPDF.fitTo(data, RooFit.Extended(ROOT.kTRUE), RooFit.Save(ROOT.kTRUE))    
 
+    r = totalPDF.fitTo(data, RooFit.Extended(ROOT.kTRUE), RooFit.Save(ROOT.kTRUE))    
+    
     xframe = x.frame()
     xframe.SetTitle("")
     xframe.SetXTitle("2mu +1trk inv. mass (GeV)")
