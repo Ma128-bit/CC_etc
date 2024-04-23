@@ -180,7 +180,7 @@ def fit(tree, year, lumi, era):
     nSigma1 = RooRealVar("n1", "n1", 1.0, 0.1, 25.0)
     sig_right = RooCBShape("sig_right", "sig_right", x, meanCB, sigmaCB1, alpha1, nSigma1)
 
-    meanCB2 = RooRealVar("mean2", "meanCB2", 1.87, 1.82, 1.91)
+    meanCB2 = RooRealVar("mean2", "meanCB2", 1.87, 1.82, 1.89)
     sigmaCB2 = RooRealVar("#sigma2_{CB}", "sigmaCB2", 0.05, 0.001, 0.05)
     alpha2 = RooRealVar("#alpha2", "alpha2", 1.0, 0.5, 10.0)
     nSigma2 = RooRealVar("n2", "n2", 1.0, 0.1, 25.0)
@@ -197,7 +197,7 @@ def fit(tree, year, lumi, era):
     totalPDF = RooAddPdf("totalPDF", "totalPDF", RooArgList(sig_right, sig_left, exp_bkg), RooArgList(nSig_right, nSig_left, nBkg))
 
     #if (era == year) or (era == "Post_EE") or (era == "Pre_EE"):  
-    if (era != "F"):
+    if (era != "F" and year==2022):
         r = totalPDF.fitTo(data, RooFit.Extended(ROOT.kTRUE), RooFit.Save(ROOT.kTRUE), ROOT.RooFit.Minimizer("Minuit2", "Migrad"))
     else: #C, D, etc
         r = totalPDF.fitTo(data, RooFit.Extended(ROOT.kTRUE), RooFit.Save(ROOT.kTRUE))    
