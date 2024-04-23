@@ -265,9 +265,9 @@ def fit(tree, year, lumi, era):
     fb_err = fsigregion_bkg.getPropagatedError(r)
 
     nsigevents = fs * (nSig_right.getVal() + nSig_left.getVal() + nBkg.getVal()) - fb * nBkg.getVal()
-    nsig_err = ROOT.TMath.Sqrt(fs_err**2 * (nSig_right.getVal() + nSig_left.getVal() + nBkg.getVal())**2 +
-                               (nSig_right.getPropagatedError(r)**2 + nSig_left.getPropagatedError(r)**2 + nBkg.getPropagatedError(r)**2) * fs**2 + 
-                               fb_err**2 * nBkg.getVal()**2 + nBkg.getPropagatedError(r)**2 * fb**2 )
+    nsig_err = ROOT.TMath.Sqrt(fs_err*fs_err * (nSig_right.getVal() + nSig_left.getVal() + nBkg.getVal())**2 +
+                               (nSig_right.getPropagatedError(r)*nSig_right.getPropagatedError(r) + nSig_left.getPropagatedError(r)*nSig_left.getPropagatedError(r) + nBkg.getPropagatedError(r)*nBkg.getPropagatedError(r)) * fs*fs + 
+                               fb_err*fb_err * nBkg.getVal()*nBkg.getVal() + nBkg.getPropagatedError(r)*nBkg.getPropagatedError(r) * (fb)*(fb) )
     
     fsig = nsigevents / (fsigregion_model.getVal() * (nSig_right.getVal() + nSig_left.getVal() + nBkg.getVal()))
     
