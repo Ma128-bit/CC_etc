@@ -174,13 +174,13 @@ def fit(tree, year, lumi, era):
     x.setRange("R2", 1.89, 1.925)
     x.setRange("R3", 1.99, 2.02)
 
-    meanCB = RooRealVar("mean", "meanCB", 1.97, 1.95, 2.0)
+    meanCB = RooRealVar("mean", "meanCB", 1.97, 1.95, 2.1)
     sigmaCB1 = RooRealVar("#sigma_{CB}", "sigmaCB1", 0.02, 0.001, 0.1)    
     alpha1 = RooRealVar("#alpha1", "alpha1", 1.0, 0.5, 10.0)
     nSigma1 = RooRealVar("n1", "n1", 1.0, 0.1, 25.0)
     sig_right = RooCBShape("sig_right", "sig_right", x, meanCB, sigmaCB1, alpha1, nSigma1)
 
-    meanCB2 = RooRealVar("mean2", "meanCB2", 1.87, 1.84, 1.89)
+    meanCB2 = RooRealVar("mean2", "meanCB2", 1.87, 1.84, 1.92)
     sigmaCB2 = RooRealVar("#sigma2_{CB}", "sigmaCB2", 0.05, 0.001, 0.05)
     alpha2 = RooRealVar("#alpha2", "alpha2", 1.0, 0.5, 10.0)
     nSigma2 = RooRealVar("n2", "n2", 1.0, 0.1, 25.0)
