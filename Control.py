@@ -205,7 +205,7 @@ def fit(tree, year, lumi, era):
     xframe = x.frame()
     xframe.SetTitle("")
     xframe.SetXTitle("2mu +1trk inv. mass (GeV)")
-    totalPDF.paramOn(xframe, RooFit.Parameters(RooArgSet(alpha2, nSigma2, sigmaCB2, meanCB2, nSig_left, nSig_right, nBkg)), RooFit.Layout(0.6, 0.9, 0.9))
+    totalPDF.paramOn(xframe, RooFit.Parameters(RooArgSet(alpha2, nSigma2, sigmaCB2, meanCB2, nSig_left, nSig_right, nBkg)), RooFit.Layout(0.1, 0.1, 0.5))
     data.plotOn(xframe)
     totalPDF.plotOn(xframe, RooFit.Components(RooArgSet(sig_right, sig_left)), RooFit.LineColor(ROOT.kRed), RooFit.LineStyle(ROOT.kDashed))
     totalPDF.plotOn(xframe, RooFit.Components(RooArgSet(exp_bkg)), RooFit.LineColor(ROOT.kGreen), RooFit.LineStyle(ROOT.kDashed))
