@@ -25,6 +25,7 @@ Era2022 = {
 }
 
 Era2023 = {
+    "B": control_Run2023B,
     "C": control_Run2023C,
     "D": control_Run2023D
 }
@@ -35,20 +36,23 @@ MC2022 = {
 }
 
 lumi2022 = {
-    "C": "0.250",
-    "D": "0.149",
-    "E": "0.293",
-    "F": "0.870",
-    "G": "0.154",
-    "ToT": "1.716",
-    "Pre_EE": "0.399",
-    "Post_EE": "1.317"
+    "C": "0.248",
+    "D": "0.147",
+    "E": "0.288",
+    "F": "0.881",
+    "G": "0.152",
+    "ToT": "1.715",
+    "Pre_EE": "0.394",
+    "Post_EE": "1.321"
 }
 
 lumi2023 = {
-    "C": "0.842",
-    "D": "0.462",
-    "ToT": "1.304",
+    "B": "0.030",
+    "C": "0.854",
+    "D": "0.461",
+    "Pre_BPix": "0.884",
+    "Post_BPix": "0.461",
+    "ToT": "1.344",
 }
 
 binning_dict = {
@@ -307,6 +311,8 @@ def Fit_inv_mass(year):
     if year == "2023":
         Eras = Era2023
         Lumi_values = lumi2023
+        ch_data_pre = TChain("FinalTree")
+        ch_data_post = TChain("FinalTree")
     
     for era, data in Eras.items():
         file = ROOT.TFile(data, "READ")
@@ -316,6 +322,10 @@ def Fit_inv_mass(year):
         if year == "2022" and (era == "C" or era == "D"):
             ch_data_pre.Add(data)
         if year == "2022" and (era == "E" or era == "F" or era == "G"):
+            ch_data_post.Add(data)
+        if year == "2023" and (era == "B" or era == "C"):
+            ch_data_pre.Add(data)
+        if year == "2023" and (era == "D"):
             ch_data_post.Add(data)
         ch_data.Add(data)
         del tree
@@ -332,7 +342,15 @@ def Fit_inv_mass(year):
         new_line = fit(ch_data_post, year, Lumi_values["Post_EE"], "Post_EE")
         df = pd.concat([df, new_line], ignore_index=True)
         del ch_data_post
-    
+
+    if year == "2023":
+        new_line = fit(ch_data_pre, year, Lumi_values["Pre_BPix"], "Pre_BPix")
+        df = pd.concat([df, new_line], ignore_index=True)
+        del ch_data_pre
+        new_line = fit(ch_data_post, year, Lumi_values["Post_BPix"], "Post_BPix")
+        df = pd.concat([df, new_line], ignore_index=True)
+        del ch_data_post
+        
     df.to_csv("Mass_Fits/Yield_"+year+".csv", index=False)
     del ch_data
 
