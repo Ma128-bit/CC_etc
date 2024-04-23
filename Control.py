@@ -174,7 +174,7 @@ def fit(tree, year, lumi, era):
     x.setRange("R2", 1.89, 1.925)
     x.setRange("R3", 1.99, 2.02)
 
-    meanCB = RooRealVar("mean", "meanCB", 1.97, 1.95, 2.)
+    meanCB = RooRealVar("mean", "meanCB", 1.97, 1.94, 2.1)
     sigmaCB1 = RooRealVar("#sigma_{CB}", "sigmaCB1", 0.02, 0.001, 0.1)    
     alpha1 = RooRealVar("#alpha1", "alpha1", 1.0, 0.5, 10.0)
     nSigma1 = RooRealVar("n1", "n1", 1.0, 0.1, 25.0)
