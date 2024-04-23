@@ -175,7 +175,7 @@ def fit(tree, year, lumi, era):
     x.setRange("R3", 1.99, 2.02)
 
     meanCB = RooRealVar("mean", "meanCB", 1.97, 1.95, 2.0)
-    sigmaCB1 = RooRealVar("#sigma_{CB}", "sigmaCB1", 0.02, 0.001, 0.1)
+    sigmaCB1 = RooRealVar("#sigma_{CB}", "sigmaCB1", 0.02, 0.001, 0.1)    
     alpha1 = RooRealVar("#alpha1", "alpha1", 1.0, 0.5, 10.0)
     nSigma1 = RooRealVar("n1", "n1", 1.0, 0.1, 25.0)
     sig_right = RooCBShape("sig_right", "sig_right", x, meanCB, sigmaCB1, alpha1, nSigma1)
@@ -205,7 +205,7 @@ def fit(tree, year, lumi, era):
     xframe = x.frame()
     xframe.SetTitle("")
     xframe.SetXTitle("2mu +1trk inv. mass (GeV)")
-    totalPDF.paramOn(xframe, RooFit.Parameters(RooArgSet(alpha2, nSigma2, sigmaCB2, meanCB2, nSig_left, nSig_right, nBkg)), RooFit.Layout(0.1, 0.1, 0.5))
+    totalPDF.paramOn(xframe, RooFit.Parameters(RooArgSet(meanCB, meanCB2, sigmaCB1, sigmaCB2, gamma, nSig_right, nSig_left, nBkg)), RooFit.Layout(0.2, 0.2, 0.6))
     data.plotOn(xframe)
     totalPDF.plotOn(xframe, RooFit.Components(RooArgSet(sig_right, sig_left)), RooFit.LineColor(ROOT.kRed), RooFit.LineStyle(ROOT.kDashed))
     totalPDF.plotOn(xframe, RooFit.Components(RooArgSet(exp_bkg)), RooFit.LineColor(ROOT.kGreen), RooFit.LineStyle(ROOT.kDashed))
