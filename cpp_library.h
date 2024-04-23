@@ -21,7 +21,7 @@ double xsection_B0 = 3.5e+9;
 double xsection_DsPhiPi = 1.1e+10;
 
 double lumi_tau3mu_preE = 7.848, lumi_tau3mu_postE = 26.332;
-double lumi_control_preE = 0.394, lumi_control_postE = 1.320;
+double lumi_control_preE = 0.394, lumi_control_postE = 1.321;
 
 double lumi_tau3mu_preBPix = 16.810, lumi_tau3mu_postBPix = 7.805;
 double lumi_control_preBPix = 0.759, lumi_control_postBPix = 0.424;
