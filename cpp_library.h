@@ -23,8 +23,8 @@ double xsection_DsPhiPi = 1.1e+10;
 double lumi_tau3mu_preE = 7.952, lumi_tau3mu_postE = 26.573;
 double lumi_control_preE = 0.394, lumi_control_postE = 1.321;
 
-double lumi_tau3mu_preBPix = 16.810, lumi_tau3mu_postBPix = 7.805;
-double lumi_control_preBPix = 0.759, lumi_control_postBPix = 0.424;
+double lumi_tau3mu_preBPix = 18.334, lumi_tau3mu_postBPix = 9.412;
+double lumi_control_preBPix = 0.884, lumi_control_postBPix = 0.461;
 
 double BR_DsPhiPi = 4.5e-2, BR_Phi2mu = 2.85e-4;
 double BR_Dstau = 5.48e-2, BR_Bptau = 3.33e-2, BR_B0tau = 3.35e-2;
