@@ -94,10 +94,10 @@ def MC_y(era_name, year):
 if __name__ == "__main__":
     df = pd.DataFrame(columns=['MC', 'Yield', 'Error'])
     
-    new_line = MC_y("DsPhiPi_preE","2023")
+    new_line = MC_y("DsPhiPi_preBPix","2023")
     df = pd.concat([df, new_line], ignore_index=True)
     
-    new_line = MC_y("DsPhiPi_postE","2023")
+    new_line = MC_y("DsPhiPi_postBPix","2023")
     df = pd.concat([df, new_line], ignore_index=True)
     
     df.to_csv('Mass_Fits/Yield_MC_2023.csv', index=False)
