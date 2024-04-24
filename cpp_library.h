@@ -40,11 +40,11 @@ double N_Ds_preBPix = 5511468.0, N_Ds_postBPix = 2661243.0;
 double N_B0_preBPix = 2271801.0, N_B0_postBPix = 1198661.0;
 double N_DsPhiPi_preBPix = 1009314.0, N_DsPhiPi_postBPix = 1157864.0;
 
-double weight_CC_preE = 0.71, weight_CC_postE = 0.82;
-double weight_CC_preE_err = 0.04, weight_CC_postE_err = 0.08;
+double weight_CC_preE = 0.73, weight_CC_postE = 0.83;
+double weight_CC_preE_err = 0.10, weight_CC_postE_err = 0.11;
 
-double weight_CC_preBPix = 0.71, weight_CC_postBPix = 0.82;
-double weight_CC_preBPix_err = 0.04, weight_CC_postBPix_err = 0.08;
+double weight_CC_preBPix = 0.90, weight_CC_postBPix = 0.86;
+double weight_CC_preBPix_err = 0.09, weight_CC_postBPix_err = 0.07;
 
 struct add_index{
     int i;
