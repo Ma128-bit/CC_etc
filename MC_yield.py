@@ -3,9 +3,9 @@ ROOT.gROOT.SetBatch(True)
 import pandas as pd
 from file_locations import *
 
-def MC_y(era_name):
+def MC_y(era_name, year):
     tmc = ROOT.TChain("FinalTree")
-    tmc.Add("ROOTFiles/AllControl.root")
+    tmc.Add("ROOTFiles/AllControl"+year+".root")
     
     h_MC = ROOT.TH1F("h_MC", "h_MC", 42, 1.65, 2.05)
     tmc.Draw("tripletMass>>h_MC", "control_weight*(ID==\""+era_name+"\")", "N")
