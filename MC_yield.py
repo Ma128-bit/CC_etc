@@ -37,7 +37,8 @@ def MC_y(era_name, year):
     
     totalPDF = ROOT.RooAddPdf("totalPDF", "totalPDF", ROOT.RooArgList(sig1CBPdf, sig2CBPdf, bkgPDF), ROOT.RooArgList(nSig, nSig2, nBkg))
     #totalPDF = ROOT.RooAddPdf("totalPDF", "totalPDF", ROOT.RooArgList(sig2CBPdf), ROOT.RooArgList(nSig))
-    r = totalPDF.fitTo(data, ROOT.RooFit.Extended(True), ROOT.RooFit.Save(True), ROOT.RooFit.Minimizer("Minuit2", "Migrad"))
+    #r = totalPDF.fitTo(data, ROOT.RooFit.Extended(True), ROOT.RooFit.Save(True), ROOT.RooFit.Minimizer("Minuit2", "Migrad"))
+    r = totalPDF.fitTo(data, ROOT.RooFit.Extended(True), ROOT.RooFit.Save(True))
     
     xframe = x.frame()  # definisco frame
     xframe.SetTitle("")
