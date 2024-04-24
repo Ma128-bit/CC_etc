@@ -67,7 +67,7 @@ def MC_y(era_name, year):
     c1.cd(1)  # qui il grafico con il fit
     ROOT.gPad.SetPad(0., 0.3, 1., 1.)
     xframe.Draw()
-    c1.SaveAs("Mass_Fits/MC_"+era_name+year".png")
+    c1.SaveAs("Mass_Fits/MC_"+era_name+year+".png")
     
 
     # Integrale
