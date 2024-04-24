@@ -6,9 +6,10 @@ from file_locations import *
 def MC_y(era_name, year):
     tmc = ROOT.TChain("FinalTree")
     tmc.Add("ROOTFiles/AllControl"+year+".root")
-    
+
+    selez = "(Ptmu3 > 1.2 && ((Ptmu1>3.5 && Etamu1<1.2) || (Ptmu1>2.0 && Etamu1>=1.2 && Etamu1<=2.4)) && ((Ptmu2>3.5 && Etamu2<1.2) || (Ptmu2>2.0 && Etamu2>=1.2 && Etamu2<=2.4)))"
     h_MC = ROOT.TH1F("h_MC", "h_MC", 42, 1.65, 2.05)
-    tmc.Draw("tripletMass>>h_MC", "control_weight*(isMC>0 && ID==\""+era_name+"\")", "N")
+    tmc.Draw("tripletMass>>h_MC", "control_weight*("+selez+" && isMC>0 && ID==\""+era_name+"\")", "N")
     
     xMin = h_MC.GetXaxis().GetXmin()
     xMax = h_MC.GetXaxis().GetXmax()
