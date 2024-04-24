@@ -103,4 +103,4 @@ if __name__ == "__main__":
     new_line = MC_y("DsPhiPi_post"+label,year)
     df = pd.concat([df, new_line], ignore_index=True)
     
-    df.to_csv('Mass_Fits/Yield_MC_2023.csv', index=False)
+    df.to_csv('Mass_Fits/Yield_MC_"+year+".csv', index=False)
