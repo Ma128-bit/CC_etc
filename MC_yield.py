@@ -99,4 +99,4 @@ if __name__ == "__main__":
     new_line = MC_y("DsPhiPi_postE","2022")
     df = pd.concat([df, new_line], ignore_index=True)
     
-    df.to_csv('Mass_Fits/Yield_MC_"2022".csv', index=False)
+    df.to_csv('Mass_Fits/Yield_MC_2022.csv', index=False)
