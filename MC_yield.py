@@ -67,7 +67,7 @@ def MC_y(era_name, year):
     c1.cd(1)  # qui il grafico con il fit
     ROOT.gPad.SetPad(0., 0.3, 1., 1.)
     xframe.Draw()
-    c1.SaveAs("Mass_Fits/MC_"+era_name+".png")
+    c1.SaveAs("Mass_Fits/MC_"+era_name+year".png")
     
 
     # Integrale
@@ -93,10 +93,10 @@ def MC_y(era_name, year):
 if __name__ == "__main__":
     df = pd.DataFrame(columns=['MC', 'Yield', 'Error'])
     
-    new_line = MC_y("DsPhiPi_preE")
+    new_line = MC_y("DsPhiPi_preE","2022")
     df = pd.concat([df, new_line], ignore_index=True)
     
-    new_line = MC_y("DsPhiPi_postE")
+    new_line = MC_y("DsPhiPi_postE","2022")
     df = pd.concat([df, new_line], ignore_index=True)
     
-    df.to_csv('Mass_Fits/Yield_MC.csv', index=False)
+    df.to_csv('Mass_Fits/Yield_MC_"2022".csv', index=False)
