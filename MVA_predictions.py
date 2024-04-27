@@ -37,7 +37,7 @@ branches_MVA = [
 def load_data(file_names):
     """Load ROOT data and turn tree into a pd dataframe"""
     trees = []
-    for file in file_names
+    for file in file_names:
         print("Loading data from", file)
         f = uproot.open(file)
         tree = f["FinalTree"]
@@ -85,5 +85,5 @@ if __name__ == "__main__":
     """
     for i in range(1,4):
         data = predict(data, i, model)
-    save_data(data, "test")
+    save_data(data, "Run3")
 
