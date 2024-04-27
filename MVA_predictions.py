@@ -34,12 +34,15 @@ branches_MVA = [
     'outerTrk_normChi2_'
 ]
 """
-def load_data(file_name):
+def load_data(file_names):
     """Load ROOT data and turn tree into a pd dataframe"""
-    print("Loading data from", file_name)
-    f = uproot.open(file_name)
-    tree = f["FinalTree"]
-    data = tree.arrays(library="pd")
+    trees = []
+    for file in file_names
+        print("Loading data from", file)
+        f = uproot.open(file)
+        tree = f["FinalTree"]
+        trees.append(tree.arrays(library="pd"))
+    data = pd.concat(trees)
     return data
 
 def save_data(data, fileName):
@@ -67,12 +70,11 @@ def predict(data, index, model):
 
 
 if __name__ == "__main__":
-    #file = "/lustrehome/mbuonsante/Tau_3mu/Ntuple/CMSSW_13_0_13/src/Analysis/JobAdd_perEra/Era_F_tau3mu.root"
-    file = "/lustrehome/mbuonsante/Tau_3mu/Ntuple/CMSSW_13_0_13/src/Analysis/JobAdd_perEra/MC_Ds_preE.root"
-    #file = "/lustrehome/mbuonsante/Tau_3mu/Ntuple/CMSSW_13_0_13/src/Analysis/JobAdd_perEra/MC_Bp_preE.root"
+    files = ["/lustrehome/mbuonsante/Tau_3mu/Ntuple/CMSSW_13_0_13/src/Analysis/JobAdd_perEra/Era_F_tau3mu.root",
+             "/lustrehome/mbuonsante/Tau_3mu/Ntuple/CMSSW_13_0_13/src/Analysis/JobAdd_perEra/MC_Ds_preE.root"]
     model = joblib.load('Tau3MuMVA_PtEtaReweight.pkl')
     #model = joblib.load('privateMVA.pkl')
-    data = load_data(file)
+    data = load_data(files)
     """
     branches_temp = [var + str(1) for var in branches_MVA] + [var + str(2) for var in branches_MVA] + [var + str(3) for var in branches_MVA]
     for v in branches_temp:
