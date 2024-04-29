@@ -32,7 +32,7 @@ binning_dict = {
     "trkRel": "(40,0.05,1.1)",
     "tripletMassReso": "(80,0,0.02)",
     "fv_dphi3D": "(42,-0.01,0.20)",
-    "cos(fv_dphi3D)": "(100,0,1)"
+    "cos(fv_dphi3D)": "(100,0,1)",
     "fv_d3Dsig": "(50,-0.1,80)",
     "MVASoft1": "(50,0.2,0.8)",
     "MVASoft2": "(50,0.2,0.8)"
