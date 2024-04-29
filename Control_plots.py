@@ -7,7 +7,8 @@ from file_locations import *
 class ROOTDrawer(draw_utilities.ROOTDrawer):
     pass
 
-var = ["cLP", "tKink", "segmComp", "fv_nC", "d0sig", "fv_dphi3D", "fv_d3Dsig", "mindca_iso", "trkRel", "d0sig_max", "MVASoft1", "MVASoft2","Ptmu3", "fv_d3D", "cos(fv_dphi3D)"]
+#var = ["cLP", "tKink", "segmComp", "fv_nC", "d0sig", "fv_dphi3D", "fv_d3Dsig", "mindca_iso", "trkRel", "d0sig_max", "MVASoft1", "MVASoft2","Ptmu3", "fv_d3D", "cos(fv_dphi3D)"]
+var = ["cos(fv_dphi3D)"]
 
 invmass_SB = "(tripletMass<1.8 && tripletMass>1.70)"
 invmass_peak = "(tripletMass<2.01 && tripletMass>1.93)"
@@ -100,7 +101,7 @@ def control_plots(file_name, year, type):
         logy=False
         if (varname=="cos(fv_dphi3D)"):
             logy=True
-        canvas = ROOTDrawer(SetGridx = True, SetLogY=logy)
+        canvas = ROOTDrawer(SetGridx = True, SetLogY=logy, SetYRange=[1e-4,1e2])
         canvas.HaddTH1(hMC_sig, Color=4, SetXName=varname, SetYName="a.u.", Fill=True, label="MC DsPhiPi", FillStyle = 3004)
         canvas.HaddTH1(hdata_sig, Color=1, SetXName=varname, SetYName="a.u.", Fill=False, label="data (SB subtracted)", DrawOpt="PE1")
         
