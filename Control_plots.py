@@ -7,7 +7,7 @@ from file_locations import *
 class ROOTDrawer(draw_utilities.ROOTDrawer):
     pass
 
-var = ["cLP", "tKink", "segmComp", "fv_nC", "d0sig", "fv_dphi3D", "fv_d3Dsig", "mindca_iso", "trkRel", "d0sig_max", "MVASoft1", "MVASoft2","Ptmu3", "fv_d3D"]
+var = ["cLP", "tKink", "segmComp", "fv_nC", "d0sig", "fv_dphi3D", "fv_d3Dsig", "mindca_iso", "trkRel", "d0sig_max", "MVASoft1", "MVASoft2","Ptmu3", "fv_d3D", "cos(fv_dphi3D)"]
 
 invmass_SB = "(tripletMass<1.8 && tripletMass>1.70)"
 invmass_peak = "(tripletMass<2.01 && tripletMass>1.93)"
@@ -32,6 +32,7 @@ binning_dict = {
     "trkRel": "(40,0.05,1.1)",
     "tripletMassReso": "(80,0,0.02)",
     "fv_dphi3D": "(42,-0.01,0.20)",
+    "cos(fv_dphi3D)": "(100,0,1)"
     "fv_d3Dsig": "(50,-0.1,80)",
     "MVASoft1": "(50,0.2,0.8)",
     "MVASoft2": "(50,0.2,0.8)"
