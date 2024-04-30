@@ -8,7 +8,7 @@ class ROOTDrawer(draw_utilities.ROOTDrawer):
     pass
 
 #var = ["cLP", "tKink", "segmComp", "fv_nC", "d0sig", "fv_dphi3D", "fv_d3Dsig", "mindca_iso", "trkRel", "d0sig_max", "MVASoft1", "MVASoft2","Ptmu3", "fv_d3D", "cos(fv_dphi3D)"]
-var = ["cos(fv_dphi3D)"]
+var = ["Vx1", "Vy1", "Vz1", "Vx2", "Vy2", "Vz2", "Vx3", "Vy3", "Vz3"]
 
 invmass_SB = "(tripletMass<1.8 && tripletMass>1.70)"
 invmass_peak = "(tripletMass<2.01 && tripletMass>1.93)"
@@ -98,10 +98,7 @@ def control_plots(file_name, year, type):
         # Rescaling
         hdata_sig.Scale(hMC_sig.Integral() / hdata_sig.Integral())
 
-        logy=False
-        if (varname=="cos(fv_dphi3D)"):
-            logy=True
-        canvas = ROOTDrawer(SetGridx = True, SetLogY=logy, SetYRange=[1e-1,1e4])
+        canvas = ROOTDrawer(SetGridx = True)
         canvas.HaddTH1(hMC_sig, Color=4, SetXName=varname, SetYName="a.u.", Fill=True, label="MC DsPhiPi", FillStyle = 3004)
         canvas.HaddTH1(hdata_sig, Color=1, SetXName=varname, SetYName="a.u.", Fill=False, label="data (SB subtracted)", DrawOpt="PE1")
         
