@@ -84,11 +84,6 @@ if __name__ == "__main__":
     data = data[(data[branches_temp] != -99).all(axis=1)]
     """
     for i in range(1,4):
-        data[f"Vx{i}"] = 0
-        data[f"Vy{i}"] = 0
-        data[f"Vz{i}"] = 0
-        print(data[f"Vz{i}"])
         data = predict(data, i, model)
-        print(data[f"Vz{i}"])
     save_data(data, "Run3")
 
