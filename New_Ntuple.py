@@ -48,7 +48,9 @@ branches_MVA =[
     "innerTrk_normChi2_", "outerTrk_normChi2_", "outerTrk_muStValidHits_"   
 ]
 
-branches_tau3mu = branches_tau3mu + [var + "1" for var in branches_MVA] + [var + "2" for var in branches_MVA] + [var + "3" for var in branches_MVA]
+branches = branches + [var + "1" for var in branches_MVA] + [var + "2" for var in branches_MVA] 
+branches_tau3mu = branches_tau3mu + [var + "3" for var in branches_MVA]
+
 
 Files = {
     "tau3mu2022": [tau3mu_Run2022C, tau3mu_Run2022D, tau3mu_Run2022E, tau3mu_Run2022F, tau3mu_Run2022G, MC2022_B0_pre, MC2022_B0_post, MC2022_Bp_pre, MC2022_Bp_post, MC2022_Ds_pre, MC2022_Ds_post],
