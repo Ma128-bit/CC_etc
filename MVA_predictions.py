@@ -87,6 +87,8 @@ if __name__ == "__main__":
         data[f"Vx{i}"] = 0
         data[f"Vy{i}"] = 0
         data[f"Vz{i}"] = 0
+        print(data[f"Vz{i}"])
         data = predict(data, i, model)
+        print(data[f"Vz{i}"])
     save_data(data, "Run3")
 
