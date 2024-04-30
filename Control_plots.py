@@ -8,7 +8,7 @@ class ROOTDrawer(draw_utilities.ROOTDrawer):
     pass
 
 #var = ["cLP", "tKink", "segmComp", "fv_nC", "d0sig", "fv_dphi3D", "fv_d3Dsig", "mindca_iso", "trkRel", "d0sig_max", "MVASoft1", "MVASoft2","Ptmu3", "fv_d3D", "cos(fv_dphi3D)"]
-var = ["Vx1", "Vy1", "Vz1", "Vx2", "Vy2", "Vz2", "Vx3", "Vy3", "Vz3"]
+var = ["Vx1", "Vy1", "Vz1", "Vx2", "Vy2"]
 
 invmass_SB = "(tripletMass<1.8 && tripletMass>1.70)"
 invmass_peak = "(tripletMass<2.01 && tripletMass>1.93)"
@@ -21,9 +21,6 @@ binning_dict = {
     "Vx2": "(100,-0.4,0.4)",
     "Vy2": "(100,-0.4,0.4)",
     "Vz2": "(100,-0.4,0.4)",
-    "Vx3": "(100,-0.4,0.4)",
-    "Vy3": "(100,-0.4,0.4)",
-    "Vz3": "(100,-0.4,0.4)",
     "fv_d3D": "(100,0,1.5)",
     "Ptmu1": "(60,0,30)",
     "Ptmu2": "(60,0,30)",
