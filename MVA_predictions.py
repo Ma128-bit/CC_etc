@@ -5,7 +5,8 @@ from ROOT import RDF
 from sklearn.ensemble import HistGradientBoostingClassifier
 
 branches_MVA =[
-    "Ptmu", "Etamu", "Vx", "Vy", "Vz", "cQ_uS_", "cQ_tK_", "cQ_gK_", "cQ_tRChi2_",
+    #"Ptmu", "Etamu", "Vx", "Vy", "Vz", 
+    "cQ_uS_", "cQ_tK_", "cQ_gK_", "cQ_tRChi2_",
     "cQ_sRChi2_", "cQ_Chi2LP_", "cQ_Chi2LM_", "cQ_lD_", "cQ_gDEP_", "cQ_tM_", "cQ_gTP_", 
     "match1_dX_", "match1_pullX_", "match1_pullDxDz_", "match1_dY_", "match1_pullY_", "match1_pullDyDz_", 
     "match2_dX_", "match2_pullX_", "match2_pullDxDz_", "match2_dY_", "match2_pullY_", "match2_pullDyDz_", 
@@ -72,7 +73,7 @@ def predict(data, index, model):
 if __name__ == "__main__":
     files = ["/lustrehome/mbuonsante/Tau_3mu/Ntuple/CMSSW_13_0_13/src/Analysis/JobAdd_perEra/Era_F_tau3mu.root",
              "/lustrehome/mbuonsante/Tau_3mu/Ntuple/CMSSW_13_0_13/src/Analysis/JobAdd_perEra/MC_Ds_preE.root"]
-    model = joblib.load('Tau3MuMVA_PtEtaReweight.pkl')
+    model = joblib.load('Tau3MuMVA_PtEtaReweight_NoPtEtaVxVyVz.pkl')
     #model = joblib.load('privateMVA.pkl')
     data = load_data(files)
     """
