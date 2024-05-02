@@ -80,7 +80,9 @@ def control_plots(file_name, year, type):
         varname = var[k]
         s = str(k)
         binning = binning_dict[varname]
+        legend_label = ""
         if(type=="diff"):
+            legend_label = "SB subtracted"
             data.Draw(varname + ">>hdata_bkg" + s+ binning, "control_weight*(isMC==0 &&" + invmass_SB+")")
             data.Draw(varname + ">>hdata_sig" + s + binning, "control_weight*(isMC==0 &&" +invmass_peak+")")
             hdata_bkg = TH1F(gDirectory.Get("hdata_bkg" + s))
@@ -96,6 +98,7 @@ def control_plots(file_name, year, type):
             hdata_sig.Add(hdata_bkg, -1)  # subtract h2 from h1: h1->Add(h2,-1)
         
         if(type=="sPlot"):
+            legend_label = "sWeighted"
             data.Draw(varname + ">>hdata_sig" + s+ binning, "nsigDs_sw*(isMC==0)")
             hdata_sig = TH1F(gDirectory.Get("hdata_sig" + s))
             data.Draw(varname + ">>hMC_sig" + s + binning, "nsigDs_sw*(isMC>0)")
@@ -106,7 +109,8 @@ def control_plots(file_name, year, type):
 
         canvas = ROOTDrawer(SetGridx = True)
         canvas.HaddTH1(hMC_sig, Color=4, SetXName=varname, SetYName="a.u.", Fill=True, label="MC DsPhiPi", FillStyle = 3004)
-        canvas.HaddTH1(hdata_sig, Color=1, SetXName=varname, SetYName="a.u.", Fill=False, label="data (SB subtracted)", DrawOpt="PE1")
+        
+        canvas.HaddTH1(hdata_sig, Color=1, SetXName=varname, SetYName="a.u.", Fill=False, label="data ("+legend_label+")", DrawOpt="PE1")
         
         h_x_ratio = hdata_sig.Clone()
         h_x_ratio.Sumw2()
