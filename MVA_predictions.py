@@ -5,7 +5,7 @@ from ROOT import RDF
 from sklearn.ensemble import HistGradientBoostingClassifier
 
 branches_MVA =[
-    "Ptmu", "Etamu", 
+    #"Ptmu", "Etamu", 
     #"Vx", "Vy", "Vz", 
     "cQ_uS_", "cQ_tK_", "cQ_gK_", "cQ_tRChi2_",
     "cQ_sRChi2_", "cQ_Chi2LP_", "cQ_Chi2LM_", "cQ_lD_", "cQ_gDEP_", "cQ_tM_", "cQ_gTP_", 
