@@ -107,7 +107,7 @@ def control_plots(file_name, year, type):
         # Rescaling
         hdata_sig.Scale(hMC_sig.Integral() / hdata_sig.Integral())
 
-        canvas = ROOTDrawer(SetGridx = True)
+        canvas = ROOTDrawer(SetGridx = True, SetYRange=[0, 5100])
         canvas.HaddTH1(hMC_sig, Color=4, SetXName=varname, SetYName="a.u.", Fill=True, label="MC DsPhiPi", FillStyle = 3004)
         
         canvas.HaddTH1(hdata_sig, Color=1, SetXName=varname, SetYName="a.u.", Fill=False, label="data ("+legend_label+")", DrawOpt="PE1")
