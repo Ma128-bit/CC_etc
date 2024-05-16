@@ -58,6 +58,12 @@ double add_vrtx_proba(double fv_nc){
     return TMath::Prob(3*fv_nc, 3);
 }
 
+int new_category(double eta){
+    if abs(eta)<0.9 return 0;
+    if abs(eta)<1.9 return 1;
+    return 2;
+}
+
 double add_weight_CC(unsigned int slot, const ROOT::RDF::RSampleInfo &id){
     if(id.Contains("_preE") && !(id.Contains("DsPhiPi"))) return weight_CC_preE;
     if(id.Contains("_postE") && !(id.Contains("DsPhiPi"))) return weight_CC_postE;
