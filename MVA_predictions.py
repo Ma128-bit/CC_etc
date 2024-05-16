@@ -5,8 +5,8 @@ from ROOT import RDF
 from sklearn.ensemble import HistGradientBoostingClassifier
 
 branches_MVA =[
-    #"Ptmu", "Etamu", 
-    #"Vx", "Vy", "Vz", 
+    "Ptmu", "Etamu", 
+    "Vx", "Vy", "Vz", 
     "cQ_uS_", "cQ_tK_", "cQ_gK_", "cQ_tRChi2_",
     "cQ_sRChi2_", "cQ_Chi2LP_", "cQ_Chi2LM_", "cQ_lD_", "cQ_gDEP_", "cQ_tM_", "cQ_gTP_", 
     "match1_dX_", "match1_pullX_", "match1_pullDxDz_", "match1_dY_", "match1_pullY_", "match1_pullDyDz_", 
@@ -44,6 +44,9 @@ def load_data(file_names):
         f = uproot.open(file)
         tree = f["FinalTree"]
         trees.append(tree.arrays(library="pd"))
+    trees[1]["Vx1"] = trees[1]["Vx1"] - trees[1]["Vx1"].mean() + trees[0]["Vx1"].mean()
+    trees[1]["Vy1"] = trees[1]["Vy1"] - trees[1]["Vy1"].mean() + trees[0]["Vy1"].mean()
+    trees[1]["Vz1"] = trees[1]["Vz1"] - trees[1]["Vz1"].mean() + trees[0]["Vz1"].mean()
     data = pd.concat(trees)
     return data
 
@@ -74,7 +77,8 @@ def predict(data, index, model):
 if __name__ == "__main__":
     files = ["/lustrehome/mbuonsante/Tau_3mu/Ntuple/CMSSW_13_0_13/src/Analysis/JobAdd_perEra/Era_F_tau3mu.root",
              "/lustrehome/mbuonsante/Tau_3mu/Ntuple/CMSSW_13_0_13/src/Analysis/JobAdd_perEra/MC_Ds_preE.root"]
-    model = joblib.load('Tau3MuMVA_PtEtaReweight_NoPtEtaVxVyVz.pkl')
+    model = joblib.load('Tau3MuMVA_PtEtaReweight_VShift.pkl')
+    #model = joblib.load('Tau3MuMVA_PtEtaReweight_NoVxVyVz.pkl')
     #model = joblib.load('privateMVA.pkl')
     data = load_data(files)
     """
@@ -85,7 +89,8 @@ if __name__ == "__main__":
     print(len(data))
     data = data[(data[branches_temp] != -99).all(axis=1)]
     """
-    for i in range(1,4):
+    #for i in range(1,4):
+    for i in range(1,3):
         data = predict(data, i, model)
     save_data(data, "Run3")
 
