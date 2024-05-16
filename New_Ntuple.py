@@ -126,17 +126,19 @@ if __name__ == "__main__":
 
     df = df.Define("vtx_prob","add_vrtx_proba(fv_nC)")
     branches.append("vtx_prob")
+
+    #Add new categories in eta
+    df = df.Define("category_v2", "new_category(Eta_tripl)")
+    branches.append("category_v2")
     
     if isTau3mu==True:
-        #Add new categories in eta
-        df = df.Define("category_v2", "new_category(Eta_tripl)")
         #Filters for omega and phi:
         df = df.Filter("(abs(dimu_OS1-0.782)>0.033 && category==0) || (abs(dimu_OS1-0.782)>0.048 && category==1) || (abs(dimu_OS1-0.782)>0.066 && category==2)")
         df = df.Filter("(abs(dimu_OS2-0.782)>0.033 && category==0) || (abs(dimu_OS2-0.782)>0.048 && category==1) || (abs(dimu_OS2-0.782)>0.066 && category==2)")
         df = df.Filter("(abs(dimu_OS1-1.019)>0.033 && category==0) || (abs(dimu_OS1-1.019)>0.045 && category==1) || (abs(dimu_OS1-1.019)>0.056 && category==2)")
         df = df.Filter("(abs(dimu_OS2-1.019)>0.033 && category==0) || (abs(dimu_OS2-1.019)>0.045 && category==1) || (abs(dimu_OS2-1.019)>0.056 && category==2)")
         
-        b_weights = ["category_v2", "ID", "year", "weight", "weight_MC", "weight_CC", "weight_CC_err", "Muon3_SF","Muon2_SF","Muon1_SF","Muon3_SF_err","Muon2_SF_err","Muon1_SF_err","weight_nVtx", "weight_nVtx_err", "training_weight", "combine_weight"]
+        b_weights = ["ID", "year", "weight", "weight_MC", "weight_CC", "weight_CC_err", "Muon3_SF","Muon2_SF","Muon1_SF","Muon3_SF_err","Muon2_SF_err","Muon1_SF_err","weight_nVtx", "weight_nVtx_err", "training_weight", "combine_weight"]
         df = df.Define("training_weight", "weight_MC * weight_CC * Muon3_SF * weight_nVtx")
         df = df.Define("combine_weight", "weight * weight_CC * Muon3_SF * weight_nVtx")
         df.Snapshot("FinalTree", "ROOTFiles/AllData"+str(year)+".root", branches+branches_tau3mu+b_weights)
