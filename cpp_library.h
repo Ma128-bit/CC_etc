@@ -59,8 +59,8 @@ double add_vrtx_proba(double fv_nc){
 }
 
 int new_category(double eta){
-    if abs(eta)<0.9 return 0;
-    if abs(eta)<1.9 return 1;
+    if(abs(eta)<0.9) return 0;
+    if(abs(eta)<1.9) return 1;
     return 2;
 }
 
