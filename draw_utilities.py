@@ -12,92 +12,7 @@
 from ROOT import TCanvas, TLine, std, TLatex, TLegend, TPad, kWhite
 import numpy as np
 import CMSStyle
-CMSStyle.setTDRStyle()
-
-def plot(histo, **kwargs):
-    options = {
-        'SetColor': [i + 1 for i in range(len(histo))],
-        'MarkerColor': [],
-        'MarkerStyle': [20 for i in range(len(histo))],
-        'FillStyle': [i + +3004 for i in range(len(histo))],
-        'DrawOpt': ["hist" for i in range(len(histo))],
-        'Fill': False,
-        'Norm': False,
-        'figsize': [900, 600],
-        'SetXName': "",
-        'SetYName': "",
-        'SetLogX': False,
-        'SetLogY': False,
-        'SetLogZ': False,
-    }
-    for key in options:
-        if key in kwargs:
-            options[key] = kwargs.get(key)
-
-    if len(options['MarkerColor'])==0:
-        options['MarkerColor'] = options['SetColor']
-        
-    for i in range(1,len(histo)):
-        options['DrawOpt'][i]=options['DrawOpt'][i]+" same"
-    
-    canvas = TCanvas("canvas", "Canvas", options['figsize'][0], options['figsize'][1])
-    
-    histo[0].GetXaxis().SetTitle(options['SetXName'])
-    histo[0].GetYaxis().SetTitle(options['SetYName'])
-
-    for i in range(len(histo)):
-        histo[i].SetLineWidth(2)
-        histo[i].SetLineColor(options['SetColor'][i])
-        histo[i].SetMarkerColor(options['MarkerColor'][i])
-        histo[i].SetMarkerStyle(options['MarkerStyle'][i])
-        if(options['Fill']):
-            histo[i].SetFillColor(options['SetColor'][i])
-            histo[i].SetFillStyle(options['FillStyle'][i])
-        if(options['Norm']):
-            histo[i].Scale(1/histo[i].Integral(0, histo[i].GetNbinsX() + 1))
-        histo[i].Draw(options['DrawOpt'][i])
-        
-    if 'SetXRange' in kwargs:
-        x_range = kwargs.get('SetXRange')
-        histo[0].GetXaxis().SetRangeUser(x_range[0],x_range[1])
-
-    if 'SetYRange' in kwargs:
-        y_range = kwargs.get('SetYRange')
-        histo[0].GetYaxis().SetRangeUser(y_range[0],y_range[1])
-
-    if options['SetLogX'] == True:
-        canvas.SetLogx();
-    if options['SetLogY'] == True:
-        canvas.SetLogy();
-    if options['SetLogZ'] == True:
-        canvas.SetLogz();
-    
-    if 'era' in kwargs:
-        e = kwargs.get('era')
-        if 'extra' in kwargs:
-            ex = kwargs.get('extra')
-            CMSStyle.setCMSLumiStyle(canvas,0, era=e, extra=ex)
-        else:
-            CMSStyle.setCMSLumiStyle(canvas,0, era=e)
-    elif 'eras' in kwargs:
-        e = kwargs.get('eras')
-        if 'extra' in kwargs:
-            ex = kwargs.get('extra')
-            CMSStyle.setCMSLumiStyle(canvas,0, eras=e, extra=ex)
-        else:
-            CMSStyle.setCMSLumiStyle(canvas,0, eras=e)
-    else:
-        CMSStyle.setCMSLumiStyle(canvas,0)
-    
-    if 'SaveAs' in kwargs:
-        out_name = kwargs.get('SaveAs')
-        
-    canvas.Draw()
-    canvas.SaveAs(out_name)
-    canvas.Clear()
-    canvas.Close()
-    return True
-    
+CMSStyle.setTDRStyle()    
 
 class ROOTDrawer:
     def __init__(self, **kwargs):
@@ -315,6 +230,9 @@ class ROOTDrawer:
                     opt = opt +"lp"
                 if "E" in self.histos[i][2]:
                     opt = opt +"e"
+                if "HistoL" in self.histos[i][2]:
+                    self.histos[i][2] = self.histos[i][2].replace('L', '')
+                    opt = opt +"L"
                 leg.AddEntry(self.histos[i][0],self.histos[i][1],opt)
 
         for i in range(len(self.lines)):
@@ -434,6 +352,9 @@ class ROOTDrawer:
                 CMSStyle.setCMSLumiStyle(self.canvas,0, eras=e, extra=ex)
             else:
                 CMSStyle.setCMSLumiStyle(self.canvas,0, eras=e)
+        elif 'extra' in kwargs:
+            ex = kwargs.get('extra')
+            CMSStyle.setCMSLumiStyle(self.canvas,0, extraText=ex)
         else:
             CMSStyle.setCMSLumiStyle(self.canvas,0)
         
@@ -451,6 +372,5 @@ class ROOTDrawer:
         del self.Legend
         del self.lines
         del self.dopull
-        del self.pullYRange
         del self
     

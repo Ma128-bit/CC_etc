@@ -7,8 +7,8 @@ from file_locations import *
 class ROOTDrawer(draw_utilities.ROOTDrawer):
     pass
 
-#var = ["cLP", "tKink", "segmComp", "fv_nC", "d0sig", "fv_dphi3D", "fv_d3Dsig", "mindca_iso", "trkRel", "d0sig_max", "MVASoft1", "MVASoft2","Ptmu3", "fv_d3D", "cos(fv_dphi3D)"]
-var = ["Vx1", "Vy1", "Vz1", "Vx2", "Vy2", "Vz2"]
+var = ["cLP", "tKink", "segmComp", "fv_nC", "d0sig", "fv_dphi3D", "fv_d3Dsig", "mindca_iso", "trkRel", "d0sig_max", "MVASoft1", "MVASoft2","Ptmu3", "fv_d3D", "cos(fv_dphi3D)"]
+#var = ["Vx1", "Vy1", "Vz1", "Vx2", "Vy2", "Vz2"]
 
 invmass_SB = "(tripletMass<1.8 && tripletMass>1.70)"
 invmass_peak = "(tripletMass<2.01 && tripletMass>1.93)"
