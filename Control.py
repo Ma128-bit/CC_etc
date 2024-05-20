@@ -234,7 +234,7 @@ def fit(tree, year, lumi, era):
     lable_era = ""
     if era == year:  
         lable_era = "Data\ " + era
-        start_lax = 0.8
+        start_lax = 0.7
     elif (era == "Post_EE") or (era == "Pre_EE"):
         lable_era = "Data\ " + era.split('_')[0] +  era.split('_')[1]
         start_lax = 0.56
