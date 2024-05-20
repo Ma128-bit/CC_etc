@@ -243,7 +243,7 @@ def fit(tree, year, lumi, era):
         start_lax = 0.59
 
     if era == year:
-        text = ROOT.TLatex(start_lax, 0.91, lumi + "fb^{-1} (13.6 TeV)")
+        text = ROOT.TLatex(start_lax, 0.94, lumi + " fb^{-1} (13.6 TeV)")
     else:
         text = ROOT.TLatex(start_lax, 0.91, lable_era + "\ \ \ \mathscr{L} = " + lumi + "fb^{-1}")
     text.SetNDC(ROOT.kTRUE)
