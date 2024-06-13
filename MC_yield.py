@@ -95,8 +95,8 @@ def MC_y(era_name, year):
 if __name__ == "__main__":
     df = pd.DataFrame(columns=['MC', 'Yield', 'Error'])
 
-    year = "2022"
-    label="E"
+    year = "2023"
+    label="BPix"
     new_line = MC_y("DsPhiPi_pre"+label,year)
     df = pd.concat([df, new_line], ignore_index=True)
     
