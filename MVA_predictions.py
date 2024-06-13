@@ -76,7 +76,7 @@ def predict(data, index, model):
 if __name__ == "__main__":
     files = ["/lustrehome/mbuonsante/Tau_3mu/Ntuple/CMSSW_13_0_13/src/Analysis/JobAdd_perEra/Era_F_tau3mu.root",
              "/lustrehome/mbuonsante/Tau_3mu/Ntuple/CMSSW_13_0_13/src/Analysis/JobAdd_perEra/MC_Ds_preE.root"]
-    model = joblib.load('Tau3MuMVA_PtEtaReweight_VShift.pkl')
+    model = joblib.load('Tau3MuMVA_BDs.pkl')
     #model = joblib.load('Tau3MuMVA_PtEtaReweight_NoVxVyVz.pkl')
     #model = joblib.load('privateMVA.pkl')
     data = load_data(files)
